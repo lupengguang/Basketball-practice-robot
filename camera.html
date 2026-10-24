@@ -150,9 +150,53 @@ button,a{font:inherit;color:inherit;text-decoration:none}button{cursor:none;bord
 .toast.show{transform:translate(-50%,0)}
 .toast i{width:8px;height:8px;border-radius:50%;background:#64e582;box-shadow:0 0 9px #64e582}
 
+/* Module · dataset annotations */
+.ds-ov-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.ds-ov-num{margin-top:12px;font-family:var(--font-d);font-size:42px;line-height:.9;letter-spacing:1px;transition:color .3s}
+.kcard:hover .ds-ov-num{color:var(--red)}
+.ds-ov-num small{font-family:var(--font-c);font-size:11px;letter-spacing:1px;color:var(--faint);margin-left:5px}
+.ds-ov-k{font-size:9px;letter-spacing:2px;color:var(--faint)}
+.ds-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.ds-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:#f4f5f9;border:1px solid var(--line);font-size:10px;letter-spacing:1.5px;color:var(--muted)}
+.ds-badge b{color:var(--ink);font-weight:600}
+.ds-badge.fmt{background:rgba(223,32,41,.08);border-color:rgba(223,32,41,.3);color:var(--red)}
+.ds-main{display:grid;grid-template-columns:300px 1fr;gap:18px;margin-top:16px}
+.ds-list{display:flex;flex-direction:column;gap:6px;max-height:560px;overflow-y:auto;padding-right:4px}
+.ds-list::-webkit-scrollbar{width:5px}.ds-list::-webkit-scrollbar-thumb{background:#d4d9e3;border-radius:4px}
+.ds-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1.5px solid var(--line);border-radius:14px;background:#fff;cursor:none;transition:border-color .25s,transform .25s,box-shadow .25s;text-align:left;width:100%}
+.ds-item:hover{border-color:#cfd5e1;transform:translateX(3px)}
+.ds-item.active{border-color:var(--red);box-shadow:0 10px 22px -14px rgba(223,32,41,.5)}
+.ds-item-idx{font-family:var(--font-m);font-size:10px;color:var(--faint);min-width:26px}
+.ds-item-body{flex:1;min-width:0}
+.ds-item-name{display:block;font-size:11px;letter-spacing:.5px;color:var(--ink);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ds-item-meta{display:block;margin-top:3px;font-size:9px;letter-spacing:1px;color:var(--faint)}
+.ds-item-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+.ds-chip{display:inline-flex;padding:3px 8px;border-radius:6px;font-size:9px;letter-spacing:1px;font-weight:600;color:#fff}
+.ds-chip.c-red{background:var(--red)}.ds-chip.c-blue{background:var(--blue)}.ds-chip.c-gray{background:#8a91a0}.ds-chip.c-orange{background:var(--orange)}.ds-chip.c-green{background:var(--green)}.ds-chip.c-violet{background:var(--violet)}.ds-chip.c-teal{background:var(--teal)}
+.ds-preview{display:flex;flex-direction:column;min-width:0}
+.ds-stage{position:relative;margin-top:2px;border-radius:16px;overflow:hidden;background:linear-gradient(160deg,#101319 0%,#171b24 100%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;min-height:280px}
+.ds-stage img,.ds-stage video{display:block;max-width:100%;max-height:440px}
+.ds-stage-wrap{position:relative;display:inline-block;line-height:0}
+.ds-box{position:absolute;border:2px solid var(--red);border-radius:4px;pointer-events:none}
+.ds-box i{position:absolute;top:-19px;left:-2px;padding:2px 7px;border-radius:5px 5px 5px 0;font-style:normal;font-family:var(--font-m);font-size:9px;letter-spacing:1px;color:#fff;background:var(--red);white-space:nowrap}
+.ds-empty-stage{display:flex;align-items:center;justify-content:center;min-height:280px;color:rgba(255,255,255,.55);font-size:11px;letter-spacing:2px;text-align:center;padding:24px}
+.ds-cap{margin-top:10px;font-size:10px;letter-spacing:1.5px;color:var(--muted)}
+.ds-cap b{color:var(--ink);font-weight:600}
+.ds-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:11px}
+.ds-table th{padding:9px 12px;text-align:left;font-size:9px;letter-spacing:2px;color:var(--faint);border-bottom:1px solid var(--line);font-weight:500}
+.ds-table td{padding:9px 12px;border-bottom:1px solid #f0f2f7;color:var(--muted);letter-spacing:.5px}
+.ds-table td b{color:var(--ink);font-weight:600;font-family:var(--font-m);font-size:10px}
+.ds-note{display:flex;align-items:center;gap:8px;margin-top:12px;padding:11px 14px;border-radius:12px;background:#fdf3f3;border:1px dashed rgba(223,32,41,.35);color:#a24d50;font-size:10px;letter-spacing:1px;line-height:1.7}
+.ds-note::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--red);flex:none}
+.ds-off{display:none;align-items:center;justify-content:center;gap:10px;padding:60px 20px;font-size:11px;letter-spacing:2px;color:var(--faint);text-align:center}
+.ds-off.show{display:flex}
+
 @media(max-width:1080px){
   .cam-grid{grid-template-columns:1fr}
   .obj-grid{grid-template-columns:1fr 1fr}
+  .ds-main{grid-template-columns:1fr}
+  .ds-list{max-height:300px}
+  .ds-ov-grid{grid-template-columns:1fr 1fr 1fr}
 }
 @media(max-width:630px){
   body{cursor:auto}
@@ -173,6 +217,7 @@ button,a{font:inherit;color:inherit;text-decoration:none}button{cursor:none;bord
   .score-num{font-size:46px}
   .cs-item{padding:10px 10px}
   .cs-v{font-size:11px}
+  .ds-ov-grid{grid-template-columns:1fr}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
 </style>
@@ -291,6 +336,43 @@ button,a{font:inherit;color:inherit;text-decoration:none}button{cursor:none;bord
             <div class="obj-conf">平均置信度 <b id="confRef">--</b></div>
           </article>
         </div>
+      </section>
+
+      <section class="sec-gap" aria-label="数据集标注展示">
+        <div class="card-head" style="padding:0 4px 16px"><span class="card-tag">数据集标注展示</span><span class="card-no">DATASET · ANNOTATIONS</span></div>
+        <div class="ds-ov-grid">
+          <article class="kcard reveal">
+            <span class="ds-ov-k">样本总数 · SAMPLES</span>
+            <div class="ds-ov-num" id="dsTotal">--<small>个</small></div>
+            <div class="ds-badges"><span class="ds-badge">数据集 <b>nexsports-ball598</b></span></div>
+          </article>
+          <article class="kcard reveal">
+            <span class="ds-ov-k">检测类别 · CLASSES</span>
+            <div class="ds-ov-num" id="dsClsCount">--<small>类</small></div>
+            <div class="ds-badges" id="dsClsBadges"></div>
+          </article>
+          <article class="kcard reveal">
+            <span class="ds-ov-k">标注格式 · FORMAT</span>
+            <div class="ds-ov-num" id="dsFmt" style="font-size:30px;line-height:1.25">--</div>
+            <div class="ds-badges"><span class="ds-badge fmt" id="dsFmtBadge">YOLO</span><span class="ds-badge" id="dsIndexedBadge">已索引 --</span></div>
+          </article>
+        </div>
+        <article class="kcard reveal" style="margin-top:16px">
+          <div class="card-head"><span class="card-tag">样本浏览与标注预览</span><span class="card-no">SOURCE ONLY · 不运行 AI 模型</span></div>
+          <div class="ds-off" id="dsOffline">无法连接本机后端接口,请启动后端服务(python server.py)</div>
+          <div class="ds-main" id="dsMain">
+            <div class="ds-list" id="dsList"></div>
+            <div class="ds-preview">
+              <div class="ds-stage" id="dsStage"><div class="ds-empty-stage">请选择左侧样本查看标注</div></div>
+              <div class="ds-cap" id="dsCap"></div>
+              <div class="ds-note" id="dsNote" style="display:none"></div>
+              <table class="ds-table">
+                <thead><tr><th>#</th><th>类别</th><th>中心坐标(归一化)</th><th>宽 × 高(归一化)</th></tr></thead>
+                <tbody id="dsTbody"><tr><td colspan="4" style="text-align:center;color:var(--faint)">暂无标注数据</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </article>
       </section>
 
     </div>
@@ -449,6 +531,149 @@ async function pollEvents(){
   }catch(e){ /* 后端未启动时静默 */ }
 }
 pollEvents(); setInterval(pollEvents, 2000);
+
+/* ---------- 数据集标注展示 ---------- */
+const DS_CLASS_META = {
+  ball:   {label:'篮球', cls:'c-red',    color:'#df2029'},
+  player: {label:'球员', cls:'c-blue',   color:'#5b6cff'},
+};
+const DS_FALLBACK = [
+  {cls:'c-orange', color:'#f97316'}, {cls:'c-green', color:'#16a34a'},
+  {cls:'c-violet', color:'#8f7bff'}, {cls:'c-teal', color:'#14c8b0'},
+  {cls:'c-gray',   color:'#8a91a0'},
+];
+function dsMeta(name, idx){
+  const m = DS_CLASS_META[name];
+  if(m) return m;
+  const f = DS_FALLBACK[idx % DS_FALLBACK.length];
+  return {label:name, cls:f.cls, color:f.color};
+}
+
+const dsList = $('#dsList'), dsStage = $('#dsStage'), dsCap = $('#dsCap'),
+      dsTbody = $('#dsTbody'), dsOffline = $('#dsOffline'), dsMain = $('#dsMain'),
+      dsNote = $('#dsNote');
+let dsSelected = -1;
+let dsClasses = [];
+
+function renderDsOverview(d){
+  $('#dsTotal').innerHTML = d.total_samples + '<small>个</small>';
+  $('#dsClsCount').innerHTML = d.classes.length + '<small>类</small>';
+  $('#dsFmt').textContent = d.format === 'unknown' ? '--' : d.format;
+  $('#dsFmtBadge').textContent = d.format === 'unknown' ? '未知' : d.format;
+  $('#dsIndexedBadge').textContent = '已索引 ' + d.indexed_samples + (d.truncated ? ' / 截断' : '');
+  $('#dsClsBadges').innerHTML = d.classes.map((c, i) => {
+    const m = dsMeta(c.name, i);
+    return '<span class="ds-chip ' + m.cls + '">' + m.label + ' · ' + c.count + '</span>';
+  }).join('');
+  if(d.note){ dsNote.style.display = 'flex'; dsNote.textContent = d.note; }
+}
+
+function renderDsList(samples){
+  if(!samples.length){
+    dsList.innerHTML = '<div class="ev-empty" style="padding:40px 0">数据集内未发现媒体文件</div>';
+    return;
+  }
+  dsList.innerHTML = '';
+  samples.forEach(s => {
+    const btn = document.createElement('button');
+    btn.className = 'ds-item interactive';
+    const tags = s.classes.map(cn => {
+      const i = Math.max(0, dsClasses.findIndex(c => c.name === cn));
+      const m = dsMeta(cn, i);
+      return '<span class="ds-chip ' + m.cls + '">' + m.label + '</span>';
+    }).join('');
+    btn.innerHTML = '<span class="ds-item-idx">' + String(s.id + 1).padStart(2, '0') + '</span>' +
+      '<span class="ds-item-body">' +
+        '<span class="ds-item-name">' + s.file + '</span>' +
+        '<span class="ds-item-meta">' + (s.media_type === 'video' ? '视频' : '图片') + ' · 标注 ' + s.annotation_count + ' 条</span>' +
+        (tags ? '<span class="ds-item-tags">' + tags + '</span>' : '') +
+      '</span>';
+    btn.addEventListener('click', () => selectDsSample(s.id, btn));
+    dsList.appendChild(btn);
+  });
+}
+
+async function selectDsSample(id, btn){
+  if(dsSelected === id) return;
+  dsSelected = id;
+  $$('.ds-item', dsList).forEach(el => el.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  try{
+    const r = await fetch('/api/dataset/sample/' + id);
+    if(!r.ok) throw new Error(r.status);
+    renderDsDetail(await r.json());
+  }catch(e){
+    dsCap.textContent = '样本详情加载失败,请确认后端服务运行中';
+  }
+}
+
+function renderDsDetail(s){
+  dsStage.innerHTML = '';
+  const anns = s.annotations || [];
+  if(s.media_type === 'video'){
+    const v = document.createElement('video');
+    v.src = s.file_url; v.controls = true; v.muted = true;
+    dsStage.appendChild(v);
+    const stat = {};
+    anns.forEach(a => { stat[a.class] = (stat[a.class] || 0) + 1; });
+    dsCap.innerHTML = '<b>' + s.file + '</b> · 视频样本 · 标注统计:' +
+      (Object.keys(stat).length ? Object.entries(stat).map(([k, n]) => k + ' × ' + n).join('、') : '无');
+  }else{
+    const wrap = document.createElement('div');
+    wrap.className = 'ds-stage-wrap';
+    const img = document.createElement('img');
+    img.src = s.file_url; img.alt = s.file;
+    wrap.appendChild(img);
+    img.addEventListener('load', () => {
+      $$('.ds-box', wrap).forEach(el => el.remove());
+      anns.forEach(a => {
+        if(!a.bbox_norm) return;
+        const [xc, yc, w, h] = a.bbox_norm;
+        const i = Math.max(0, dsClasses.findIndex(c => c.name === a.class));
+        const m = dsMeta(a.class, i);
+        const box = document.createElement('div');
+        box.className = 'ds-box';
+        box.style.cssText = 'left:' + ((xc - w / 2) * 100) + '%;top:' + ((yc - h / 2) * 100) +
+          '%;width:' + (w * 100) + '%;height:' + (h * 100) + '%;border-color:' + m.color;
+        box.innerHTML = '<i style="background:' + m.color + '">' + m.label + '</i>';
+        wrap.appendChild(box);
+      });
+    });
+    dsStage.appendChild(wrap);
+    dsCap.innerHTML = '<b>' + s.file + '</b> · ' + (s.width || '?') + ' × ' + (s.height || '?') +
+      ' px · 标注 ' + anns.length + ' 条';
+  }
+  if(!anns.length){
+    dsTbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--faint)">该样本未附带标注文件</td></tr>';
+    return;
+  }
+  dsTbody.innerHTML = anns.map((a, i) => {
+    const ci = Math.max(0, dsClasses.findIndex(c => c.name === a.class));
+    const m = dsMeta(a.class, ci);
+    const coords = a.bbox_norm ? a.bbox_norm : (a.bbox_xywh_abs || []);
+    const c1 = coords.length >= 4 ? '(' + coords[0].toFixed(4) + ', ' + coords[1].toFixed(4) + ')' : '--';
+    const c2 = coords.length >= 4 ? coords[2].toFixed(4) + ' × ' + coords[3].toFixed(4) : '--';
+    return '<tr><td><b>' + (i + 1) + '</b></td>' +
+      '<td><span class="ds-chip ' + m.cls + '">' + m.label + '</span></td>' +
+      '<td><b>' + c1 + '</b></td><td><b>' + c2 + '</b></td></tr>';
+  }).join('');
+}
+
+async function loadDataset(){
+  try{
+    const [ov, ls] = await Promise.all([
+      fetch('/api/dataset').then(r => { if(!r.ok) throw new Error(r.status); return r.json(); }),
+      fetch('/api/dataset/samples').then(r => { if(!r.ok) throw new Error(r.status); return r.json(); }),
+    ]);
+    dsClasses = ov.classes || [];
+    renderDsOverview(ov);
+    renderDsList(ls.samples || []);
+  }catch(e){
+    dsMain.style.display = 'none';
+    dsOffline.classList.add('show');
+  }
+}
+loadDataset();
 </script>
 </body>
 </html>

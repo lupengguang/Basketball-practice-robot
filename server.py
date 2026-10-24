@@ -4,17 +4,21 @@
 - GET /video_feed   MJPEG 摄像头流,摄像头不可用时输出占位帧
 - GET /api/status   摄像头状态 / FPS / 分辨率 / 运行时长
 - GET /api/events   模拟逐帧事件流(参照 OpenHoopVision basketball_frame_v2 JSONL 格式)
+- GET /api/dataset* nexsports-ball598 数据集自带标注的只读展示(不跑任何模型)
 - GET / 与 /<page>.html  静态托管网站页面
 """
 import itertools
+import json
+import os
 import random
+import re
 import threading
 import time
 from collections import deque
 
 import cv2
 import numpy as np
-from flask import Flask, Response, jsonify, send_from_directory
+from flask import Flask, Response, abort, jsonify, send_from_directory
 
 HOST = "127.0.0.1"
 PORT = 8765
@@ -168,6 +172,173 @@ threading.Thread(target=_event_simulator, daemon=True).start()
 for _ in range(12):  # 预填缓冲,前端首次加载即有数据
     generate_frame_record()
 
+# ---------------- 数据集(nexsports-ball598,仅展示自带标注,不跑模型) ----------------
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATASET_DIR = os.path.join(BASE_DIR, "dataset-nexsports")
+DATASET_NAME = "nexsports-ball598"
+DATASET_MAX_INDEX = 200  # 数据集体积大时仅索引前 200 个媒体样本
+IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
+VIDEO_EXTS = {".mp4", ".avi", ".mov", ".mkv", ".webm"}
+
+_DS = {"ready": False, "samples": [], "classes": [], "format": "unknown",
+       "total_media": 0, "indexed": 0, "truncated": False, "note": ""}
+
+
+def _find_class_names():
+    """依次从 data.yaml / classes.txt / README 中解析类别名列表。"""
+    for root, _dirs, files in os.walk(DATASET_DIR):
+        for fn in files:
+            low = fn.lower()
+            path = os.path.join(root, fn)
+            if low in ("classes.txt",):
+                with open(path, encoding="utf-8", errors="ignore") as f:
+                    names = [ln.strip() for ln in f if ln.strip()]
+                if names:
+                    return names
+            if low.endswith((".yaml", ".yml")):
+                with open(path, encoding="utf-8", errors="ignore") as f:
+                    m = re.search(r"names\s*:\s*\[([^\]]+)\]", f.read())
+                if m:
+                    return [s.strip().strip("'\"") for s in m.group(1).split(",")]
+    readme = os.path.join(DATASET_DIR, "README.md")
+    if os.path.isfile(readme):
+        with open(readme, encoding="utf-8", errors="ignore") as f:
+            m = re.search(r"names\s*:\s*\[([^\]]+)\]", f.read())
+        if m:
+            return [s.strip().strip("'\"") for s in m.group(1).split(",")]
+    return []
+
+
+def _parse_yolo_label(path, names):
+    """解析 YOLO txt:class_id x_center y_center w h(归一化)。"""
+    anns = []
+    with open(path, encoding="utf-8", errors="ignore") as f:
+        for ln in f:
+            parts = ln.split()
+            if len(parts) < 5:
+                continue
+            try:
+                cid = int(float(parts[0]))
+                xc, yc, w, h = (float(v) for v in parts[1:5])
+            except ValueError:
+                continue
+            anns.append({
+                "class_id": cid,
+                "class": names[cid] if 0 <= cid < len(names) else f"class_{cid}",
+                "bbox_norm": [round(xc, 6), round(yc, 6), round(w, 6), round(h, 6)],
+            })
+    return anns
+
+
+def _yolo_label_for(media_path):
+    """按 YOLO 约定查找同名标签:同目录或 images/ -> labels/ 镜像目录。"""
+    stem = os.path.splitext(media_path)[0] + ".txt"
+    if os.path.isfile(stem):
+        return stem
+    parts = os.path.normpath(media_path).split(os.sep)
+    if "images" in [p.lower() for p in parts]:
+        idx = [i for i, p in enumerate(parts) if p.lower() == "images"][0]
+        cand = os.path.join(os.sep.join(parts[:idx]), "labels", *parts[idx + 1:])
+        cand = os.path.splitext(cand)[0] + ".txt"
+        if os.path.isfile(cand):
+            return cand
+    return None
+
+
+def _build_dataset_index():
+    names = _find_class_names()
+    media = []
+    coco_json = None
+    for root, _dirs, files in os.walk(DATASET_DIR):
+        for fn in sorted(files):
+            low = fn.lower()
+            ext = os.path.splitext(low)[1]
+            full = os.path.join(root, fn)
+            if ext in IMAGE_EXTS | VIDEO_EXTS:
+                media.append(full)
+            elif ext == ".json" and coco_json is None:
+                try:
+                    with open(full, encoding="utf-8", errors="ignore") as f:
+                        data = json.load(f)
+                    if isinstance(data, dict) and "annotations" in data and "images" in data:
+                        coco_json = (full, data)
+                except (ValueError, OSError):
+                    pass
+    _DS["total_media"] = len(media)
+    _DS["truncated"] = len(media) > DATASET_MAX_INDEX
+    media = media[:DATASET_MAX_INDEX]
+    _DS["indexed"] = len(media)
+
+    samples = []
+    class_counts = {n: 0 for n in names}
+    if coco_json:  # COCO 模式
+        _DS["format"] = "COCO json"
+        path, data = coco_json
+        cats = {c["id"]: c["name"] for c in data.get("categories", [])}
+        if not names:
+            names = [c["name"] for c in sorted(data.get("categories", []),
+                                               key=lambda c: c["id"])]
+            class_counts = {n: 0 for n in names}
+        img_info = {im["id"]: im for im in data.get("images", [])}
+        by_img = {}
+        for ann in data.get("annotations", []):
+            by_img.setdefault(ann.get("image_id"), []).append(ann)
+        _DS["note"] = f"标注文件:{os.path.basename(path)}"
+        for i, mp in enumerate(media):
+            rel = os.path.relpath(mp, DATASET_DIR).replace(os.sep, "/")
+            base = os.path.basename(mp)
+            hit = next((iid for iid, im in img_info.items()
+                        if os.path.basename(im.get("file_name", "")) == base), None)
+            anns = []
+            if hit is not None:
+                for a in by_img.get(hit, []):
+                    cname = cats.get(a.get("category_id"), f"class_{a.get('category_id')}")
+                    anns.append({"class_id": a.get("category_id"), "class": cname,
+                                 "bbox_xywh_abs": [round(v, 2) for v in a.get("bbox", [])]})
+                    if cname in class_counts:
+                        class_counts[cname] += 1
+            samples.append({"id": i, "file": rel, "media_type": "image", "annotations": anns})
+    else:  # YOLO 模式(无标签文件时标注为空)
+        _DS["format"] = "YOLO txt"
+        for i, mp in enumerate(media):
+            rel = os.path.relpath(mp, DATASET_DIR).replace(os.sep, "/")
+            ext = os.path.splitext(mp)[1].lower()
+            mtype = "video" if ext in VIDEO_EXTS else "image"
+            anns = []
+            label = _yolo_label_for(mp) if mtype == "image" else None
+            if label:
+                anns = _parse_yolo_label(label, names)
+                for a in anns:
+                    if a["class"] in class_counts:
+                        class_counts[a["class"]] += 1
+            samples.append({"id": i, "file": rel, "media_type": mtype, "annotations": anns})
+        if not any(s["annotations"] for s in samples):
+            _DS["note"] = ("该仓库仅附带演示图片与训练源码,未包含实际标注文件"
+                           "(README 描述完整数据集为 10000 张图、YOLO 格式);"
+                           "以下展示其自带媒体与类别定义")
+
+    # 读取图片尺寸(用于前端像素换算;imdecode 兼容中文路径)
+    for s in samples:
+        if s["media_type"] == "image":
+            try:
+                buf = np.fromfile(os.path.join(DATASET_DIR, s["file"]), dtype=np.uint8)
+                img = cv2.imdecode(buf, cv2.IMREAD_COLOR)
+                if img is not None:
+                    s["width"], s["height"] = int(img.shape[1]), int(img.shape[0])
+            except OSError:
+                pass
+    _DS["classes"] = [{"id": i, "name": n, "count": class_counts.get(n, 0)}
+                      for i, n in enumerate(names)]
+    _DS["samples"] = samples
+    _DS["ready"] = True
+
+
+if os.path.isdir(DATASET_DIR):
+    _build_dataset_index()
+else:
+    _DS["note"] = "数据集目录 dataset-nexsports 不存在,请先克隆数据集仓库"
+
+
 # ---------------- 路由 ----------------
 
 
@@ -193,6 +364,58 @@ def api_events():
     records = list(EVENT_BUFFER)[-20:]
     records.reverse()  # 最新在前
     return jsonify({"count": len(records), "records": records})
+
+
+# ---------------- 数据集接口 ----------------
+
+
+@app.route("/api/dataset")
+def api_dataset():
+    return jsonify({
+        "name": DATASET_NAME,
+        "ready": _DS["ready"],
+        "total_samples": _DS["total_media"],
+        "indexed_samples": _DS["indexed"],
+        "truncated": _DS["truncated"],
+        "format": _DS["format"],
+        "classes": _DS["classes"],
+        "note": _DS["note"],
+    })
+
+
+@app.route("/api/dataset/samples")
+def api_dataset_samples():
+    out = [{
+        "id": s["id"],
+        "file": s["file"],
+        "media_type": s["media_type"],
+        "classes": sorted({a["class"] for a in s["annotations"]}),
+        "annotation_count": len(s["annotations"]),
+    } for s in _DS["samples"][:50]]
+    return jsonify({"count": len(out), "samples": out})
+
+
+@app.route("/api/dataset/sample/<int:sid>")
+def api_dataset_sample(sid):
+    if sid < 0 or sid >= len(_DS["samples"]):
+        abort(404)
+    s = _DS["samples"][sid]
+    return jsonify({
+        "id": s["id"],
+        "file": s["file"],
+        "media_type": s["media_type"],
+        "width": s.get("width"),
+        "height": s.get("height"),
+        "file_url": "/dataset-file/" + s["file"],
+        "annotation_count": len(s["annotations"]),
+        "annotations": s["annotations"],
+    })
+
+
+@app.route("/dataset-file/<path:filename>")
+def dataset_file(filename):
+    # send_from_directory 内部经 safe_join 校验,阻止路径穿越
+    return send_from_directory(DATASET_DIR, filename)
 
 
 @app.route("/")
