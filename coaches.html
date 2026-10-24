@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>明星教练 · 球星殿堂 | 篮训BOT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Bebas+Neue&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#d91f26;--red-deep:#a01218;
+  --ink:#0b0b0c;--ink-2:#141416;--paper:#f3f0ea;--grey:#8b8b8e;
+  --font-d:'Bebas Neue','Noto Sans SC',sans-serif;
+  --font-c:'Oswald','Noto Sans SC',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:#fff;font-family:var(--font-c);overflow-x:hidden;cursor:none}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--red);color:#fff}
+
+/* 光标 */
+.cursor-dot,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;border-radius:50%;transform:translate(-50%,-50%)}
+.cursor-dot{width:8px;height:8px;background:var(--red)}
+.cursor-ring{width:36px;height:36px;border:1.5px solid rgba(217,31,38,.65);transition:width .25s,height .25s,border-color .25s,background .25s}
+.cursor-ring.hovering{width:64px;height:64px;background:rgba(217,31,38,.12);border-color:var(--red)}
+@media (hover:none){.cursor-dot,.cursor-ring{display:none}body{cursor:auto}}
+
+/* 导航(全站统一) */
+.nav{position:fixed;top:18px;left:50%;transform:translateX(-50%);width:min(1240px,94vw);height:64px;z-index:900;display:flex;align-items:center;justify-content:space-between;padding:0 26px;border-radius:18px;background:rgba(14,14,16,.55);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border:1px solid rgba(255,255,255,.08);transition:box-shadow .4s,background .4s}
+.nav.scrolled{background:rgba(14,14,16,.85);box-shadow:0 18px 50px -18px rgba(0,0,0,.8)}
+.nav-logo{font-family:var(--font-d);font-size:26px;letter-spacing:2px;display:flex;align-items:center;gap:2px}
+.nav-logo .plus{color:var(--red);font-size:22px;transform:translateY(-1px)}
+.nav-logo small{font-family:var(--font-c);font-size:10px;letter-spacing:4px;color:var(--grey);margin-left:10px;font-weight:400}
+.nav-links{display:flex;align-items:center;gap:4px;font-size:12px;letter-spacing:2px;font-weight:500}
+.nav-links a{position:relative;padding:10px 14px;color:#c9c6c0;border-radius:999px;transition:color .35s,letter-spacing .35s,background .35s,transform .35s,text-shadow .35s}
+.nav-links a::after{content:"";position:absolute;left:50%;bottom:4px;width:0;height:2px;background:var(--red);border-radius:2px;box-shadow:0 0 10px var(--red);transition:width .35s cubic-bezier(.2,.8,.2,1),left .35s cubic-bezier(.2,.8,.2,1)}
+.nav-links a::before{content:"";position:absolute;top:2px;left:50%;width:5px;height:5px;border-radius:50%;background:var(--red);box-shadow:0 0 8px var(--red);transform:translateX(-50%) scale(0);transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.nav-links a:hover,.nav-links a.active{color:#fff;letter-spacing:3.5px;background:rgba(217,31,38,.12);transform:translateY(-2px);text-shadow:0 0 18px rgba(217,31,38,.9)}
+.nav-links a:hover::after,.nav-links a.active::after{width:60%;left:20%}
+.nav-links a:hover::before,.nav-links a.active::before{transform:translateX(-50%) scale(1)}
+.nav-icons{display:flex;align-items:center;gap:12px}
+.nav-icon{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.25);display:grid;place-items:center;transition:.3s;background:transparent}
+.nav-icon svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2}
+.nav-icon:hover{border-color:var(--red);background:var(--red);transform:translateY(-2px)}
+.nav-burger{width:44px;height:44px;border-radius:50%;background:#fff;border:none;display:grid;place-items:center;gap:0;cursor:none;transition:.3s}
+.nav-burger span{display:block;width:16px;height:2px;background:#111;margin:2px 0;transition:.3s}
+.nav-burger:hover{background:var(--red)}
+.nav-burger:hover span{background:#fff}
+@media(max-width:900px){.nav-links{display:none}}
+
+/* Hero */
+.co-hero{position:relative;padding:170px 4vw 40px;overflow:hidden;background:radial-gradient(900px 480px at 50% 0%,rgba(217,31,38,.18),transparent 62%),var(--ink);text-align:center}
+.co-hero::before{content:"";position:absolute;top:-14%;left:50%;transform:translateX(-50%);width:min(62vw,840px);aspect-ratio:1;border:1px solid rgba(255,255,255,.07);border-radius:50%;pointer-events:none}
+.co-kicker{position:relative;font-size:11px;letter-spacing:5px;color:var(--grey);display:inline-flex;align-items:center;gap:12px;margin-bottom:20px}
+.co-kicker::before,.co-kicker::after{content:"";width:36px;height:1px;background:var(--red)}
+.co-title{position:relative;font-family:var(--font-d);font-size:clamp(46px,7.6vw,110px);line-height:.96;letter-spacing:.02em}
+.co-title .ghost{color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.85)}
+.co-title .red{color:var(--red);text-shadow:0 0 40px rgba(217,31,38,.5)}
+.co-sub{position:relative;margin:22px auto 0;max-width:640px;font-size:13px;line-height:2.1;letter-spacing:1.5px;color:#c9c6c0}
+.co-sub b{color:#fff}
+.co-groups{position:relative;display:flex;justify-content:center;gap:10px;margin-top:34px;flex-wrap:wrap}
+.co-chip{border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:9px 20px;font-size:11px;letter-spacing:3px;background:rgba(0,0,0,.3);transition:.35s}
+.co-chip:hover{background:var(--red);border-color:var(--red);transform:translateY(-4px);box-shadow:0 14px 34px -10px var(--red)}
+
+/* 分组 */
+.group{max-width:1240px;margin:0 auto;padding:80px 4vw 0}
+.g-head{display:flex;align-items:baseline;gap:18px;margin-bottom:36px}
+.g-no{font-family:var(--font-d);font-size:18px;color:var(--red);letter-spacing:2px}
+.g-title{font-family:var(--font-d);font-size:clamp(30px,4vw,54px);letter-spacing:.02em;line-height:1}
+.g-title small{font-family:var(--font-c);font-size:11px;letter-spacing:4px;color:var(--grey);margin-left:14px;font-weight:400}
+.g-line{flex:1;height:1px;background:rgba(255,255,255,.12)}
+
+/* 球星玻璃卡 */
+.stars{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:22px}
+.star{
+  position:relative;border-radius:20px;padding:30px 26px 26px;overflow:hidden;
+  background:rgba(255,255,255,.05);
+  backdrop-filter:blur(18px) saturate(1.3);
+  -webkit-backdrop-filter:blur(18px) saturate(1.3);
+  border:1px solid rgba(255,255,255,.12);
+  transition:transform .5s cubic-bezier(.2,.8,.2,1),border-color .5s,box-shadow .5s,background .5s;
+}
+.star::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.13),transparent 42%);pointer-events:none;opacity:.7;transition:opacity .5s}
+.star::after{content:"";position:absolute;bottom:-70px;right:-70px;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle,rgba(217,31,38,.38),transparent 70%);opacity:0;transition:opacity .55s;pointer-events:none}
+.star:hover{transform:translateY(-9px);border-color:rgba(217,31,38,.65);box-shadow:0 36px 80px -28px rgba(217,31,38,.45),inset 0 0 0 1px rgba(255,255,255,.06);background:rgba(255,255,255,.08)}
+.star:hover::after{opacity:1}
+.star-rank{position:absolute;top:18px;right:20px;font-family:var(--font-d);font-size:40px;line-height:1;color:transparent;-webkit-text-stroke:1.2px rgba(255,255,255,.22);transition:.45s}
+.star:hover .star-rank{color:var(--red);-webkit-text-stroke:0;text-shadow:0 0 22px rgba(217,31,38,.8)}
+.star-tag{display:inline-block;font-size:9.5px;letter-spacing:3px;color:var(--red);border:1px solid rgba(217,31,38,.5);border-radius:999px;padding:4px 12px;margin-bottom:16px;transition:.35s}
+.star:hover .star-tag{background:var(--red);color:#fff;box-shadow:0 8px 20px -6px var(--red)}
+.star h3{font-family:var(--font-c);font-weight:900;font-size:21px;letter-spacing:1px;margin-bottom:4px;position:relative;z-index:1}
+.star .en{font-family:var(--font-d);font-size:13px;letter-spacing:2px;color:var(--grey);margin-bottom:14px;transition:color .4s}
+.star:hover .en{color:#fff}
+.star p{font-size:12px;line-height:1.95;color:#b0ada6;letter-spacing:.5px;position:relative;z-index:1;transition:color .4s}
+.star:hover p{color:#e8e6e1}
+.star-bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(var(--red),transparent);transform:scaleY(0);transform-origin:top;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.star:hover .star-bar{transform:scaleY(1)}
+
+/* 返回悬浮 */
+.back-bar{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:800}
+.back-home{display:inline-flex;align-items:center;gap:12px;background:rgba(20,20,22,.7);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:13px 26px;font-size:12px;letter-spacing:3px;transition:.35s}
+.back-home svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2;transition:transform .3s}
+.back-home:hover{background:var(--red);border-color:var(--red);box-shadow:0 16px 40px -10px var(--red)}
+.back-home:hover svg{transform:translateX(-4px)}
+.tail{height:130px}
+
+/* 显现 */
+.reveal{opacity:0;transform:translateY(46px);transition:opacity .9s cubic-bezier(.2,.8,.2,1),transform .9s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+
+<nav class="nav" id="nav">
+  <a class="nav-logo" href="index.html">篮训<span class="plus">✚</span>BOT<small>INS ROBOT LAB</small></a>
+  <div class="nav-links">
+    <a href="index.html#top">健康体态</a>
+    <a href="coaches.html" class="active">明星教练</a>
+    <a href="training.html">训练体系</a>
+    <a href="index.html#booking">个人中心</a>
+    <a href="index.html#gallery">数据监测</a>
+    <a href="opensource.html">开源介绍</a>
+  </div>
+  <div class="nav-icons">
+    <a class="nav-icon" href="index.html#gallery" aria-label="搜索"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></a>
+    <a class="nav-icon" href="index.html#booking" aria-label="用户"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></a>
+    <button class="nav-burger" aria-label="菜单"><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="co-hero">
+  <div class="co-kicker">球星殿堂 HALL OF FAME</div>
+  <h1 class="co-title"><span class="ghost">向传奇学习</span><br><span class="red">AI 拆解</span>大师动作</h1>
+  <p class="co-sub">训练营的动作库来自对<b>历代巨星</b>比赛录像的逐帧建模——从乔丹的后仰到库里的三分,机器人都能陪你一一拆解复刻。</p>
+  <div class="co-groups">
+    <a class="co-chip" href="#legends">历史传奇 ×10</a>
+    <a class="co-chip" href="#active">现役巨星 ×10</a>
+    <a class="co-chip" href="#china">中国力量 ×5</a>
+    <a class="co-chip" href="#wnba">WNBA ×4</a>
+  </div>
+</header>
+
+<!-- 历史传奇 -->
+<section class="group" id="legends">
+  <div class="g-head reveal"><span class="g-no">01</span><h2 class="g-title">历史传奇<small>ALL-TIME LEGENDS</small></h2><span class="g-line"></span></div>
+  <div class="stars">
+    <div class="star reveal"><span class="star-bar"></span><span class="star-rank">23</span><span class="star-tag">GOAT</span><h3>迈克尔·乔丹</h3><div class="en">MICHAEL JORDAN</div><p>公认的篮球之神,将 NBA 推向全球的旗帜人物。</p></div>
+    <div class="star reveal"><span class="star-bar"></span><span class="star-rank">06</span><span class="star-tag">全能前锋</span><h3>勒布朗·詹姆斯</h3><div class="en">LEBRON JAMES</div><p>历史级别的全能前锋,生涯极长且持续保持顶尖水平。</p></div>
+    <div class="star reveal"><span class="star-bar"></span><span class="star-rank">33</span><span class="star-tag">天勾</span><h3>卡里姆·阿卜杜尔-贾巴尔</h3><div class="en">KAREEM ABDUL-JABBAR</div><p>历史总得分王(直至近年被超越),标志性的"天勾"绝技。</p></div>
+    <div class="star reveal"><span class="star-bar"></span><span class="star-rank">32</span><span class="star-tag">Showtime</span><h3>"魔术师"约翰逊</h3><div class="en">MAGIC JOHNSON</div><p>引领"Showtime"时代的传奇控卫。</p></div>
+    <div class="star reveal"><span class="star-bar"></span><span class="star-rank">06</span><span class="star-tag">指环王</span><h3>比尔·拉塞尔</h3><div class="en">BILL RUSSELL</div><p>以防守和团队胜利定义伟大的"指环王"。</p></div>
+    <div class="star reveal"><span class="star-bar"></span><span class="star-rank">13</span><span class="star-tag">远古神兽</span><h3>威尔特·张伯伦</h3><div class="en">WILT CHAMBERLAIN</div><p>拥有单场 100 分等众多骇人数据的远古神兽。</p></div>
+    <div class="star reveal"><span class="star-bar"></span><span class="star-rank">33</span><span class="star-tag">大鸟</span><h3>拉里·伯德</h3><div class="en">LARRY BIRD</div><p>与魔术师齐名的 80 年代标志性前锋。</p></div>
+    <div class="star reveal"><span class="star-bar"></span><span class="star-rank">34</span><span class="star-tag">大鲨鱼</span><h3>沙奎尔·奥尼尔</h3><div class="en">SHAQUILLE O'NEAL</div><p>历史上最具统治力的中锋之一。</p></div>
+    <div class="star reveal"><span class="star-bar"></span><span class="star-rank">21</span><span class="star-tag">石佛</span><h3>蒂姆·邓肯</h3><div class="en">TIM DUNCAN</div><p>马刺王朝的基石,历史最伟大大前锋之一。</p></div>
+    <div class="star reveal"><span class="star-bar"></span><span class="star-rank">24</span><span class="star-tag">曼巴精神</span><h3>科比·布莱恩特</h3><div class="en">KOBE BRYANT</div><p>技术、意志力与影响力的集大成者,"曼巴精神"的象征。</p></div>
+  </div>
+</section>
+
+<!-- 现役巨星 -->
+<section class="group" id="active">
+  <div class="g-head reveal"><span class="g-no">02</span><h2 class="g-title">现役巨星<small>ACTIVE SUPERSTARS</small></h2><span class="g-line"></span></div>
+  <div class="stars">
+    <div class="star reveal"><span class="star-bar"></span><span class="star-rank">15</span><span class="star-tag">组织中锋</span><h3>尼古拉·约基奇</h3><div class="en">NIKOLA JOKIC</div><p>划时代的组织中锋,多次常规赛 MVP 得主。</p></div>
+    <div class="star reveal"><span class="star-bar"></span><span class="star-rank">77</span><span class="star-tag">持球大核</span><h3>卢卡·东契奇</h3><div class="en">LUKA DONCIC</div><p>持球大核心打法的代表人物,数据全面。</p></div>
+    <div class="star reveal"><span class="star-bar"></span><span class="star-rank">34</span><span class="star-tag">字母哥</span><h3>扬尼斯·阿德托昆博</h3><div class="en">GIANNIS ANTETOKOUNMPO</div><p>身体天赋与技术的结合,攻防一体的 MVP 级前锋。</p></div>
+    <div class="star reveal"><span class="star-bar"></span><span class="star-rank">30</span><span class="star-tag">三分之神</span><h3>斯蒂芬·库里</h3><div class="en">STEPHEN CURRY</div><p>历史三分王,用投射改变了篮球的战术逻辑。</p></div>
+    <div class="star reveal"><span class="star-bar"></span><span class="star-rank">23</span><span class="star-tag">常青树</span><h3>勒布朗·詹姆斯</h3><div class="en">LEBRON JAMES</div><p>依然保持着精英水准的常青树。</p></div>
+    <div class="star reveal"><span class="star-bar"></span><span class="star-rank">02</span><span class="star-tag">SGA</span><h3>谢伊·吉尔杰斯-亚历山大</h3><div class="en">SHAI GILGEOUS-ALEXANDER</div><p>新一代后卫中的佼佼者,MVP 级别的得分手。</p></div>
+    <div class="star reveal"><span class="star-bar"></span><span class="star-rank">01</span><span class="star-tag">现象级新星</span><h3>维克托·文班亚马</h3><div class="en">VICTOR WEMBANYAMA</div><p>拥有空前身体条件的现象级新星,防守威慑力巨大。</p></div>
+    <div class="star reveal"><span class="star-bar"></span><span class="star-rank">02</span><span class="star-tag">机器人本机</span><h3>科怀·伦纳德</h3><div class="en">KAWHI LEONARD</div><p>攻防一体的顶级锋线。</p></div>
+    <div class="star reveal"><span class="star-bar"></span><span class="star-rank">05</span><span class="star-tag">蚁人</span><h3>安东尼·爱德华兹</h3><div class="en">ANTHONY EDWARDS</div><p>身体素质劲爆的年轻得分后卫。</p></div>
+    <div class="star reveal"><span class="star-bar"></span><span class="star-rank">21</span><span class="star-tag">大帝</span><h3>乔尔·恩比德</h3><div class="en">JOEL EMBIID</div><p>技术全面的统治级中锋。</p></div>
+  </div>
+</section>
+
+<!-- 中国力量 -->
+<section class="group" id="china">
+  <div class="g-head reveal"><span class="g-no">03</span><h2 class="g-title">中国力量<small>CHINA PRIDE</small></h2><span class="g-line"></span></div>
+  <div class="stars">
+    <div class="star reveal"><span class="star-bar"></span><span class="star-rank">11</span><span class="star-tag">名人堂</span><h3>姚明</h3><div class="en">YAO MING</div><p>中国篮球最具全球影响力的球星,NBA 名人堂成员。</p></div>
+    <div class="star reveal"><span class="star-bar"></span><span class="star-rank">09</span><span class="star-tag">领军人物</span><h3>易建联</h3><div class="en">YI JIANLIAN</div><p>后姚明时代中国男篮的领军人物,CBA 历史级别的巨星。</p></div>
+    <div class="star reveal"><span class="star-bar"></span><span class="star-rank">14</span><span class="star-tag">先驱</span><h3>王治郅</h3><div class="en">WANG ZHIZHI</div><p>中国球员登陆 NBA 的先驱,技术型内线的代表。</p></div>
+    <div class="star reveal"><span class="star-bar"></span><span class="star-rank">08</span><span class="star-tag">黄金一代</span><h3>刘玉栋 · 胡卫东等</h3><div class="en">GOLDEN GENERATION</div><p>CBA 早期的传奇球星,"黄金一代"的代表人物。</p></div>
+    <div class="star reveal"><span class="star-bar"></span><span class="star-rank">13</span><span class="star-tag">人气后卫</span><h3>郭艾伦</h3><div class="en">GUO AILUN</div><p>现役 CBA 最具人气的后卫之一。</p></div>
+  </div>
+</section>
+
+<!-- WNBA -->
+<section class="group" id="wnba">
+  <div class="g-head reveal"><span class="g-no">04</span><h2 class="g-title">WNBA 巨星<small>WOMEN'S GAME</small></h2><span class="g-line"></span></div>
+  <div class="stars">
+    <div class="star reveal"><span class="star-bar"></span><span class="star-rank">22</span><span class="star-tag">门面人物</span><h3>阿贾·威尔逊</h3><div class="en">A'JA WILSON</div><p>多次获得 MVP 的统治级内线,WNBA 的门面人物之一。</p></div>
+    <div class="star reveal"><span class="star-bar"></span><span class="star-rank">22</span><span class="star-tag">现象级新秀</span><h3>凯特琳·克拉克</h3><div class="en">CAITLIN CLARK</div><p>以超远三分和超高人气极大地提升了 WNBA 的关注度。</p></div>
+    <div class="star reveal"><span class="star-bar"></span><span class="star-rank">30</span><span class="star-tag">顶级前锋</span><h3>布里安娜·斯图尔特</h3><div class="en">BREANNA STEWART</div><p>多次夺冠和获得 MVP 的顶级前锋。</p></div>
+    <div class="star reveal"><span class="star-bar"></span><span class="star-rank">05</span><span class="star-tag">新生代</span><h3>佩奇·布克斯</h3><div class="en">PAIGE BUECKERS</div><p>备受瞩目的新生代球星。</p></div>
+  </div>
+</section>
+
+<div class="tail"></div>
+
+<div class="back-bar">
+  <a class="back-home magnetic" href="index.html"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>返回官网首页</a>
+</div>
+
+<script>
+const dot=document.querySelector('.cursor-dot'),ring=document.querySelector('.cursor-ring');
+let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.14;ry+=(my-ry)*.14;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+document.querySelectorAll('a,button,.star').forEach(el=>{
+  el.addEventListener('mouseenter',()=>ring.classList.add('hovering'));
+  el.addEventListener('mouseleave',()=>ring.classList.remove('hovering'));
+});
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40),{passive:true});
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+/* 磁吸 */
+document.querySelectorAll('.magnetic').forEach(btn=>{
+  btn.addEventListener('mousemove',e=>{const r=btn.getBoundingClientRect();btn.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.28}px,${(e.clientY-r.top-r.height/2)*.28}px)`;});
+  btn.addEventListener('mouseleave',()=>btn.style.transform='translate(0,0)');
+});
+</script>
+</body>
+</html>
