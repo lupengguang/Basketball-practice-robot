@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#eef1f6">
+<title>详情监测 · 篮训BOT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+SC:wght@400;500;700;900&family=Oswald:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#df2029;--red-dark:#97141a;
+  --bg:#eef1f6;--card:#fff;--ink:#10131a;--muted:#6f7482;--faint:#9aa0ad;--line:#e7eaf1;
+  --dark:#14161c;--green:#16a34a;--teal:#14c8b0;--blue:#5b6cff;--violet:#8f7bff;--orange:#f97316;
+  --shadow:0 18px 40px -20px rgba(15,23,42,.12);
+  --font-d:'Bebas Neue','Noto Sans SC',sans-serif;--font-c:'Oswald','Noto Sans SC',sans-serif;
+  --font-m:'JetBrains Mono','Noto Sans SC',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:linear-gradient(180deg,#f4f6fb 0%,#e9edf4 100%);color:var(--ink);font-family:var(--font-c);overflow-x:hidden;cursor:none;min-height:100vh}
+button,a{font:inherit;color:inherit;text-decoration:none}button{cursor:none;border:0;background:none}img{display:block;max-width:100%}
+::selection{background:var(--red);color:#fff}
+
+/* Custom cursor */
+.cursor-dot,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;border-radius:50%;transform:translate(-50%,-50%)}
+.cursor-dot{width:8px;height:8px;background:var(--red)}
+.cursor-ring{width:36px;height:36px;border:1.5px solid rgba(223,32,41,.72);transition:width .25s,height .25s,border-color .25s,background .25s}
+.cursor-ring.hovering{width:64px;height:64px;background:rgba(223,32,41,.12);border-color:var(--red)}
+
+/* Topbar (same as health.html) */
+.topbar{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px 4vw;background:rgba(255,255,255,.75);backdrop-filter:blur(14px) saturate(1.3);-webkit-backdrop-filter:blur(14px) saturate(1.3);border-bottom:1px solid var(--line)}
+.tb-left{display:flex;align-items:center;gap:20px;min-width:0}
+.tb-back{display:inline-flex;align-items:center;gap:9px;padding:10px 20px;border:1px solid #dfe3ec;border-radius:999px;background:#fff;color:var(--ink);font-size:11px;letter-spacing:2px;box-shadow:0 6px 18px -12px rgba(15,23,42,.25);transition:.3s}
+.tb-back svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;transition:transform .3s}
+.tb-back:hover{border-color:var(--red);color:var(--red);transform:translateY(-2px);box-shadow:0 14px 30px -14px rgba(223,32,41,.45)}
+.tb-back:hover svg{transform:translateX(-3px)}
+.tb-brand{display:flex;flex-direction:column;line-height:1.4;white-space:nowrap}
+.tb-brand b{font-size:12px;letter-spacing:2px;font-weight:600}
+.tb-brand span{font-size:9px;letter-spacing:3.5px;color:var(--faint)}
+.tb-nav{position:relative;padding:6px 2px;font-size:12px;letter-spacing:2px;font-weight:500;color:var(--muted);transition:color .3s;white-space:nowrap}
+.tb-nav::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;border-radius:2px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.tb-nav:hover,.tb-nav.active{color:var(--red)}
+.tb-nav:hover::after,.tb-nav.active::after{transform:scaleX(1)}
+.tb-icons{display:flex;align-items:center;gap:10px}
+.tb-icon{width:38px;height:38px;border-radius:12px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;color:var(--muted);transition:.3s}
+.tb-icon svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2}
+.tb-icon:hover{background:#f1f3f8;color:var(--ink)}
+
+/* Page frame */
+.page{padding:26px 4vw 90px}
+.shell{width:min(1240px,100%);margin:0 auto}
+.frame{background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.75);border-radius:28px;padding:28px 28px 32px;box-shadow:0 30px 80px -46px rgba(15,23,42,.28)}
+
+/* Hero */
+.hero{display:flex;align-items:flex-end;justify-content:space-between;gap:26px;flex-wrap:wrap;padding:6px 4px 26px}
+.eyebrow{display:flex;align-items:center;gap:9px;font-size:10px;letter-spacing:3px;color:var(--muted)}.eyebrow::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--red);box-shadow:0 0 12px rgba(223,32,41,.55)}
+.hero-title{margin-top:12px;font-family:var(--font-d);font-size:clamp(52px,6.5vw,88px);line-height:.85;letter-spacing:2px}
+.hero-title em{font-style:normal;color:var(--red)}
+.hero-sub{margin-top:12px;font-size:12px;letter-spacing:2.5px;color:var(--faint)}
+.gh-btn{display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border-radius:999px;background:#0d0f14;color:#fff;font-size:12px;letter-spacing:2px;font-weight:500;box-shadow:0 14px 30px -14px rgba(13,15,20,.5);transition:transform .3s,box-shadow .3s}
+.gh-btn svg{width:18px;height:18px;fill:#fff}
+.gh-btn:hover{transform:translateY(-4px);box-shadow:0 22px 44px -14px rgba(0,0,0,.55)}
+
+/* Cards shared */
+.kcard{position:relative;background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:22px;overflow:hidden;transition:transform .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s}
+.kcard::after{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#ff454e,var(--red));transform:scaleX(0);transform-origin:left;transition:transform .45s cubic-bezier(.2,.8,.2,1);z-index:5}
+.kcard:hover{transform:translateY(-6px);box-shadow:0 32px 64px -26px rgba(15,23,42,.24)}
+.kcard:hover::after{transform:scaleX(1)}
+.card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.card-tag{display:flex;align-items:center;gap:8px;font-size:13px;letter-spacing:2px;font-weight:600}
+.card-tag::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red)}
+.card-no{font-size:10px;letter-spacing:2px;color:var(--faint)}
+.sec-gap{margin-top:16px}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}.reveal.in{opacity:1;transform:none}
+
+/* Module 1 · preview + events */
+.preview-grid{display:grid;grid-template-columns:1.55fr 1fr;gap:16px}
+.player-shell{position:relative;aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:linear-gradient(160deg,#101319 0%,#171b24 100%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
+.player-shell .court{position:absolute;inset:0}
+.live-badge{position:absolute;top:14px;right:14px;z-index:3;display:inline-flex;align-items:center;gap:7px;padding:6px 13px;border-radius:999px;background:rgba(13,15,20,.72);border:1px solid rgba(255,255,255,.14);color:#fff;font-size:9px;letter-spacing:2px}
+.live-badge i{width:7px;height:7px;border-radius:50%;background:#ff454e;box-shadow:0 0 8px #ff454e;animation:blink 1.2s ease infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.play-btn{position:absolute;top:50%;left:50%;z-index:3;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(6px);display:grid;place-items:center;transition:.3s}
+.play-btn svg{width:22px;height:22px;fill:#fff;margin-left:3px;transition:.3s}
+.play-btn:hover{background:var(--red);border-color:var(--red);transform:translate(-50%,-50%) scale(1.12);box-shadow:0 0 34px rgba(223,32,41,.6)}
+.progress{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:14px 16px 12px;background:linear-gradient(0deg,rgba(10,12,17,.85),transparent)}
+.progress-bar{position:relative;height:4px;border-radius:999px;background:rgba(255,255,255,.18)}
+.progress-fill{position:absolute;inset:0 auto 0 0;width:38%;border-radius:999px;background:linear-gradient(90deg,var(--red-dark),#ff454e)}
+.progress-thumb{position:absolute;top:50%;left:38%;width:13px;height:13px;border-radius:50%;background:var(--red);border:2px solid #fff;box-shadow:0 0 10px rgba(223,32,41,.8);transform:translate(-50%,-50%) scale(0);transition:transform .25s}
+.progress:hover .progress-thumb{transform:translate(-50%,-50%) scale(1)}
+.progress-time{display:flex;justify-content:space-between;margin-top:8px;font-size:9px;letter-spacing:2px;color:rgba(255,255,255,.6)}
+/* Court minimap */
+.court-line{fill:none;stroke:rgba(255,255,255,.4);stroke-width:1.4}
+.court-fill{fill:rgba(255,255,255,.03)}
+.pdot-label{font-family:var(--font-m);font-size:7.5px;letter-spacing:1px;fill:#fff}
+/* Events panel */
+.events-card{display:flex;flex-direction:column}
+.ev-list{display:flex;flex-direction:column;gap:6px;margin-top:18px}
+.ev-row{display:grid;grid-template-columns:52px 86px 1fr;gap:10px;align-items:center;padding:11px 12px;border-radius:14px;transition:background .25s}
+.ev-row:hover{background:#f4f6fa}
+.ev-time{font-family:var(--font-m);font-size:11px;color:var(--faint);letter-spacing:.5px}
+.ev-tag{display:inline-flex;align-items:center;justify-content:center;padding:5px 0;border-radius:8px;font-size:10px;letter-spacing:1.5px;font-weight:600;color:#fff}
+.ev-tag.green{background:var(--green)}.ev-tag.red{background:var(--red)}.ev-tag.blue{background:var(--blue)}.ev-tag.gray{background:#8a91a0}.ev-tag.orange{background:var(--orange)}.ev-tag.violet{background:var(--violet)}
+.ev-desc{font-size:11px;letter-spacing:1px;color:var(--muted);line-height:1.6}
+.ev-desc strong{color:var(--ink);font-weight:600}
+
+/* Module 2 · JSONL terminal */
+.term-card{position:relative;background:#0c0e13;border-radius:22px;padding:0;box-shadow:0 24px 54px -24px rgba(12,14,19,.55);transition:transform .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s}
+.term-card:hover{transform:translateY(-6px);box-shadow:0 34px 74px -26px rgba(12,14,19,.65),0 0 44px -10px rgba(223,32,41,.45)}
+.term-head{display:flex;align-items:center;justify-content:space-between;padding:15px 20px;border-bottom:1px solid rgba(255,255,255,.08)}
+.term-title{display:flex;align-items:center;gap:12px;font-size:11px;letter-spacing:2px;color:rgba(255,255,255,.6)}
+.term-dots{display:flex;gap:6px}.term-dots i{width:9px;height:9px;border-radius:50%}
+.term-dots i:nth-child(1){background:#ff5f57}.term-dots i:nth-child(2){background:#febc2e}.term-dots i:nth-child(3){background:#28c840}
+.copy-btn{display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border-radius:10px;border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.65);font-size:10px;letter-spacing:1.5px;transition:.3s}
+.copy-btn svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2}
+.copy-btn:hover{color:#fff;border-color:var(--red);background:rgba(223,32,41,.18)}
+.term-body{padding:20px 22px 24px;overflow-x:auto}
+.term-body pre{font-family:var(--font-m);font-size:12px;line-height:2;letter-spacing:.3px;white-space:pre}
+.tk-key{color:#7ee8fa}.tk-str{color:#ffb86c}.tk-num{color:#64e582}.tk-p{color:rgba(255,255,255,.42)}
+
+/* Module 3 · pipeline */
+.pipe{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:4px}
+.pipe-step{position:relative}
+.pipe-step .kcard{height:100%;padding:20px 18px;display:flex;flex-direction:column;gap:10px}
+.pipe-step .kcard:hover~.pipe-arrow,.pipe-step:hover .pipe-arrow{transform:translate(-50%,4px)}
+.pipe-ico{width:42px;height:42px;border-radius:13px;background:#f4f5f9;display:grid;place-items:center;color:var(--ink);transition:.3s}
+.pipe-step .kcard:hover .pipe-ico{background:rgba(223,32,41,.1);color:var(--red)}
+.pipe-ico svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.pipe-name{font-size:13px;letter-spacing:2px;font-weight:600}
+.pipe-desc{font-size:10px;letter-spacing:1px;line-height:1.8;color:var(--muted)}
+.pipe-no{margin-top:auto;font-family:var(--font-d);font-size:20px;letter-spacing:1px;color:#e3e6ee}
+.pipe-arrow{position:absolute;top:50%;right:-14px;z-index:6;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 6px 16px -6px rgba(15,23,42,.3);display:grid;place-items:center;color:var(--red);transition:transform .3s;pointer-events:none}
+.pipe-arrow svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2.5}
+
+/* Module 4 · metrics */
+.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.metric-num{margin-top:14px;font-family:var(--font-d);font-size:52px;line-height:.9;letter-spacing:1px;transition:color .3s}
+.metric-num small{font-family:var(--font-c);font-size:12px;letter-spacing:1px;color:var(--faint);margin-left:5px}
+.kcard:hover .metric-num{color:var(--red)}
+.metric-name{font-size:10px;letter-spacing:2px;color:var(--muted);margin-top:8px}
+.m-bar{margin-top:16px;height:7px;border-radius:999px;background:#eef0f5;overflow:hidden}
+.m-bar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--red-dark),#ff454e);transition:filter .3s}
+.kcard:hover .m-bar i{filter:brightness(1.15)}
+.m-ring{position:absolute;top:20px;right:20px;width:46px;height:46px}
+.m-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.m-ring .trk{fill:none;stroke:#eef0f5;stroke-width:4}
+.m-ring .fil{fill:none;stroke:var(--red);stroke-width:4;stroke-linecap:round}
+
+/* Module 5 · boundaries */
+.bound-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:20px}
+.bound-col h4{display:flex;align-items:center;gap:9px;font-size:12px;letter-spacing:2px;font-weight:600;padding-bottom:13px;border-bottom:1px solid var(--line)}
+.bound-col h4 i{width:9px;height:9px;border-radius:50%}
+.bound-col.ok h4 i{background:var(--green);box-shadow:0 0 9px rgba(22,163,74,.6)}
+.bound-col.no h4 i{background:#b6bcc9}
+.bound-col ul{list-style:none;margin-top:14px;display:grid;gap:11px}
+.bound-col li{display:flex;align-items:center;gap:11px;font-size:12px;letter-spacing:1.5px;color:var(--muted)}
+.bound-col li svg{width:16px;height:16px;flex:none;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.bound-col.ok li svg{stroke:var(--green)}
+.bound-col.no li{color:var(--faint)}
+.bound-col.no li svg{stroke:#b6bcc9}
+
+/* Toast */
+.toast{position:fixed;z-index:1100;left:50%;bottom:25px;transform:translate(-50%,100px);display:flex;align-items:center;gap:9px;padding:12px 18px;border:1px solid rgba(255,255,255,.16);border-radius:999px;background:#19191b;color:#fff;font-size:11px;letter-spacing:1.3px;box-shadow:0 16px 35px -16px #000;transition:.35s}
+.toast.show{transform:translate(-50%,0)}
+.toast i{width:8px;height:8px;border-radius:50%;background:#64e582;box-shadow:0 0 9px #64e582}
+
+@media(max-width:1080px){
+  .preview-grid{grid-template-columns:1fr}
+  .pipe{grid-template-columns:1fr;gap:14px}
+  .pipe-arrow{top:auto;bottom:-20px;right:50%;transform:translate(50%,0) rotate(90deg)}
+  .pipe-step:last-child .pipe-arrow{display:none}
+  .pipe-step .kcard:hover~.pipe-arrow,.pipe-step:hover .pipe-arrow{transform:translate(50%,4px) rotate(90deg)}
+  .metric-grid{grid-template-columns:1fr 1fr}
+  .bound-grid{grid-template-columns:1fr;gap:18px}
+}
+@media(max-width:630px){
+  body{cursor:auto}
+  .cursor-dot,.cursor-ring{display:none}
+  .topbar{padding:10px 14px;gap:12px}
+  .tb-brand{display:none}
+  .tb-back{padding:9px 16px}
+  .tb-nav{display:none}
+  .page{padding:16px 14px 70px}
+  .frame{padding:16px;border-radius:20px}
+  .hero-title{font-size:48px}
+  .hero{padding-bottom:18px}
+  .metric-grid{grid-template-columns:1fr}
+  .sec-gap{margin-top:12px}
+  .ev-row{grid-template-columns:46px 78px 1fr;gap:8px;padding:10px}
+  .term-body pre{font-size:10.5px}
+  .play-btn{width:54px;height:54px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="cursor-dot"></div><div class="cursor-ring"></div>
+
+<header class="topbar">
+  <div class="tb-left">
+    <a class="tb-back interactive" href="health.html"><svg viewBox="0 0 24 24"><path d="M19 12H5m6-6-6 6 6 6"/></svg>返回监测台</a>
+    <div class="tb-brand"><b>篮训BOT · 详情监测</b><span>VISION MONITOR</span></div>
+    <a class="tb-nav active interactive" href="monitor.html">详情监测</a>
+  </div>
+  <div class="tb-icons">
+    <button class="tb-icon interactive" aria-label="通知" data-toast="演示环境 · 通知中心仅作展示"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></button>
+    <button class="tb-icon interactive" aria-label="设置" data-toast="演示环境 · 设置仅作展示"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06-.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0 .33-1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+  </div>
+</header>
+
+<main class="page">
+  <div class="shell">
+    <div class="frame">
+
+      <!-- Hero -->
+      <header class="hero">
+        <div>
+          <div class="eyebrow">OPEN SOURCE SHOWCASE · VISION AI</div>
+          <h1 class="hero-title">Open<em>Hoop</em>Vision</h1>
+          <p class="hero-sub">AI 篮球视频分析 · 把比赛录像变成结构化复盘数据</p>
+        </div>
+        <a class="gh-btn interactive" href="https://github.com/feifeifei85/OpenHoopVision" target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+          GITHUB · feifeifei85/OpenHoopVision
+        </a>
+      </header>
+
+      <!-- Module 1 · Annotation preview -->
+      <section class="preview-grid sec-gap" aria-label="标注分析预览">
+        <article class="kcard reveal">
+          <div class="card-head"><span class="card-tag">标注分析预览</span><span class="card-no">01 / ANNOTATION</span></div>
+          <div class="player-shell" style="margin-top:18px">
+            <svg class="court" viewBox="0 0 640 360" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <rect class="court-fill" x="30" y="40" width="580" height="280" rx="6"/>
+              <rect class="court-line" x="30" y="40" width="580" height="280" rx="6"/>
+              <line class="court-line" x1="320" y1="40" x2="320" y2="320"/>
+              <circle class="court-line" cx="320" cy="180" r="46"/>
+              <rect class="court-line" x="30" y="115" width="130" height="130"/>
+              <rect class="court-line" x="480" y="115" width="130" height="130"/>
+              <path class="court-line" d="M160 115 A68 68 0 0 1 160 245"/>
+              <path class="court-line" d="M480 115 A68 68 0 0 0 480 245"/>
+              <path class="court-line" d="M30 90 A210 210 0 0 1 30 270" opacity=".55"/>
+              <path class="court-line" d="M610 90 A210 210 0 0 0 610 270" opacity=".55"/>
+              <!-- Team A (red) -->
+              <g><circle cx="120" cy="150" r="11" fill="#df2029"/><text class="pdot-label" x="120" y="153" text-anchor="middle">P1</text></g>
+              <g><circle cx="215" cy="95" r="11" fill="#df2029"/><text class="pdot-label" x="215" y="98" text-anchor="middle">P2</text></g>
+              <g><circle cx="255" cy="255" r="11" fill="#df2029"/><text class="pdot-label" x="255" y="258" text-anchor="middle">P3</text></g>
+              <!-- Team B (blue) -->
+              <g><circle cx="420" cy="180" r="11" fill="#5b6cff"/><text class="pdot-label" x="420" y="183" text-anchor="middle">P4</text></g>
+              <g><circle cx="500" cy="120" r="11" fill="#5b6cff"/><text class="pdot-label" x="500" y="123" text-anchor="middle">P5</text></g>
+              <g><circle cx="510" cy="245" r="11" fill="#5b6cff"/><text class="pdot-label" x="510" y="248" text-anchor="middle">P6</text></g>
+              <!-- Ball -->
+              <circle cx="132" cy="163" r="5.5" fill="#f59e0b"><animate attributeName="cy" values="163;158;163" dur="1.6s" repeatCount="indefinite"/></circle>
+              <circle cx="120" cy="150" r="17" fill="none" stroke="#df2029" stroke-width="1" opacity=".5"><animate attributeName="r" values="17;24;17" dur="2.2s" repeatCount="indefinite"/><animate attributeName="opacity" values=".5;0;.5" dur="2.2s" repeatCount="indefinite"/></circle>
+            </svg>
+            <span class="live-badge"><i></i>LIVE · AI 分析中</span>
+            <button class="play-btn interactive" aria-label="播放" data-toast="演示环境 · 视频播放仅作展示"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></button>
+            <div class="progress">
+              <div class="progress-bar interactive"><div class="progress-fill"></div><span class="progress-thumb"></span></div>
+              <div class="progress-time"><span>03:42 / Q2</span><span>09:48 TOTAL</span></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="kcard events-card reveal">
+          <div class="card-head"><span class="card-tag">事件流</span><span class="card-no">EVENTS</span></div>
+          <div class="ev-list">
+            <div class="ev-row"><span class="ev-time">03:41</span><span class="ev-tag green">投篮·命中</span><span class="ev-desc"><strong>P1 王锐</strong> 左翼三分命中,置信度 0.97</span></div>
+            <div class="ev-row"><span class="ev-time">03:28</span><span class="ev-tag blue">传球</span><span class="ev-desc"><strong>P3 → P1</strong> 弧顶转移球,球速 8.2 m/s</span></div>
+            <div class="ev-row"><span class="ev-time">03:15</span><span class="ev-tag gray">运球</span><span class="ev-desc"><strong>P3</strong> 推进过半场,连续变向 2 次</span></div>
+            <div class="ev-row"><span class="ev-time">02:56</span><span class="ev-tag orange">抢断</span><span class="ev-desc"><strong>P4</strong> 断下横传球,发动快攻</span></div>
+            <div class="ev-row"><span class="ev-time">02:44</span><span class="ev-tag red">投篮·未中</span><span class="ev-desc"><strong>P5</strong> 中距离打铁,篮板归 <strong>P2</strong></span></div>
+            <div class="ev-row"><span class="ev-time">02:31</span><span class="ev-tag violet">失误</span><span class="ev-desc"><strong>P6</strong> 传球出界,记为非受迫失误</span></div>
+          </div>
+        </article>
+      </section>
+
+      <!-- Module 2 · JSONL terminal -->
+      <section class="sec-gap" aria-label="结构化数据">
+        <div class="term-card reveal">
+          <div class="term-head">
+            <div class="term-title">
+              <span class="term-dots"><i></i><i></i><i></i></span>
+              output / game_2026w43.jsonl
+            </div>
+            <button class="copy-btn interactive" id="copyJson"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>复制</button>
+          </div>
+          <div class="term-body"><pre id="jsonlCode"><span class="tk-p">{</span><span class="tk-key">"frame"</span><span class="tk-p">:</span> <span class="tk-num">6642</span><span class="tk-p">,</span> <span class="tk-key">"event"</span><span class="tk-p">:</span> <span class="tk-str">"shot_made"</span><span class="tk-p">,</span> <span class="tk-key">"player"</span><span class="tk-p">:</span> <span class="tk-str">"P1"</span><span class="tk-p">,</span> <span class="tk-key">"team"</span><span class="tk-p">:</span> <span class="tk-str">"A"</span><span class="tk-p">,</span> <span class="tk-key">"court_xy"</span><span class="tk-p">:</span> <span class="tk-p">[</span><span class="tk-num">7.8</span><span class="tk-p">,</span> <span class="tk-num">1.2</span><span class="tk-p">],</span> <span class="tk-key">"confidence"</span><span class="tk-p">:</span> <span class="tk-num">0.97</span><span class="tk-p">}</span>
+<span class="tk-p">{</span><span class="tk-key">"frame"</span><span class="tk-p">:</span> <span class="tk-num">6408</span><span class="tk-p">,</span> <span class="tk-key">"event"</span><span class="tk-p">:</span> <span class="tk-str">"pass"</span><span class="tk-p">,</span> <span class="tk-key">"player"</span><span class="tk-p">:</span> <span class="tk-str">"P3"</span><span class="tk-p">,</span> <span class="tk-key">"team"</span><span class="tk-p">:</span> <span class="tk-str">"A"</span><span class="tk-p">,</span> <span class="tk-key">"court_xy"</span><span class="tk-p">:</span> <span class="tk-p">[</span><span class="tk-num">4.1</span><span class="tk-p">,</span> <span class="tk-num">5.6</span><span class="tk-p">],</span> <span class="tk-key">"confidence"</span><span class="tk-p">:</span> <span class="tk-num">0.93</span><span class="tk-p">}</span>
+<span class="tk-p">{</span><span class="tk-key">"frame"</span><span class="tk-p">:</span> <span class="tk-num">5873</span><span class="tk-p">,</span> <span class="tk-key">"event"</span><span class="tk-p">:</span> <span class="tk-str">"steal"</span><span class="tk-p">,</span> <span class="tk-key">"player"</span><span class="tk-p">:</span> <span class="tk-str">"P4"</span><span class="tk-p">,</span> <span class="tk-key">"team"</span><span class="tk-p">:</span> <span class="tk-str">"B"</span><span class="tk-p">,</span> <span class="tk-key">"court_xy"</span><span class="tk-p">:</span> <span class="tk-p">[</span><span class="tk-num">6.9</span><span class="tk-p">,</span> <span class="tk-num">3.4</span><span class="tk-p">],</span> <span class="tk-key">"confidence"</span><span class="tk-p">:</span> <span class="tk-num">0.88</span><span class="tk-p">}</span>
+<span class="tk-p">{</span><span class="tk-key">"frame"</span><span class="tk-p">:</span> <span class="tk-num">5520</span><span class="tk-p">,</span> <span class="tk-key">"event"</span><span class="tk-p">:</span> <span class="tk-str">"shot_missed"</span><span class="tk-p">,</span> <span class="tk-key">"player"</span><span class="tk-p">:</span> <span class="tk-str">"P5"</span><span class="tk-p">,</span> <span class="tk-key">"team"</span><span class="tk-p">:</span> <span class="tk-str">"B"</span><span class="tk-p">,</span> <span class="tk-key">"court_xy"</span><span class="tk-p">:</span> <span class="tk-p">[</span><span class="tk-num">5.2</span><span class="tk-p">,</span> <span class="tk-num">4.0</span><span class="tk-p">],</span> <span class="tk-key">"confidence"</span><span class="tk-p">:</span> <span class="tk-num">0.91</span><span class="tk-p">}</span></pre></div>
+        </div>
+      </section>
+
+      <!-- Module 3 · Pipeline -->
+      <section class="sec-gap" aria-label="分析流水线">
+        <div class="card-head" style="padding:0 4px 16px"><span class="card-tag">分析流水线</span><span class="card-no">03 / PIPELINE</span></div>
+        <div class="pipe">
+          <div class="pipe-step">
+            <article class="kcard reveal">
+              <span class="pipe-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="3"/><path d="M5 21v-2a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v2"/><circle cx="18.5" cy="5.5" r="1.6"/></svg></span>
+              <span class="pipe-name">检测与姿态</span>
+              <p class="pipe-desc">YOLO 检测球员与篮球,提取全身骨骼关键点。</p>
+              <span class="pipe-no">01</span>
+            </article>
+            <span class="pipe-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
+          </div>
+          <div class="pipe-step">
+            <article class="kcard reveal">
+              <span class="pipe-ico"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="8" height="12" rx="2"/><rect x="13" y="6" width="8" height="12" rx="2"/><path d="M7 6v12M17 6v12"/></svg></span>
+              <span class="pipe-name">局部跟踪</span>
+              <p class="pipe-desc">逐帧关联检测框,抗遮挡维持目标轨迹连续。</p>
+              <span class="pipe-no">02</span>
+            </article>
+            <span class="pipe-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
+          </div>
+          <div class="pipe-step">
+            <article class="kcard reveal">
+              <span class="pipe-ico"><svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="3"/><circle cx="16.5" cy="9.5" r="2.4"/><path d="M3 20v-1a5 5 0 0 1 10 0v1M13.5 19.4a4 4 0 0 1 7.5-1.9"/></svg></span>
+              <span class="pipe-name">身份与队伍</span>
+              <p class="pipe-desc">按球衣特征聚类,为轨迹分配 P 编号与队伍归属。</p>
+              <span class="pipe-no">03</span>
+            </article>
+            <span class="pipe-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
+          </div>
+          <div class="pipe-step">
+            <article class="kcard reveal">
+              <span class="pipe-ico"><svg viewBox="0 0 24 24"><path d="M12 3v3m0 12v3M3 12h3m12 0h3M5.6 5.6l2.1 2.1m8.6 8.6 2.1 2.1m0-12.8-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="3.2"/></svg></span>
+              <span class="pipe-name">事件推断</span>
+              <p class="pipe-desc">结合球权、轨迹与姿态序列判定投篮等六类事件。</p>
+              <span class="pipe-no">04</span>
+            </article>
+            <span class="pipe-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
+          </div>
+          <div class="pipe-step">
+            <article class="kcard reveal">
+              <span class="pipe-ico"><svg viewBox="0 0 24 24"><path d="M4 17V7l8-4 8 4v10l-8 4-8-4Z"/><path d="M4 7l8 4 8-4M12 11v10"/></svg></span>
+              <span class="pipe-name">输出</span>
+              <p class="pipe-desc">生成 JSONL 事件流与球场坐标,供复盘系统消费。</p>
+              <span class="pipe-no">05</span>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Module 4 · Metrics -->
+      <section class="metric-grid sec-gap" aria-label="性能指标">
+        <article class="kcard reveal">
+          <div class="card-head"><span class="card-tag" style="font-size:11px">篮球对象检测</span></div>
+          <div class="m-ring" aria-hidden="true"><svg viewBox="0 0 46 46"><circle class="trk" cx="23" cy="23" r="19"/><circle class="fil" cx="23" cy="23" r="19" stroke-dasharray="101.2 119.4"/></svg></div>
+          <div class="metric-num">84.9<small>%</small></div>
+          <div class="metric-name">mAP@0.5 · BASKETBALL DETECTION</div>
+          <div class="m-bar"><i style="width:84.9%"></i></div>
+        </article>
+        <article class="kcard reveal">
+          <div class="card-head"><span class="card-tag" style="font-size:11px">球场姿态估计</span></div>
+          <div class="m-ring" aria-hidden="true"><svg viewBox="0 0 46 46"><circle class="trk" cx="23" cy="23" r="19"/><circle class="fil" cx="23" cy="23" r="19" stroke-dasharray="115.6 119.4"/></svg></div>
+          <div class="metric-num">96.8<small>%</small></div>
+          <div class="metric-name">COURT POSE ESTIMATION</div>
+          <div class="m-bar"><i style="width:96.8%"></i></div>
+        </article>
+        <article class="kcard reveal">
+          <div class="card-head"><span class="card-tag" style="font-size:11px">投篮事件 F1</span></div>
+          <div class="m-ring" aria-hidden="true"><svg viewBox="0 0 46 46"><circle class="trk" cx="23" cy="23" r="19"/><circle class="fil" cx="23" cy="23" r="19" stroke-dasharray="100.6 119.4"/></svg></div>
+          <div class="metric-num">84.29<small>%</small></div>
+          <div class="metric-name">SHOT EVENT F1 SCORE</div>
+          <div class="m-bar"><i style="width:84.29%"></i></div>
+        </article>
+        <article class="kcard reveal">
+          <div class="card-head"><span class="card-tag" style="font-size:11px">队伍归属</span></div>
+          <div class="m-ring" aria-hidden="true"><svg viewBox="0 0 46 46"><circle class="trk" cx="23" cy="23" r="19"/><circle class="fil" cx="23" cy="23" r="19" stroke-dasharray="95.1 119.4"/></svg></div>
+          <div class="metric-num">79.66<small>%</small></div>
+          <div class="metric-name">TEAM ASSIGNMENT ACC</div>
+          <div class="m-bar"><i style="width:79.66%"></i></div>
+        </article>
+      </section>
+
+      <!-- Module 5 · Boundaries -->
+      <section class="sec-gap" aria-label="能力边界">
+        <article class="kcard reveal">
+          <div class="card-head"><span class="card-tag">能力边界</span><span class="card-no">05 / SCOPE</span></div>
+          <div class="bound-grid">
+            <div class="bound-col ok">
+              <h4><i></i>支持 / SUPPORTED</h4>
+              <ul>
+                <li><svg viewBox="0 0 24 24"><path d="M4 12.5 9.5 18 20 6.5"/></svg>球员与篮球检测、多目标跟踪</li>
+                <li><svg viewBox="0 0 24 24"><path d="M4 12.5 9.5 18 20 6.5"/></svg>球员身份编号与队伍归属</li>
+                <li><svg viewBox="0 0 24 24"><path d="M4 12.5 9.5 18 20 6.5"/></svg>球场坐标映射与落点可视化</li>
+                <li><svg viewBox="0 0 24 24"><path d="M4 12.5 9.5 18 20 6.5"/></svg>投篮 / 传球 / 运球 / 抢断 / 失误 / 篮板六类事件</li>
+              </ul>
+            </div>
+            <div class="bound-col no">
+              <h4><i></i>暂不支持 / NOT YET</h4>
+              <ul>
+                <li><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>助攻事件的因果判定</li>
+                <li><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>盖帽与封盖高度估计</li>
+                <li><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>犯规动作识别与判罚辅助</li>
+                <li><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>高光时刻自动剪辑生成</li>
+              </ul>
+            </div>
+          </div>
+        </article>
+      </section>
+
+    </div>
+  </div>
+</main>
+
+<div class="toast" id="toast"><i></i><span id="toastText">已更新</span></div>
+
+<script>
+const $ = (selector, root = document) => root.querySelector(selector);
+const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+
+const cursorDot = $('.cursor-dot');
+const cursorRing = $('.cursor-ring');
+let pointerX = innerWidth / 2, pointerY = innerHeight / 2, ringX = pointerX, ringY = pointerY;
+addEventListener('mousemove', event => { pointerX = event.clientX; pointerY = event.clientY; cursorDot.style.left = pointerX + 'px'; cursorDot.style.top = pointerY + 'px'; });
+(function followPointer(){ ringX += (pointerX - ringX) * .14; ringY += (pointerY - ringY) * .14; cursorRing.style.left = ringX + 'px'; cursorRing.style.top = ringY + 'px'; requestAnimationFrame(followPointer); })();
+$$('a,button,.interactive').forEach(element => { element.addEventListener('mouseenter', () => cursorRing.classList.add('hovering')); element.addEventListener('mouseleave', () => cursorRing.classList.remove('hovering')); });
+
+const toast = $('#toast');
+let toastTimeout;
+function showToast(message){ $('#toastText').textContent = message; toast.classList.add('show'); clearTimeout(toastTimeout); toastTimeout = setTimeout(() => toast.classList.remove('show'), 2600); }
+$$('[data-toast]').forEach(element => element.addEventListener('click', event => { event.preventDefault(); showToast(element.dataset.toast); }));
+
+/* Copy JSONL */
+$('#copyJson').addEventListener('click', () => {
+  const text = $('#jsonlCode').innerText;
+  const done = () => showToast('已复制');
+  if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(done).catch(done); }
+  else { const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch(e) {} document.body.removeChild(ta); done(); }
+});
+
+/* Scroll reveal */
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('in'); revealObserver.unobserve(entry.target); } });
+}, {threshold:.12});
+$$('.reveal').forEach(element => revealObserver.observe(element));
+</script>
+</body>
+</html>
