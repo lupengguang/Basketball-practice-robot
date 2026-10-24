@@ -71,6 +71,14 @@ a{color:inherit;text-decoration:none}
 .nav-burger:hover{background:var(--red)}
 .nav-burger:hover span{background:#fff}
 @media(max-width:900px){.nav-links{display:none}}
+/* 桌面窄屏(900-1080px)导航压缩:防止六项链接与图标拥挤 */
+@media(max-width:1080px){
+  .nav{padding:0 16px}
+  .nav-logo small{display:none}
+  .nav-links{gap:2px;letter-spacing:1px}
+  .nav-links a{padding:10px 9px}
+  .nav-icons{gap:8px}
+}
 
 /* ---------- Hero ---------- */
 .hero{
@@ -206,6 +214,7 @@ a{color:inherit;text-decoration:none}
 .tilt-card:hover{border-color:rgba(217,31,38,.68);box-shadow:0 38px 80px -28px rgba(217,31,38,.45),inset 0 0 0 1px rgba(255,255,255,.07)}
 .tilt-card:hover::after{opacity:1}
 @media(max-width:900px){.stats-inner{grid-template-columns:1fr}.stats-quote{justify-self:start}}
+@media(max-width:1200px){.stats-inner{gap:28px}}
 
 /* ---------- 白底编辑区 ---------- */
 .paper{background:var(--paper);color:#111;border-radius:26px 26px 0 0;margin-top:-24px;position:relative;z-index:8;padding:80px 4vw 60px;overflow:hidden}
@@ -229,6 +238,8 @@ a{color:inherit;text-decoration:none}
 .paper-meta b{color:var(--red)}
 .paper-gallery-tag{max-width:1240px;margin:60px auto 0;font-size:10px;letter-spacing:4px;color:#777}
 @media(max-width:900px){.paper-head{grid-template-columns:1fr}.paper-meta{justify-self:start;margin-top:24px}}
+/* 桌面端收窄大标题,保证 8 字标题 + 右侧 meta 在 1024-1920px 均有合理空间 */
+@media(min-width:901px){.paper-title{font-size:clamp(64px,7.6vw,146px)}}
 
 /* ---------- 瀑布流网格 ---------- */
 .waterfall{max-width:1240px;margin:40px auto 0;columns:3;column-gap:26px}
@@ -316,6 +327,7 @@ a{color:inherit;text-decoration:none}
 .footer-bottom a:hover{color:var(--red)}
 .footer-watermark{font-family:var(--font-d);font-size:clamp(80px,15vw,280px);line-height:.8;text-align:center;color:rgba(255,255,255,.04);letter-spacing:.05em;white-space:nowrap;pointer-events:none;user-select:none;transform:translateY(18%)}
 @media(max-width:900px){.footer-top{grid-template-columns:1fr 1fr}}
+@media(max-width:1100px){.footer-top{grid-template-columns:1fr 1fr;gap:32px}}
 
 /* ---------- 滚动显现 ---------- */
 .reveal{opacity:0;transform:translateY(46px);transition:opacity .9s cubic-bezier(.2,.8,.2,1),transform .9s cubic-bezier(.2,.8,.2,1)}

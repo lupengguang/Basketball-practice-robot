@@ -48,6 +48,14 @@ a{color:inherit;text-decoration:none}
 .nav-burger:hover{background:var(--red)}
 .nav-burger:hover span{background:#fff}
 @media(max-width:900px){.nav-links{display:none}}
+/* 桌面窄屏(900-1080px)导航压缩:防止六项链接与图标拥挤 */
+@media(max-width:1080px){
+  .nav{padding:0 16px}
+  .nav-logo small{display:none}
+  .nav-links{gap:2px;letter-spacing:1px}
+  .nav-links a{padding:10px 9px}
+  .nav-icons{gap:8px}
+}
 
 /* Hero */
 .tr-hero{position:relative;padding:170px 4vw 60px;overflow:hidden;background:radial-gradient(900px 480px at 50% 0%,rgba(217,31,38,.18),transparent 62%),var(--ink)}
