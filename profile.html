@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b0b0c">
+<title>个人中心 · 篮训BOT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+SC:wght@400;500;700;900&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#df2029;--red-dark:#97141a;--ink:#0b0b0c;--panel:#121214;--panel-2:#18181b;
+  --paper:#f1eee8;--fog:#a29f9a;--line:rgba(255,255,255,.12);--dim:rgba(255,255,255,.06);
+  --font-d:'Bebas Neue','Noto Sans SC',sans-serif;--font-c:'Oswald','Noto Sans SC',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:#fff;font-family:var(--font-c);overflow-x:hidden;cursor:none}
+button,a{font:inherit;color:inherit;text-decoration:none}button{cursor:none;border:0}img{display:block;max-width:100%}
+::selection{background:var(--red);color:#fff}
+
+/* Shared navigation language */
+.cursor-dot,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;border-radius:50%;transform:translate(-50%,-50%)}
+.cursor-dot{width:8px;height:8px;background:var(--red)}
+.cursor-ring{width:36px;height:36px;border:1.5px solid rgba(223,32,41,.72);transition:width .25s,height .25s,border-color .25s,background .25s}
+.cursor-ring.hovering{width:64px;height:64px;background:rgba(223,32,41,.12);border-color:var(--red)}
+.nav{position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:100;width:min(1240px,94vw);height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 26px;border:1px solid rgba(255,255,255,.09);border-radius:18px;background:rgba(13,13,15,.72);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);transition:background .35s,box-shadow .35s}
+.nav.scrolled{background:rgba(13,13,15,.94);box-shadow:0 18px 50px -18px #000}
+.nav-logo{font-family:var(--font-d);font-size:26px;letter-spacing:2px;display:flex;align-items:center;gap:2px}.nav-logo .plus{color:var(--red);font-size:22px}.nav-logo small{font-family:var(--font-c);font-size:10px;letter-spacing:4px;color:#858287;margin-left:10px;font-weight:400}
+.nav-links{display:flex;align-items:center;gap:4px;font-size:12px;letter-spacing:2px;font-weight:500}.nav-links a{position:relative;padding:10px 14px;color:#c9c6c0;border-radius:999px;transition:.32s}.nav-links a::after{content:"";position:absolute;left:50%;bottom:4px;width:0;height:2px;border-radius:2px;background:var(--red);box-shadow:0 0 10px var(--red);transition:.32s}.nav-links a:hover,.nav-links a.active{color:#fff;letter-spacing:3px;background:rgba(223,32,41,.12);transform:translateY(-2px);text-shadow:0 0 18px rgba(223,32,41,.8)}.nav-links a:hover::after,.nav-links a.active::after{left:20%;width:60%}
+.nav-icons{display:flex;align-items:center;gap:12px}.nav-icon{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.25);display:grid;place-items:center;transition:.3s}.nav-icon svg{width:17px;height:17px;fill:none;stroke:#fff;stroke-width:2}.nav-icon:hover{border-color:var(--red);background:var(--red);transform:translateY(-2px)}.nav-burger{width:44px;height:44px;display:grid;place-items:center;border-radius:50%;background:#fff;transition:.3s}.nav-burger span{display:block;width:16px;height:2px;margin:2px;background:#111}.nav-burger:hover{background:var(--red)}.nav-burger:hover span{background:#fff}
+
+/* Page hero */
+.page{padding:112px 4vw 110px;position:relative;min-height:100vh;background:radial-gradient(800px 480px at 75% 0%,rgba(223,32,41,.16),transparent 64%),var(--ink)}
+.orb{position:absolute;pointer-events:none;border-radius:50%;border:1px solid rgba(255,255,255,.07)}.orb-a{width:760px;height:760px;top:180px;right:-290px}.orb-b{width:510px;height:510px;top:305px;right:-165px;border-color:rgba(223,32,41,.22);border-style:dashed;animation:orbit 34s linear infinite}@keyframes orbit{to{transform:rotate(360deg)}}
+.shell{width:min(1240px,100%);margin:0 auto;position:relative}.topline{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent)}
+.profile-head{display:grid;grid-template-columns:1fr auto;gap:30px;align-items:end;padding:46px 0 30px}.eyebrow{display:flex;align-items:center;gap:9px;font-size:10px;letter-spacing:3px;color:#c7c2bc}.eyebrow::before{content:"";width:12px;height:12px;border-radius:50%;background:var(--red);box-shadow:0 0 17px var(--red)}
+.profile-title{margin-top:16px;font-family:var(--font-d);font-size:clamp(62px,10vw,128px);line-height:.76;letter-spacing:.02em}.profile-title .outline{color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.9)}
+.identity{display:flex;align-items:center;gap:14px;padding-bottom:6px}.avatar{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#fc8080 0 8%,#d82531 9% 25%,#751015 26% 100%);border:2px solid #f3eee8;box-shadow:0 0 0 5px rgba(223,32,41,.2);font-family:var(--font-d);font-size:26px}.identity b{display:block;letter-spacing:2px;font-size:15px}.identity span{display:block;margin-top:2px;color:var(--fog);font-size:10px;letter-spacing:2px}
+.ticker{position:relative;height:54px;overflow:hidden;background:var(--red);margin:0 calc(50% - 50vw);width:100vw;transform:rotate(-.8deg);box-shadow:0 10px 34px -18px var(--red)}.ticker::before,.ticker::after{content:"";position:absolute;left:0;right:0;height:12px;z-index:2;background-image:radial-gradient(circle at 7px 6px,#0c0c0d 3.5px,transparent 4px);background-size:23px 12px}.ticker::before{top:0}.ticker::after{bottom:0}.ticker-flow{height:100%;display:flex;align-items:center;width:max-content;animation:flow 24s linear infinite}.ticker-flow span{padding:0 30px;font-family:var(--font-d);font-size:19px;letter-spacing:5px;white-space:nowrap}.ticker-flow span::after{content:'✦';padding-left:30px;color:#5c0b0d;font-size:12px}@keyframes flow{to{transform:translateX(-50%)}}
+
+/* Command board */
+.command{display:grid;grid-template-columns:1.36fr .9fr;gap:18px;margin-top:42px}.today-card,.signal-card,.metric-card,.plan-card,.review-card{border:1px solid var(--line);background:linear-gradient(145deg,rgba(27,27,30,.98),rgba(13,13,15,.98));border-radius:20px;position:relative;overflow:hidden}
+.today-card{min-height:388px;padding:30px 32px;background:linear-gradient(125deg,#191316 0%,#151517 48%,#080809 100%)}.today-card::before{content:"";position:absolute;width:560px;height:560px;right:-110px;bottom:-280px;border:1px solid rgba(255,255,255,.11);border-radius:50%}.today-card::after{content:"";position:absolute;width:400px;height:400px;right:-36px;bottom:-197px;border-radius:50%;background:radial-gradient(circle,rgba(223,32,41,.46),rgba(223,32,41,.08) 45%,transparent 68%)}
+.card-label{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;color:#bab6b0;font-size:10px;letter-spacing:3px}.live-tag{display:flex;align-items:center;gap:7px;color:#fff}.live-tag i{width:7px;height:7px;border-radius:50%;background:#5de67a;box-shadow:0 0 10px #5de67a}.today-copy{position:relative;z-index:2;margin-top:28px;max-width:410px}.today-copy h2{font-family:var(--font-d);font-size:clamp(44px,5vw,65px);line-height:.95;letter-spacing:1px}.today-copy h2 b{color:var(--red);font-weight:400}.today-copy p{margin-top:12px;font-size:13px;line-height:1.85;color:#bbb7b1;letter-spacing:.8px}.today-copy p strong{color:#fff}
+.drill-row{position:relative;z-index:2;display:flex;align-items:center;gap:12px;margin-top:23px}.drill-icon{width:42px;height:42px;border:1px solid rgba(255,255,255,.28);border-radius:50%;display:grid;place-items:center}.drill-icon svg{width:22px;height:22px;fill:none;stroke:var(--red);stroke-width:1.7}.drill-row b{display:block;font-size:13px;letter-spacing:1px}.drill-row span{display:block;margin-top:3px;color:#89858a;font-size:10px;letter-spacing:1.6px}
+.start-btn{position:relative;z-index:2;display:inline-flex;align-items:center;gap:13px;margin-top:26px;padding:13px 21px;border-radius:999px;background:var(--red);color:#fff;font-size:12px;letter-spacing:3px;box-shadow:0 14px 34px -11px var(--red);transition:.3s}.start-btn svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2}.start-btn:hover{background:#f1313a;transform:translateY(-4px);box-shadow:0 20px 42px -11px var(--red)}
+.court-lines{position:absolute;z-index:1;right:-22px;bottom:-19px;width:365px;height:245px;opacity:.6}.court-lines .arc,.court-lines .key,.court-lines .lane,.court-lines .dot{position:absolute;border:1px solid rgba(255,255,255,.48)}.court-lines .arc{width:270px;height:270px;border-radius:50%;right:-8px;bottom:-132px}.court-lines .key{width:105px;height:120px;right:78px;bottom:0}.court-lines .lane{width:62px;height:63px;border-radius:0 0 50% 50%;right:100px;bottom:0;border-top:0}.court-lines .dot{width:8px;height:8px;border:0;border-radius:50%;background:var(--red);right:127px;bottom:67px;box-shadow:0 0 15px 4px rgba(223,32,41,.4)}
+.signal-card{padding:25px;min-height:388px;display:flex;flex-direction:column}.signal-number{font-family:var(--font-d);font-size:100px;line-height:.78;margin-top:26px;letter-spacing:1px}.signal-number span{font-size:30px;color:var(--red);margin-left:6px}.signal-title{margin-top:12px;font-size:13px;letter-spacing:2px}.signal-card p{font-size:11px;line-height:1.9;color:#aaa6a0;letter-spacing:1px;margin-top:7px}.streak{position:absolute;right:21px;bottom:24px;width:100px;height:100px;border:1px solid rgba(255,255,255,.25);border-radius:50%;display:grid;place-items:center;text-align:center;background:rgba(0,0,0,.4)}.streak b{font-family:var(--font-d);font-size:29px;display:block;line-height:.8}.streak span{font-size:9px;letter-spacing:2px;color:#aaa6a0}.flames{display:flex;gap:4px;margin-top:auto;padding-bottom:8px}.flames i{font-style:normal;color:var(--red);font-size:15px}.flames i.off{color:#444}
+
+/* Main grid */
+.dashboard{display:grid;grid-template-columns:1.34fr .94fr;gap:18px;margin-top:18px}.dashboard-left,.dashboard-right{display:grid;gap:18px}.metrics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.metric-card{min-height:171px;padding:22px;transition:border-color .35s,transform .35s}.metric-card:hover{border-color:rgba(223,32,41,.72);transform:translateY(-4px)}.metric-card .metric-name{font-size:10px;letter-spacing:2px;color:#a9a59f}.metric-card .metric-value{font-family:var(--font-d);font-size:53px;line-height:1;margin-top:19px}.metric-card .metric-value small{font-family:var(--font-c);font-size:13px;letter-spacing:1px;color:#c5c1ba;margin-left:3px}.metric-card .delta{display:inline-flex;align-items:center;gap:4px;margin-top:9px;font-size:10px;letter-spacing:1.5px;color:#6ce48c}.metric-card .delta.down{color:#ff747a}.metric-card .mini-line{position:absolute;right:16px;bottom:15px;width:72px;height:33px;opacity:.75}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;margin:2px 1px 0}.section-title{font-family:var(--font-d);font-size:28px;letter-spacing:2px}.section-title span{color:var(--red)}.section-sub{font-size:10px;color:#928e89;letter-spacing:2px}.switcher{display:flex;padding:3px;border:1px solid rgba(255,255,255,.15);border-radius:999px}.switcher button{padding:6px 11px;border-radius:999px;background:transparent;color:#aaa6a0;font-size:9px;letter-spacing:1px;transition:.25s}.switcher button.active{background:#fff;color:#111}
+.ability-card{min-height:294px;padding:25px}.ability-body{display:grid;grid-template-columns:200px 1fr;align-items:center;gap:20px;margin-top:3px}.radar{width:190px;height:190px;position:relative;margin:auto}.radar svg{width:100%;height:100%;overflow:visible}.radar-label{font-size:9px;letter-spacing:1px;fill:#aaa6a0}.radar-shape{fill:rgba(223,32,41,.22);stroke:var(--red);stroke-width:2}.radar-dot{fill:#fff}.ability-list{display:grid;gap:13px}.ability-row{display:grid;grid-template-columns:74px 1fr 30px;align-items:center;gap:8px;font-size:10px;letter-spacing:1px}.ability-row label{color:#d6d2cb}.ability-row span{height:5px;background:#2f2f32;border-radius:5px;overflow:hidden}.ability-row i{display:block;height:100%;background:linear-gradient(90deg,#97141a,var(--red));border-radius:5px;box-shadow:0 0 11px rgba(223,32,41,.5)}.ability-row b{font-size:11px;text-align:right;color:#fff}
+.plan-card{padding:25px;min-height:286px}.plan-tabs{display:flex;gap:8px;margin-top:20px;overflow-x:auto;padding-bottom:4px}.plan-tab{flex:0 0 auto;border:1px solid rgba(255,255,255,.17);border-radius:999px;padding:7px 12px;background:transparent;color:#aaa6a0;font-size:10px;letter-spacing:1px;transition:.25s}.plan-tab.selected,.plan-tab:hover{background:var(--red);border-color:var(--red);color:#fff}.plan-focus{display:flex;gap:17px;align-items:center;margin-top:24px}.focus-ring{width:92px;height:92px;flex:0 0 92px;border:7px solid #29292c;border-radius:50%;display:grid;place-items:center;position:relative}.focus-ring::before{content:"";position:absolute;inset:-7px;border-radius:50%;border:7px solid transparent;border-top-color:var(--red);border-right-color:var(--red);transform:rotate(-30deg)}.focus-ring b{font-family:var(--font-d);font-size:30px;line-height:.8}.focus-ring span{font-size:9px;letter-spacing:1px;color:#a8a49f}.focus-copy h3{font-size:16px;letter-spacing:1.5px}.focus-copy p{font-size:11px;line-height:1.8;color:#aaa6a0;letter-spacing:.4px;margin-top:5px}.plan-foot{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--dim);margin-top:19px;padding-top:13px;color:#aaa6a0;font-size:10px;letter-spacing:1px}.text-btn{background:transparent;color:#fff;font-size:10px;letter-spacing:2px;transition:.25s}.text-btn:hover{color:var(--red);transform:translateX(3px)}
+
+/* Review / highlights */
+.review-card{padding:25px;min-height:370px}.review-list{margin-top:18px;display:grid;gap:0}.review-item{width:100%;padding:14px 0;display:grid;grid-template-columns:42px 1fr auto;align-items:center;gap:12px;text-align:left;background:transparent;border-bottom:1px solid var(--dim);transition:.25s}.review-item:last-child{border-bottom:none}.review-item:hover{padding-left:8px}.review-item:hover .review-icon{background:var(--red);border-color:var(--red)}.review-icon{width:37px;height:37px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(255,255,255,.23);transition:.25s}.review-icon svg{width:17px;height:17px;fill:none;stroke:#fff;stroke-width:1.7}.review-item b{display:block;font-size:12px;letter-spacing:1px}.review-item span{display:block;margin-top:4px;color:#8f8b87;font-size:9px;letter-spacing:1px}.review-score{font-family:var(--font-d);font-size:29px;color:#fff}.review-score.hot{color:var(--red)}
+.insight-card{padding:25px;min-height:198px;background:var(--paper);color:#111;border:none}.insight-card .section-title{color:#111}.insight-card .section-sub{color:#6d6964}.insight-content{display:grid;grid-template-columns:auto 1fr;gap:15px;margin-top:24px;align-items:start}.coach-portrait{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#f6b595 0 36%,#201314 37% 48%,#df2029 49% 100%);display:grid;place-items:end;overflow:hidden}.coach-portrait::after{content:'AI';font-family:var(--font-d);font-size:22px;color:#fff;transform:translateY(4px)}.insight-content p{font-size:12px;line-height:1.75;letter-spacing:.5px}.insight-content p b{color:var(--red)}.insight-content button{margin-top:9px;color:var(--red)}
+
+/* Film section */
+.films{margin-top:52px;padding-top:30px;border-top:1px solid rgba(255,255,255,.2)}.films-top{display:flex;align-items:end;justify-content:space-between;gap:20px}.films-title{font-family:var(--font-d);font-size:clamp(38px,5.4vw,68px);line-height:.85;letter-spacing:1px}.films-title .outline{color:transparent;-webkit-text-stroke:1px #fff}.films-top p{max-width:320px;font-size:11px;line-height:1.8;letter-spacing:1px;color:#aaa6a0}.film-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:18px;margin-top:28px}.film{min-height:218px;position:relative;overflow:hidden;background:#171719;border:1px solid var(--line);border-radius:15px;transition:transform .35s,border-color .35s}.film:hover{transform:translateY(-7px);border-color:rgba(223,32,41,.65)}.film-main{min-height:294px;background:radial-gradient(circle at 75% 26%,rgba(223,32,41,.7),transparent 24%),linear-gradient(145deg,#241518,#0c0c0d 62%)}.film-main::before{content:"";position:absolute;right:-37px;bottom:-75px;width:260px;height:360px;border:24px solid rgba(255,255,255,.12);border-radius:130px 130px 20px 20px;transform:rotate(23deg)}.film-main::after{content:"";position:absolute;right:47px;bottom:53px;width:112px;height:112px;border-radius:50%;border:2px solid #d4585c;box-shadow:inset 0 0 0 20px rgba(223,32,41,.2)}.film:nth-child(2){background:linear-gradient(150deg,#202024,#0c0c0d)}.film:nth-child(2)::before{content:"";position:absolute;left:50%;top:42%;width:110px;height:145px;border:2px solid rgba(255,255,255,.5);border-bottom:0;transform:translate(-50%,-50%)}.film:nth-child(2)::after{content:"";position:absolute;left:50%;top:36%;width:105px;height:105px;border:2px solid rgba(223,32,41,.8);border-radius:50%;transform:translate(-50%,-50%)}.film:nth-child(3){background:linear-gradient(145deg,#231718,#0b0b0c)}.film:nth-child(3)::before{content:"";position:absolute;width:220px;height:220px;border:1px solid rgba(255,255,255,.19);border-radius:50%;right:-68px;top:-76px}.film:nth-child(3)::after{content:"";position:absolute;width:126px;height:126px;border:18px solid var(--red);border-radius:50%;left:42px;top:38px;box-shadow:0 0 44px -10px var(--red)}.film-info{position:absolute;left:18px;right:18px;bottom:16px;z-index:3}.film-info span{font-size:9px;letter-spacing:2px;color:#bbb7b1}.film-info h3{font-family:var(--font-d);font-size:25px;letter-spacing:1px;margin-top:4px}.play{position:absolute;right:17px;top:17px;width:37px;height:37px;border-radius:50%;border:1px solid rgba(255,255,255,.5);display:grid;place-items:center;transition:.25s}.play svg{width:15px;height:15px;fill:#fff;stroke:none}.film:hover .play{background:var(--red);border-color:var(--red);transform:scale(1.1)}.film-meta{position:absolute;left:18px;top:17px;display:flex;align-items:center;gap:7px;font-size:9px;letter-spacing:1.4px}.film-meta i{width:6px;height:6px;background:var(--red);border-radius:50%}
+
+/* Modal and toast */
+.modal-layer{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:22px;background:rgba(0,0,0,.76);backdrop-filter:blur(8px);opacity:0;visibility:hidden;transition:.25s}.modal-layer.open{opacity:1;visibility:visible}.modal{width:min(560px,100%);position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.18);border-radius:24px;padding:30px;background:#151517;transform:translateY(20px) scale(.98);transition:.3s}.modal-layer.open .modal{transform:translateY(0) scale(1)}.modal::before{content:"";position:absolute;width:400px;height:400px;right:-180px;top:-280px;border:1px solid rgba(223,32,41,.45);border-radius:50%}.modal-close{position:absolute;z-index:2;right:18px;top:18px;width:34px;height:34px;border:1px solid rgba(255,255,255,.25);border-radius:50%;background:transparent;font-size:20px;color:#fff;transition:.2s}.modal-close:hover{background:var(--red);border-color:var(--red)}.modal-kicker{position:relative;font-size:10px;letter-spacing:3px;color:#a9a59f}.modal h2{position:relative;margin-top:14px;font-family:var(--font-d);font-size:48px;letter-spacing:1px}.session-drill{position:relative;display:flex;align-items:center;gap:14px;margin-top:24px;padding:15px;border:1px solid var(--line);border-radius:14px;background:#101011}.session-drill .drill-icon{flex:0 0 42px}.session-drill b{font-size:13px;letter-spacing:1px}.session-drill span{display:block;margin-top:4px;color:#99958f;font-size:10px;letter-spacing:1.3px}.timer{position:relative;margin:25px 0 5px;text-align:center;font-family:var(--font-d);font-size:80px;line-height:1;letter-spacing:2px}.timer small{font-family:var(--font-c);display:block;margin-top:8px;color:#aaa6a0;font-size:10px;letter-spacing:3px}.session-progress{position:relative;height:5px;border-radius:8px;background:#2d2d30;overflow:hidden}.session-progress i{display:block;width:0;height:100%;background:var(--red);box-shadow:0 0 12px var(--red);transition:width .5s}.session-actions{position:relative;display:flex;gap:10px;justify-content:center;margin-top:26px}.session-actions button{padding:12px 18px;border:1px solid rgba(255,255,255,.3);border-radius:999px;background:transparent;color:#fff;font-size:11px;letter-spacing:2px;transition:.25s}.session-actions .primary{background:var(--red);border-color:var(--red)}.session-actions button:hover{transform:translateY(-3px);border-color:var(--red)}
+.toast{position:fixed;z-index:1100;left:50%;bottom:25px;transform:translate(-50%,100px);display:flex;align-items:center;gap:9px;padding:12px 18px;border:1px solid rgba(255,255,255,.16);border-radius:999px;background:#19191b;color:#fff;font-size:11px;letter-spacing:1.3px;box-shadow:0 16px 35px -16px #000;transition:.35s}.toast.show{transform:translate(-50%,0)}.toast i{width:8px;height:8px;border-radius:50%;background:#64e582;box-shadow:0 0 9px #64e582}
+
+@media(max-width:960px){.nav-links{display:none}.command,.dashboard{grid-template-columns:1fr}.command{margin-top:30px}.signal-card{min-height:245px}.streak{right:34px}.dashboard-right{grid-template-columns:1fr 1fr}.profile-head{padding-top:35px}.film-grid{grid-template-columns:1fr 1fr}.film-main{grid-column:span 2}.film-main{min-height:250px}}
+@media(max-width:630px){body{cursor:auto}.cursor-dot,.cursor-ring{display:none}.page{padding:103px 16px 70px}.nav{top:10px;width:calc(100% - 24px);height:58px;padding:0 17px}.nav-logo{font-size:23px}.nav-logo small,.nav-icon{display:none}.nav-icons{gap:5px}.profile-head{grid-template-columns:1fr;gap:23px;padding-bottom:24px}.profile-title{font-size:68px}.identity{padding:0}.today-card{padding:23px;min-height:390px}.signal-card{min-height:230px}.metrics-grid{grid-template-columns:1fr 1fr;gap:10px}.metric-card{padding:17px;min-height:150px}.metric-card:last-child{grid-column:span 2}.metric-card .metric-value{font-size:44px}.ability-body{grid-template-columns:1fr;gap:6px}.ability-list{padding:0 3px}.dashboard-right{grid-template-columns:1fr}.film-grid{grid-template-columns:1fr}.film-main{grid-column:auto}.film,.film-main{min-height:205px}.films-top{display:block}.films-top p{margin-top:18px}.ticker{height:48px}.ticker-flow span{font-size:16px}.modal{padding:25px 20px}.timer{font-size:65px}.court-lines{right:-100px}.orb-a{right:-460px}.orb-b{right:-360px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="cursor-dot"></div><div class="cursor-ring"></div>
+
+<nav class="nav" id="nav">
+  <a class="nav-logo" href="index.html">篮训<span class="plus">✚</span>BOT<small>INS ROBOT LAB</small></a>
+  <div class="nav-links">
+    <a href="index.html#top">健康体态</a><a href="index.html#trainers">明星教练</a><a href="index.html#program">训练体系</a><a class="active" href="profile.html">个人中心</a><a href="index.html#gallery">数据监测</a><a href="opensource.html">开源介绍</a>
+  </div>
+  <div class="nav-icons">
+    <a class="nav-icon interactive" href="#highlights" aria-label="查看训练高光"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></a>
+    <a class="nav-icon interactive" href="#player-data" aria-label="查看球员档案"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></a>
+    <button class="nav-burger interactive" aria-label="菜单"><span></span><span></span></button>
+  </div>
+</nav>
+
+<main class="page">
+  <div class="orb orb-a"></div><div class="orb orb-b"></div>
+  <div class="shell">
+    <div class="topline"></div>
+    <header class="profile-head" id="player-data">
+      <div>
+        <div class="eyebrow">PLAYER FILE · 2026 SEASON</div>
+        <h1 class="profile-title">把今天<br><span class="outline">练成高光</span></h1>
+      </div>
+      <div class="identity">
+        <div class="avatar">L</div>
+        <div><b>林野 / LEO</b><span>SG · 上海 · LEVEL 07</span></div>
+      </div>
+    </header>
+  </div>
+
+  <div class="ticker" aria-hidden="true"><div class="ticker-flow" id="tickerFlow"><span>今天的训练，正在塑造下一次出手</span><span>7 DAY STREAK</span><span>动作优先于重量</span><span>SHOT BY SHOT</span><span>今天的训练，正在塑造下一次出手</span><span>7 DAY STREAK</span><span>动作优先于重量</span><span>SHOT BY SHOT</span></div></div>
+
+  <div class="shell">
+    <section class="command" aria-label="今日训练">
+      <article class="today-card">
+        <div class="card-label"><span>01 / TODAY'S MISSION</span><span class="live-tag"><i></i>READY TO TRAIN</span></div>
+        <div class="today-copy">
+          <h2>右侧突破<br><b>·</b> 急停跳投</h2>
+          <p>今天不追求更多次数。<strong>把重心压低 4cm，右手收球更早半拍。</strong>AI 会盯住这两个细节。</p>
+        </div>
+        <div class="drill-row"><div class="drill-icon"><svg viewBox="0 0 24 24"><path d="M6 20V9m0 0 4-4 4 4m-8 0h8M16 20v-7m0 0 3-3 2 2"/><circle cx="5" cy="21" r="1.5"/></svg></div><div><b>强侧变向 · 基础动作组</b><span>12 MIN · 3 SETS · AI 全程捕捉</span></div></div>
+        <button class="start-btn interactive" id="startSession">开始今天的训练 <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        <div class="court-lines" aria-hidden="true"><i class="arc"></i><i class="key"></i><i class="lane"></i><i class="dot"></i></div>
+      </article>
+      <aside class="signal-card">
+        <div class="card-label"><span>连续训练</span><span>WEEK 21</span></div>
+        <div class="signal-number" id="streakNumber">07<span>天</span></div>
+        <div class="signal-title">节奏正在形成</div>
+        <p>过去 7 天，你在球场待了 4 小时 25 分。比上周更稳定，不必更拼。</p>
+        <div class="flames" id="flames" aria-label="本周训练日"><i>●</i><i>●</i><i>●</i><i>●</i><i>●</i><i>●</i><i>●</i></div>
+        <div class="streak"><div><b>4/5</b><span>WEEKLY GOAL</span></div></div>
+      </aside>
+    </section>
+
+    <section class="dashboard" aria-label="球员数据仪表盘">
+      <div class="dashboard-left">
+        <div class="metrics-grid">
+          <article class="metric-card"><div class="metric-name">身体体重 / WEIGHT</div><div class="metric-value" id="weightValue">67.4<small>KG</small></div><div class="delta">↑ 0.3 · 近 7 天</div><svg class="mini-line" viewBox="0 0 72 33"><path d="M1 27 13 25 23 28 34 17 44 19 56 9 71 6" fill="none" stroke="#df2029" stroke-width="2"/><path d="M1 32 1 27 13 25 23 28 34 17 44 19 56 9 71 6 71 32Z" fill="rgba(223,32,41,.15)"/></svg></article>
+          <article class="metric-card"><div class="metric-name">静息心率 / RHR</div><div class="metric-value" id="heartValue">54<small>BPM</small></div><div class="delta">↓ 3 · 优于上周</div><svg class="mini-line" viewBox="0 0 72 33"><path d="M1 9 13 14 23 11 34 22 44 16 56 24 71 27" fill="none" stroke="#df2029" stroke-width="2"/><path d="M1 32 1 9 13 14 23 11 34 22 44 16 56 24 71 27 71 32Z" fill="rgba(223,32,41,.15)"/></svg></article>
+          <article class="metric-card"><div class="metric-name">睡眠质量 / SLEEP</div><div class="metric-value" id="sleepValue">86<small>PTS</small></div><div class="delta">↑ 6 · 已恢复</div><svg class="mini-line" viewBox="0 0 72 33"><path d="M1 23 13 20 23 22 34 11 44 15 56 7 71 9" fill="none" stroke="#df2029" stroke-width="2"/><path d="M1 32 1 23 13 20 23 22 34 11 44 15 56 7 71 9 71 32Z" fill="rgba(223,32,41,.15)"/></svg></article>
+        </div>
+
+        <article class="ability-card">
+          <div class="section-head"><h2 class="section-title">能力 <span>雷达</span></h2><div class="switcher"><button class="ability-switch active" data-mode="court">球场</button><button class="ability-switch" data-mode="body">身体</button></div></div>
+          <div class="ability-body">
+            <div class="radar"><svg viewBox="0 0 200 200" aria-label="篮球能力雷达图"><g fill="none" stroke="rgba(255,255,255,.14)"><polygon points="100,14 182,73 151,169 49,169 18,73"/><polygon points="100,32 165,79 140,154 60,154 35,79"/><polygon points="100,50 148,85 129,139 71,139 52,85"/><path d="M100 14v155M18 73l133 96M182 73 49 169"/></g><polygon class="radar-shape" id="radarShape" points="100,38 153,77 125,144 59,139 45,79"/><g id="radarDots"><circle class="radar-dot" cx="100" cy="38" r="3"/><circle class="radar-dot" cx="153" cy="77" r="3"/><circle class="radar-dot" cx="125" cy="144" r="3"/><circle class="radar-dot" cx="59" cy="139" r="3"/><circle class="radar-dot" cx="45" cy="79" r="3"/></g><text class="radar-label" x="91" y="9">投射</text><text class="radar-label" x="177" y="70">突破</text><text class="radar-label" x="137" y="183">对抗</text><text class="radar-label" x="25" y="183">防守</text><text class="radar-label" x="2" y="70">控球</text></svg></div>
+            <div class="ability-list" id="abilityList">
+              <div class="ability-row"><label>投篮稳定</label><span><i style="width:78%"></i></span><b>78</b></div><div class="ability-row"><label>突破节奏</label><span><i style="width:72%"></i></span><b>72</b></div><div class="ability-row"><label>终结对抗</label><span><i style="width:61%"></i></span><b>61</b></div><div class="ability-row"><label>横移防守</label><span><i style="width:70%"></i></span><b>70</b></div><div class="ability-row"><label>控球手感</label><span><i style="width:85%"></i></span><b>85</b></div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="dashboard-right">
+        <article class="plan-card">
+          <div class="section-head"><h2 class="section-title">本周 <span>计划</span></h2><span class="section-sub">4 / 5 完成</span></div>
+          <div class="plan-tabs" id="planTabs"><button class="plan-tab selected" data-plan="控球节奏">控球节奏</button><button class="plan-tab" data-plan="库里投篮">库里投篮</button><button class="plan-tab" data-plan="终结对抗">终结对抗</button></div>
+          <div class="plan-focus"><div class="focus-ring"><div><b id="planPercent">68</b><span>% 完成</span></div></div><div class="focus-copy"><h3 id="planName">控球节奏 · 第 3 周</h3><p id="planDesc">两次低重心变向，找回第一步的爆发感。</p></div></div>
+          <div class="plan-foot"><span id="planFoot">下一节：低运球触地 10 × 3</span><button class="text-btn interactive" id="activatePlan">设为今日计划 →</button></div>
+        </article>
+
+        <article class="review-card">
+          <div class="section-head"><h2 class="section-title">动作 <span>回看</span></h2><span class="section-sub">LATEST 03</span></div>
+          <div class="review-list">
+            <button class="review-item interactive" data-report="突破启动时，你的非运球手抬得太早，建议第一步蹬地后再收球。"><span class="review-icon"><svg viewBox="0 0 24 24"><path d="M6 20V9m0 0 4-4 4 4m-8 0h8M16 20v-7m0 0 3-3 2 2"/></svg></span><span><b>右侧突破 · 启动帧</b><span>昨天 · 重心偏高 3.8 CM</span></span><strong class="review-score hot">82</strong></button>
+            <button class="review-item interactive" data-report="出手肘角度稳定在 92°，已经接近你的最佳区间，下一次保持下肢发力。"><span class="review-icon"><svg viewBox="0 0 24 24"><path d="m12 4 7 8-7 8-7-8zM5 12h14"/></svg></span><span><b>定点投篮 · 出手帧</b><span>周三 · 肘角度 92°</span></span><strong class="review-score">91</strong></button>
+            <button class="review-item interactive" data-report="横移最后一步落点偏窄，建议加大前后脚距 6cm，落地更稳。"><span class="review-icon"><svg viewBox="0 0 24 24"><path d="M5 18c3-2 4-10 7-10s4 8 7 10M5 18h14"/></svg></span><span><b>横移滑步 · 终止帧</b><span>周二 · 步幅待优化</span></span><strong class="review-score">76</strong></button>
+          </div>
+        </article>
+
+        <article class="insight-card">
+          <div class="section-head"><h2 class="section-title">AI 的一句话</h2><span class="section-sub">COACH BOT</span></div>
+          <div class="insight-content"><div class="coach-portrait"></div><div><p>你现在的<strong>控球稳定性已够用</strong>，这一周把训练时间多给启动与急停，突破会更有杀伤力。</p><button class="text-btn interactive" id="showInsight">查看训练建议 →</button></div></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="films" id="highlights">
+      <div class="films-top"><h2 class="films-title">我的 <span class="outline">训练胶片</span></h2><p>不是打卡的素材库。把每一次更标准的动作、每一个值得复盘的回合留在这里。</p></div>
+      <div class="film-grid">
+        <button class="film film-main interactive" data-film="右侧突破 · 急停跳投"><span class="film-meta"><i></i>10.24 · AI CAPTURE</span><span class="play"><svg viewBox="0 0 24 24"><path d="m8 5 11 7-11 7z"/></svg></span><span class="film-info"><span>今日挑战 / 预计 12 分钟</span><h3>右侧突破 · 急停跳投</h3></span></button>
+        <button class="film interactive" data-film="弧顶 50 球 · 命中 39"><span class="film-meta"><i></i>10.22 · SHOOTING</span><span class="play"><svg viewBox="0 0 24 24"><path d="m8 5 11 7-11 7z"/></svg></span><span class="film-info"><span>命中率 78% · 比上次 +8%</span><h3>弧顶 50 球</h3></span></button>
+        <button class="film interactive" data-film="低运球节奏 · 反应测试"><span class="film-meta"><i></i>10.20 · DRIBBLE</span><span class="play"><svg viewBox="0 0 24 24"><path d="m8 5 11 7-11 7z"/></svg></span><span class="film-info"><span>12 组 · 最快 0.47 秒</span><h3>低运球节奏</h3></span></button>
+      </div>
+    </section>
+  </div>
+</main>
+
+<div class="modal-layer" id="sessionModal" aria-hidden="true">
+  <section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button class="modal-close interactive" id="closeModal" aria-label="关闭">×</button>
+    <div class="modal-kicker">LIVE SESSION / AI MOTION CAPTURE</div><h2 id="modalTitle">准备上场</h2>
+    <div class="session-drill"><div class="drill-icon"><svg viewBox="0 0 24 24"><path d="M6 20V9m0 0 4-4 4 4m-8 0h8M16 20v-7m0 0 3-3 2 2"/><circle cx="5" cy="21" r="1.5"/></svg></div><div><b id="sessionDrill">强侧变向 · 基础动作组</b><span>相机对准全身，保持 2 米距离</span></div></div>
+    <div class="timer" id="timer">00:00<small id="timerHint">按下开始后，训练会记录在个人档案</small></div><div class="session-progress"><i id="sessionProgress"></i></div>
+    <div class="session-actions"><button class="primary interactive" id="toggleSession">开始训练</button><button class="interactive" id="finishSession">完成并保存</button></div>
+  </section>
+</div>
+<div class="toast" id="toast"><i></i><span id="toastText">已更新</span></div>
+
+<script>
+const $ = (selector, root = document) => root.querySelector(selector);
+const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+
+const cursorDot = $('.cursor-dot');
+const cursorRing = $('.cursor-ring');
+let pointerX = innerWidth / 2, pointerY = innerHeight / 2, ringX = pointerX, ringY = pointerY;
+addEventListener('mousemove', event => { pointerX = event.clientX; pointerY = event.clientY; cursorDot.style.left = pointerX + 'px'; cursorDot.style.top = pointerY + 'px'; });
+(function followPointer(){ ringX += (pointerX - ringX) * .14; ringY += (pointerY - ringY) * .14; cursorRing.style.left = ringX + 'px'; cursorRing.style.top = ringY + 'px'; requestAnimationFrame(followPointer); })();
+$$('a,button,.interactive').forEach(element => { element.addEventListener('mouseenter', () => cursorRing.classList.add('hovering')); element.addEventListener('mouseleave', () => cursorRing.classList.remove('hovering')); });
+
+const nav = $('#nav');
+addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 35), {passive:true});
+
+const toast = $('#toast');
+let toastTimeout;
+function showToast(message){ $('#toastText').textContent = message; toast.classList.add('show'); clearTimeout(toastTimeout); toastTimeout = setTimeout(() => toast.classList.remove('show'), 2600); }
+
+const plans = {
+  '控球节奏': {percent:68, title:'控球节奏 · 第 3 周', desc:'两次低重心变向，找回第一步的爆发感。', foot:'下一节：低运球触地 10 × 3'},
+  '库里投篮': {percent:45, title:'库里投篮 · 第 1 周', desc:'从脚尖到指尖，把能量送进同一条线。', foot:'下一节：弧顶 one motion 20 × 3'},
+  '终结对抗': {percent:82, title:'终结对抗 · 第 2 周', desc:'在身体接触后，仍然把眼睛留在篮筐。', foot:'下一节：护球上篮 8 × 4'}
+};
+let activePlan = '控球节奏';
+$('#planTabs').addEventListener('click', event => {
+  const tab = event.target.closest('.plan-tab'); if (!tab) return;
+  activePlan = tab.dataset.plan;
+  $$('.plan-tab').forEach(item => item.classList.toggle('selected', item === tab));
+  const plan = plans[activePlan]; $('#planPercent').textContent = plan.percent; $('#planName').textContent = plan.title; $('#planDesc').textContent = plan.desc; $('#planFoot').textContent = plan.foot;
+  showToast('已预览「' + activePlan + '」训练计划');
+});
+$('#activatePlan').addEventListener('click', () => {
+  const plan = plans[activePlan];
+  $('.today-copy h2').innerHTML = activePlan === '库里投篮' ? '弧顶接球<br><b>·</b> 一段式投篮' : activePlan === '终结对抗' ? '护球上篮<br><b>·</b> 对抗终结' : '右侧突破<br><b>·</b> 急停跳投';
+  $('.drill-row b').textContent = activePlan + ' · 今日动作组';
+  $('.drill-row span').textContent = plan.foot.replace('下一节：','') + ' · AI 全程捕捉';
+  $('#sessionDrill').textContent = activePlan + ' · 今日动作组';
+  showToast('「' + activePlan + '」已设为今日训练');
+});
+
+const courtData = {
+  points:'100,38 153,77 125,144 59,139 45,79',
+  labels:[['投篮稳定',78],['突破节奏',72],['终结对抗',61],['横移防守',70],['控球手感',85]]
+};
+const bodyData = {
+  points:'100,28 142,89 116,128 76,150 52,86',
+  labels:[['爆发力量',86],['下肢耐力',74],['身体恢复',82],['核心稳定',68],['灵活性',77]]
+};
+$$('.ability-switch').forEach(button => button.addEventListener('click', () => {
+  $$('.ability-switch').forEach(item => item.classList.toggle('active', item === button));
+  const data = button.dataset.mode === 'court' ? courtData : bodyData;
+  $('#radarShape').setAttribute('points', data.points);
+  $('#abilityList').innerHTML = data.labels.map(([label, value]) => '<div class="ability-row"><label>' + label + '</label><span><i style="width:' + value + '%"></i></span><b>' + value + '</b></div>').join('');
+  showToast(button.dataset.mode === 'court' ? '切换至球场能力' : '切换至身体能力');
+}));
+
+const sessionModal = $('#sessionModal');
+const timer = $('#timer');
+const timerHint = $('#timerHint');
+const progress = $('#sessionProgress');
+const toggleSession = $('#toggleSession');
+let sessionSeconds = 0, sessionTimer = null, sessionRunning = false;
+function renderTimer(){ const min = Math.floor(sessionSeconds / 60).toString().padStart(2,'0'); const sec = (sessionSeconds % 60).toString().padStart(2,'0'); timer.firstChild.textContent = min + ':' + sec; progress.style.width = Math.min(sessionSeconds / 720 * 100, 100) + '%'; }
+function openSession(){ sessionModal.classList.add('open'); sessionModal.setAttribute('aria-hidden','false'); }
+function closeSession(){ if (sessionRunning) { clearInterval(sessionTimer); sessionRunning = false; } sessionModal.classList.remove('open'); sessionModal.setAttribute('aria-hidden','true'); toggleSession.textContent = '继续训练'; }
+$('#startSession').addEventListener('click', openSession);
+$('#closeModal').addEventListener('click', closeSession);
+sessionModal.addEventListener('click', event => { if (event.target === sessionModal) closeSession(); });
+toggleSession.addEventListener('click', () => {
+  sessionRunning = !sessionRunning;
+  if (sessionRunning) { sessionTimer = setInterval(() => { sessionSeconds++; renderTimer(); }, 1000); toggleSession.textContent = '暂停训练'; timerHint.textContent = '动作捕捉已开启 · 保持在画面中'; showToast('训练记录已开始'); }
+  else { clearInterval(sessionTimer); toggleSession.textContent = '继续训练'; timerHint.textContent = '已暂停 · 点击继续保持记录'; }
+});
+$('#finishSession').addEventListener('click', () => {
+  const completed = Math.max(sessionSeconds, 1); localStorage.setItem('basketbot-last-session', completed); clearInterval(sessionTimer); sessionRunning = false; $('#streakNumber').innerHTML = '08<span>天</span>'; $('#flames').lastElementChild.classList.remove('off'); closeSession(); showToast('训练已存档 · 连续训练 +1 天');
+});
+const previousSession = Number(localStorage.getItem('basketbot-last-session'));
+if (previousSession) { $('.live-tag').innerHTML = '<i></i>LAST SESSION SAVED'; }
+
+$$('.review-item').forEach(item => item.addEventListener('click', () => { showToast(item.dataset.report); }));
+$$('[data-film]').forEach(item => item.addEventListener('click', () => { showToast('已打开「' + item.dataset.film + '」训练胶片'); }));
+$('#showInsight').addEventListener('click', () => { showToast('建议已加入今日训练：先做 3 组低重心启动'); });
+
+addEventListener('keydown', event => { if (event.key === 'Escape' && sessionModal.classList.contains('open')) closeSession(); });
+</script>
+</body>
+</html>
