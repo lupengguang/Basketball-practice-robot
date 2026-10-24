@@ -106,6 +106,9 @@ a{color:inherit;text-decoration:none}
 .hero-cast div:nth-child(3){text-align:right;padding-right:2vw}
 .hero-cast div:nth-child(4){text-align:right}
 .hero-cast small{display:block;font-family:var(--font-c);font-size:10px;letter-spacing:3px;color:var(--grey);margin-top:4px;font-weight:400}
+.cast-ava{width:64px;height:64px;border-radius:50%;object-fit:cover;display:block;margin:0 0 12px;border:1px solid rgba(255,255,255,.16);filter:grayscale(.55) brightness(.85);box-shadow:0 12px 28px -12px rgba(0,0,0,.8);transition:filter .5s,transform .5s cubic-bezier(.34,1.56,.64,1),border-color .5s,box-shadow .5s}
+.hero-cast div:nth-child(3) .cast-ava,.hero-cast div:nth-child(4) .cast-ava{margin-left:auto}
+.hero-cast div:hover .cast-ava{filter:grayscale(0) brightness(1.05);transform:scale(1.12) rotate(-3deg);border-color:var(--red);box-shadow:0 16px 40px -12px var(--red)}
 .hero-title{
   position:absolute;left:50%;bottom:4%;transform:translateX(-50%);
   z-index:2;width:100%;text-align:center;pointer-events:none;
@@ -363,10 +366,10 @@ a{color:inherit;text-decoration:none}
     <div class="hero-roman"><i></i><i></i><i></i></div>
 
     <div class="hero-cast" id="trainers">
-      <div>王锐 RAY<small>总教练 · 前CBA后卫</small></div>
-      <div>陈曦 LEO<small>机器人工程师</small></div>
-      <div>林悦 SUE<small>体能训练师</small></div>
-      <div>赵衡 KEN<small>数据分析师</small></div>
+      <div><img class="cast-ava" loading="lazy" alt="王锐" src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=stylized%20sports%20poster%20illustration%20portrait%20of%20chinese%20male%20basketball%20head%20coach%20in%20his%2040s%20former%20pro%20point%20guard%20arms%20crossed%20whistle%20around%20neck%20dark%20background%20dramatic%20red%20rim%20light%20high%20contrast%20digital%20art&image_size=square">王锐 RAY<small>总教练 · 前CBA后卫</small></div>
+      <div><img class="cast-ava" loading="lazy" alt="陈曦" src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=stylized%20sports%20poster%20illustration%20portrait%20of%20young%20chinese%20male%20robotics%20engineer%20glasses%20holding%20tablet%20glowing%20circuit%20hologram%20dark%20background%20dramatic%20red%20rim%20light%20high%20contrast%20digital%20art&image_size=square">陈曦 LEO<small>机器人工程师</small></div>
+      <div><img class="cast-ava" loading="lazy" alt="林悦" src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=stylized%20sports%20poster%20illustration%20portrait%20of%20chinese%20female%20strength%20conditioning%20trainer%20athletic%20ponytail%20tracksuit%20confident%20dark%20background%20dramatic%20red%20rim%20light%20high%20contrast%20digital%20art&image_size=square">林悦 SUE<small>体能训练师</small></div>
+      <div><img class="cast-ava" loading="lazy" alt="赵衡" src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=stylized%20sports%20poster%20illustration%20portrait%20of%20chinese%20male%20data%20analyst%20with%20laptop%20floating%20holographic%20basketball%20stats%20charts%20dark%20background%20dramatic%20red%20rim%20light%20high%20contrast%20digital%20art&image_size=square">赵衡 KEN<small>数据分析师</small></div>
     </div>
 
     <h1 class="hero-title" id="heroTitle"><span id="tA">灌篮</span><span class="stroke" id="tB">机器</span></h1>
