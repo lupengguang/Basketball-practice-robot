@@ -96,6 +96,9 @@ a{color:inherit;text-decoration:none}
 .star:hover p{color:#e8e6e1}
 .star-bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(var(--red),transparent);transform:scaleY(0);transform-origin:top;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
 .star:hover .star-bar{transform:scaleY(1)}
+/* 球星头像 */
+.star-ava{width:74px;height:74px;border-radius:18px;object-fit:cover;display:block;margin-bottom:16px;border:1px solid rgba(255,255,255,.16);filter:grayscale(.55) brightness(.85);box-shadow:0 12px 28px -12px rgba(0,0,0,.8);transition:filter .5s,transform .5s cubic-bezier(.34,1.56,.64,1),border-color .5s,box-shadow .5s;position:relative;z-index:1}
+.star:hover .star-ava{filter:grayscale(0) brightness(1.05);transform:scale(1.12) rotate(-3deg);border-color:var(--red);box-shadow:0 16px 40px -12px var(--red)}
 
 /* 返回悬浮 */
 .back-bar{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:800}
@@ -221,6 +224,45 @@ const nav=document.getElementById('nav');
 addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40),{passive:true});
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.1});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ---------- 球星头像注入(AI 生成 · 红色侧光运动海报插画风) ---------- */
+const ST='stylized%20sports%20poster%20illustration%20portrait%20of%20basketball%20player%20';
+const EN='%20dark%20background%20dramatic%20red%20rim%20light%20high%20contrast%20digital%20art';
+const IMG=p=>`https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=${p}${EN}&image_size=square`;
+const AV={
+'迈克尔·乔丹':IMG(ST+'bald%20legend%20jersey%20number%2023%20red%20jersey%20tongue%20out%20jumpman%20pose'),
+'勒布朗·詹姆斯':IMG(ST+'powerful%20forward%20beard%20headband%20jersey%20number%2023%20chalk%20toss'),
+'卡里姆·阿卜杜尔-贾巴尔':IMG(ST+'tall%20center%20goggles%20skyhook%20pose%20jersey%20number%2033'),
+'"魔术师"约翰逊':IMG(ST+'smiling%20point%20guard%20jersey%20number%2032%20no%20look%20pass'),
+'比尔·拉塞尔':IMG(ST+'defensive%20center%20jersey%20number%206%20championship%20rings'),
+'威尔特·张伯伦':IMG(ST+'dominant%20big%20man%20jersey%20number%2013%20dunking'),
+'拉里·伯德':IMG(ST+'forward%20mustache%20jersey%20number%2033%20shooting%20form'),
+'沙奎尔·奥尼尔':IMG(ST+'massive%20center%20jersey%20number%2034%20rim%20breaking%20dunk'),
+'蒂姆·邓肯':IMG(ST+'fundamental%20power%20forward%20jersey%20number%2021%20bank%20shot'),
+'科比·布莱恩特':IMG(ST+'mamba%20mentality%20jersey%20number%2024%20fadeaway%20jumper'),
+'尼古拉·约基奇':IMG(ST+'serbian%20center%20jersey%20number%2015%20behind%20head%20pass'),
+'卢卡·东契奇':IMG(ST+'slovenian%20guard%20jersey%20number%2077%20step%20back%20three'),
+'扬尼斯·阿德托昆博':IMG(ST+'greek%20freak%20long%20arms%20jersey%20number%2034%20euro%20step%20dunk'),
+'斯蒂芬·库里':IMG(ST+'chef%20jersey%20number%2030%20deep%20three%20pointer%20night%20celebration'),
+'谢伊·吉尔杰斯-亚历山大':IMG(ST+'smooth%20guard%20jersey%20number%202%20midrange%20pull%20up'),
+'维克托·文班亚马':IMG(ST+'extremely%20tall%20thin%20rookie%20jersey%20number%201%20block%20shot'),
+'科怀·伦纳德':IMG(ST+'stoic%20forward%20braids%20jersey%20number%202%20claw%20defense'),
+'安东尼·爱德华兹':IMG(ST+'explosive%20young%20guard%20jersey%20number%205%20poster%20dunk'),
+'乔尔·恩比德':IMG(ST+'dominant%20cameroonian%20center%20jersey%20number%2021%20face%20up%20jumper'),
+'姚明':IMG(ST+'chinese%20giant%20center%20jersey%20number%2011%20hook%20shot'),
+'易建联':IMG(ST+'chinese%20power%20forward%20jersey%20number%209%20midrange%20jumper'),
+'王治郅':IMG(ST+'chinese%20pioneer%20center%20jersey%20number%2014%20fadeaway'),
+'刘玉栋 · 胡卫东等':IMG(ST+'two%20chinese%20legends%20golden%20generation%20duo%20silhouette'),
+'郭艾伦':IMG(ST+'chinese%20flashy%20point%20guard%20jersey%20number%2013%20crossover'),
+'阿贾·威尔逊':IMG(ST+'female%20dominant%20big%20jersey%20number%2022%20post%20move'),
+'凯特琳·克拉克':IMG(ST+'female%20sharpshooter%20jersey%20number%2022%20logo%20three%20pointer'),
+'布里安娜·斯图尔特':IMG(ST+'female%20forward%20jersey%20number%2030%20championship%20pose'),
+'佩奇·布克斯':IMG(ST+'female%20young%20star%20guard%20jersey%20number%205%20layup')
+};
+document.querySelectorAll('.star').forEach(s=>{
+  const h=s.querySelector('h3');const url=AV[h.textContent.trim()];
+  if(url){const img=document.createElement('img');img.className='star-ava';img.loading='lazy';img.alt=h.textContent.trim();img.src=url;s.insertBefore(img,s.querySelector('.star-tag'));}
+});
 /* 磁吸 */
 document.querySelectorAll('.magnetic').forEach(btn=>{
   btn.addEventListener('mousemove',e=>{const r=btn.getBoundingClientRect();btn.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.28}px,${(e.clientY-r.top-r.height/2)*.28}px)`;});
