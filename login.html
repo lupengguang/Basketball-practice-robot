@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>登录 · 篮训BOT | INS篮球机器人训练营</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Bebas+Neue&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#d91f26;--red-deep:#a01218;
+  --ink:#0b0b0c;--ink-2:#141416;--paper:#f3f0ea;--grey:#8b8b8e;
+  --font-d:'Bebas Neue','Noto Sans SC',sans-serif;
+  --font-c:'Oswald','Noto Sans SC',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:#fff;font-family:var(--font-c);overflow-x:hidden;cursor:none;min-height:100vh}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--red);color:#fff}
+
+/* 光标 */
+.cursor-dot,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;border-radius:50%;transform:translate(-50%,-50%)}
+.cursor-dot{width:8px;height:8px;background:var(--red)}
+.cursor-ring{width:36px;height:36px;border:1.5px solid rgba(217,31,38,.65);transition:width .25s,height .25s,border-color .25s,background .25s}
+.cursor-ring.hovering{width:64px;height:64px;background:rgba(217,31,38,.12);border-color:var(--red)}
+@media (hover:none){.cursor-dot,.cursor-ring{display:none}body{cursor:auto}}
+
+/* 导航(全站统一) */
+.nav{position:fixed;top:18px;left:50%;transform:translateX(-50%);width:min(1240px,94vw);height:64px;z-index:900;display:flex;align-items:center;justify-content:space-between;padding:0 26px;border-radius:18px;background:rgba(14,14,16,.55);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border:1px solid rgba(255,255,255,.08);transition:box-shadow .4s,background .4s}
+.nav.scrolled{background:rgba(14,14,16,.85);box-shadow:0 18px 50px -18px rgba(0,0,0,.8)}
+.nav-logo{font-family:var(--font-d);font-size:26px;letter-spacing:2px;display:flex;align-items:center;gap:2px}
+.nav-logo .plus{color:var(--red);font-size:22px;transform:translateY(-1px)}
+.nav-logo small{font-family:var(--font-c);font-size:10px;letter-spacing:4px;color:var(--grey);margin-left:10px;font-weight:400}
+.nav-links{display:flex;align-items:center;gap:4px;font-size:12px;letter-spacing:2px;font-weight:500}
+.nav-links a{position:relative;padding:10px 14px;color:#c9c6c0;border-radius:999px;transition:color .35s,letter-spacing .35s,background .35s,transform .35s,text-shadow .35s}
+.nav-links a::after{content:"";position:absolute;left:50%;bottom:4px;width:0;height:2px;background:var(--red);border-radius:2px;box-shadow:0 0 10px var(--red);transition:width .35s cubic-bezier(.2,.8,.2,1),left .35s cubic-bezier(.2,.8,.2,1)}
+.nav-links a::before{content:"";position:absolute;top:2px;left:50%;width:5px;height:5px;border-radius:50%;background:var(--red);box-shadow:0 0 8px var(--red);transform:translateX(-50%) scale(0);transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.nav-links a:hover{color:#fff;letter-spacing:3.5px;background:rgba(217,31,38,.12);transform:translateY(-2px);text-shadow:0 0 18px rgba(217,31,38,.9)}
+.nav-links a:hover::after{width:60%;left:20%}
+.nav-links a:hover::before{transform:translateX(-50%) scale(1)}
+.nav-icons{display:flex;align-items:center;gap:12px}
+.nav-icon{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.25);display:grid;place-items:center;transition:.3s;background:transparent}
+.nav-icon svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2}
+.nav-icon:hover{border-color:var(--red);background:var(--red);transform:translateY(-2px)}
+.nav-burger{width:44px;height:44px;border-radius:50%;background:#fff;border:none;display:grid;place-items:center;gap:0;cursor:none;transition:.3s}
+.nav-burger span{display:block;width:16px;height:2px;background:#111;margin:2px 0;transition:.3s}
+.nav-burger:hover{background:var(--red)}
+.nav-burger:hover span{background:#fff}
+@media(max-width:900px){.nav-links{display:none}}
+
+/* 主体布局 */
+.auth-wrap{
+  position:relative;min-height:100vh;
+  display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:6vw;
+  padding:140px 6vw 80px;
+  background:
+    radial-gradient(900px 520px at 18% 30%,rgba(217,31,38,.16),transparent 62%),
+    radial-gradient(700px 460px at 88% 78%,rgba(217,31,38,.08),transparent 60%),
+    var(--ink);
+  overflow:hidden;
+}
+.auth-wrap::before{content:"";position:absolute;top:-10%;left:38%;width:min(46vw,640px);aspect-ratio:1;border:1px solid rgba(255,255,255,.06);border-radius:50%;pointer-events:none}
+.auth-wrap::after{content:"";position:absolute;bottom:-18%;left:-8%;width:min(38vw,520px);aspect-ratio:1;border:1px solid rgba(255,255,255,.05);border-radius:50%;pointer-events:none}
+
+/* 品牌视觉区 */
+.brand{position:relative;z-index:2}
+.brand-kicker{display:inline-flex;align-items:center;gap:12px;font-size:11px;letter-spacing:5px;color:var(--grey);margin-bottom:22px}
+.brand-kicker::before{content:"";width:36px;height:1px;background:var(--red)}
+.brand h1{font-family:var(--font-d);font-size:clamp(52px,6.4vw,110px);line-height:.94;letter-spacing:.02em}
+.brand h1 .ghost{color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.85)}
+.brand h1 .red{color:var(--red);text-shadow:0 0 40px rgba(217,31,38,.5)}
+.brand-slogan{margin-top:24px;max-width:420px;font-size:13px;line-height:2.1;letter-spacing:1.5px;color:#c9c6c0}
+.brand-slogan b{color:#fff}
+.brand-rings{position:absolute;right:-8%;top:50%;transform:translateY(-50%);width:min(24vw,320px);aspect-ratio:1;pointer-events:none;opacity:.9}
+.brand-rings::before,.brand-rings::after{content:"";position:absolute;inset:0;border-radius:50%;border:1px solid rgba(255,255,255,.1)}
+.brand-rings::after{inset:18%;border-color:rgba(217,31,38,.4);box-shadow:0 0 40px -8px rgba(217,31,38,.4)}
+.brand-rings i{position:absolute;inset:36%;border-radius:50%;background:var(--red);box-shadow:0 0 60px -6px rgba(217,31,38,.8)}
+
+/* 登录玻璃卡 */
+.card{
+  position:relative;z-index:2;max-width:460px;width:100%;justify-self:end;
+  border:1px solid rgba(255,255,255,.14);border-radius:22px;
+  background:rgba(255,255,255,.05);
+  backdrop-filter:blur(20px) saturate(1.35);
+  -webkit-backdrop-filter:blur(20px) saturate(1.35);
+  padding:42px 40px 34px;overflow:hidden;
+  transition:transform .5s cubic-bezier(.2,.8,.2,1),border-color .5s,box-shadow .5s;
+}
+.card::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.13),transparent 42%);pointer-events:none;opacity:.7}
+.card::after{content:"";position:absolute;top:-70px;right:-70px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(217,31,38,.38),transparent 70%);opacity:0;transition:opacity .55s;pointer-events:none}
+.card:hover{transform:translateY(-6px);border-color:rgba(217,31,38,.5);box-shadow:0 36px 80px -28px rgba(217,31,38,.4)}
+.card:hover::after{opacity:1}
+.card h2{font-family:var(--font-d);font-size:34px;letter-spacing:2px;margin-bottom:6px;position:relative;z-index:1}
+.card-sub{font-size:11px;letter-spacing:3px;color:var(--grey);margin-bottom:30px;position:relative;z-index:1}
+
+.field{position:relative;margin-bottom:22px;z-index:1}
+.field label{display:block;font-size:10px;letter-spacing:3px;color:var(--grey);margin-bottom:8px;transition:color .3s}
+.field input,.field select{
+  width:100%;height:50px;padding:0 16px;border-radius:12px;
+  background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.14);
+  color:#fff;font-family:var(--font-c);font-size:14px;letter-spacing:1px;
+  outline:none;transition:border-color .3s,box-shadow .3s,background .3s;
+}
+.field input::placeholder{color:#5b5b5e;letter-spacing:2px;font-size:12px}
+.field input:focus,.field select:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(217,31,38,.18),0 0 24px -6px rgba(217,31,38,.55);background:rgba(0,0,0,.5)}
+.field:focus-within label{color:var(--red)}
+.field .eye{position:absolute;right:14px;bottom:13px;width:22px;height:22px;display:grid;place-items:center;background:none;border:none;cursor:none;padding:0;opacity:.55;transition:opacity .3s}
+.field .eye:hover{opacity:1}
+.field .eye svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:1.8}
+
+.row-between{display:flex;align-items:center;justify-content:space-between;margin:4px 0 26px;position:relative;z-index:1}
+.check{display:flex;align-items:center;gap:9px;font-size:11.5px;letter-spacing:1.5px;color:#c9c6c0;cursor:none;user-select:none}
+.check input{position:absolute;opacity:0;pointer-events:none}
+.check .box{width:16px;height:16px;border-radius:4px;border:1px solid rgba(255,255,255,.35);display:grid;place-items:center;transition:.25s;flex:none}
+.check .box::after{content:"";width:8px;height:8px;border-radius:2px;background:#fff;transform:scale(0);transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+.check input:checked + .box{background:var(--red);border-color:var(--red);box-shadow:0 0 14px rgba(217,31,38,.6)}
+.check input:checked + .box::after{transform:scale(1)}
+.link-small{font-size:11.5px;letter-spacing:1.5px;color:#c9c6c0;transition:color .3s}
+.link-small:hover{color:var(--red);text-shadow:0 0 14px rgba(217,31,38,.8)}
+
+.btn-main{
+  position:relative;z-index:1;width:100%;height:52px;border:none;border-radius:999px;
+  background:var(--red);color:#fff;font-family:var(--font-c);font-weight:700;
+  font-size:14px;letter-spacing:6px;cursor:none;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,background .35s;
+  box-shadow:0 14px 34px -12px rgba(217,31,38,.6);
+}
+.btn-main:hover{transform:translateY(-3px);box-shadow:0 22px 48px -12px rgba(217,31,38,.85);background:#e8252d}
+.btn-main:active{transform:translateY(-1px)}
+.btn-main.loading{pointer-events:none;opacity:.75}
+.btn-main.loading::after{content:"";display:inline-block;width:14px;height:14px;margin-left:10px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;vertical-align:-2px;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.divider{display:flex;align-items:center;gap:14px;margin:26px 0 20px;font-size:10px;letter-spacing:3px;color:var(--grey);position:relative;z-index:1}
+.divider::before,.divider::after{content:"";flex:1;height:1px;background:rgba(255,255,255,.12)}
+.oauth{display:flex;justify-content:center;gap:18px;position:relative;z-index:1}
+.oauth a{width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.18);display:grid;place-items:center;background:rgba(255,255,255,.04);transition:.3s}
+.oauth a svg{width:22px;height:22px}
+.oauth a:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.14);box-shadow:0 12px 28px -10px rgba(0,0,0,.7)}
+.oauth .wx svg{fill:#07c160}
+.oauth .apple svg{fill:#fff}
+
+.card-foot{margin-top:28px;text-align:center;font-size:11.5px;letter-spacing:1.5px;color:var(--grey);position:relative;z-index:1}
+.card-foot a{color:#fff;font-weight:500;transition:color .3s,text-shadow .3s}
+.card-foot a:hover{color:var(--red);text-shadow:0 0 14px rgba(217,31,38,.8)}
+
+/* 显现 */
+.reveal{opacity:0;transform:translateY(46px);transition:opacity .9s cubic-bezier(.2,.8,.2,1),transform .9s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+@media(max-width:960px){
+  .auth-wrap{grid-template-columns:1fr;gap:56px;padding:130px 6vw 70px}
+  .card{justify-self:center}
+  .brand{text-align:center}
+  .brand-kicker{justify-content:center}
+  .brand-slogan{margin-left:auto;margin-right:auto}
+  .brand-rings{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+
+<nav class="nav" id="nav">
+  <a class="nav-logo" href="index.html">篮训<span class="plus">✚</span>BOT<small>INS ROBOT LAB</small></a>
+  <div class="nav-links">
+    <a href="index.html#top">健康体态</a>
+    <a href="coaches.html">明星教练</a>
+    <a href="training.html">训练体系</a>
+    <a href="index.html#booking">个人中心</a>
+    <a href="index.html#gallery">数据监测</a>
+    <a href="opensource.html">开源介绍</a>
+  </div>
+  <div class="nav-icons">
+    <a class="nav-icon" href="index.html#gallery" aria-label="搜索"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></a>
+    <a class="nav-icon" href="login.html" aria-label="用户"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></a>
+    <button class="nav-burger" aria-label="菜单"><span></span><span></span></button>
+  </div>
+</nav>
+
+<main class="auth-wrap">
+  <!-- 品牌视觉区 -->
+  <section class="brand reveal">
+    <div class="brand-kicker">MEMBER ACCESS · 会员通道</div>
+    <h1><span class="ghost">欢迎回来</span><br><span class="red">WELCOME</span> BACK</h1>
+    <p class="brand-slogan">登录你的训练营账号,继续与<b>篮球机器人</b>的对抗训练——每一次投篮数据,都被精准记录。</p>
+    <div class="brand-rings"><i></i></div>
+  </section>
+
+  <!-- 登录玻璃卡 -->
+  <section class="card reveal" id="loginCard">
+    <h2>账号登录</h2>
+    <div class="card-sub">SIGN IN TO YOUR ACCOUNT</div>
+    <form id="loginForm" novalidate>
+      <div class="field">
+        <label for="account">手机号 / 邮箱</label>
+        <input id="account" type="text" placeholder="请输入手机号或邮箱" autocomplete="username" required>
+      </div>
+      <div class="field">
+        <label for="pwd">密码</label>
+        <input id="pwd" type="password" placeholder="请输入密码" autocomplete="current-password" required>
+        <button type="button" class="eye" id="togglePwd" aria-label="显示密码">
+          <svg viewBox="0 0 24 24"><path d="M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+      </div>
+      <div class="row-between">
+        <label class="check"><input type="checkbox" id="remember"><span class="box"></span>记住我</label>
+        <a class="link-small" href="#">忘记密码?</a>
+      </div>
+      <button class="btn-main" type="submit" id="loginBtn">登 录</button>
+    </form>
+    <div class="divider">或使用以下方式</div>
+    <div class="oauth">
+      <a href="#" class="wx" aria-label="微信登录"><svg viewBox="0 0 24 24"><path d="M8.7 4C4.9 4 2 6.6 2 9.8c0 1.8 1 3.4 2.5 4.5l-.6 2.2 2.5-1.3c.7.2 1.4.3 2.2.3h.4A5.9 5.9 0 0 1 13 8.6C12.6 6 10.9 4 8.7 4zm6 4.6c-3.3 0-6 2.3-6 5.1s2.7 5.1 6 5.1c.6 0 1.2-.1 1.8-.3l2.2 1.2-.5-1.9c1.5-.9 2.5-2.4 2.5-4 0-2.9-2.7-5.2-6-5.2z"/></svg></a>
+      <a href="#" class="apple" aria-label="Apple 登录"><svg viewBox="0 0 24 24"><path d="M16.7 12.9c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.9-.9-3.1-.8-1.6 0-3.1.9-3.9 2.4-1.7 2.9-.4 7.2 1.2 9.6.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8s1.9.8 3.1.8c1.3 0 2.1-1.2 2.9-2.4.9-1.3 1.3-2.6 1.3-2.7-.1 0-2.6-1-2.7-4.1zM14.3 5.6c.7-.8 1.1-1.9 1-3-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.9-1 3 1.1.1 2.2-.6 2.9-1.5z"/></svg></a>
+    </div>
+    <div class="card-foot">还没有账号? <a href="register.html">去注册 →</a></div>
+  </section>
+</main>
+
+<script>
+const dot=document.querySelector('.cursor-dot'),ring=document.querySelector('.cursor-ring');
+let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.14;ry+=(my-ry)*.14;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+document.querySelectorAll('a,button,.check,input,select').forEach(el=>{
+  el.addEventListener('mouseenter',()=>ring.classList.add('hovering'));
+  el.addEventListener('mouseleave',()=>ring.classList.remove('hovering'));
+});
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40),{passive:true});
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* 密码可见性切换 */
+const pwd=document.getElementById('pwd'),toggle=document.getElementById('togglePwd');
+toggle.addEventListener('click',()=>{
+  const show=pwd.type==='password';
+  pwd.type=show?'text':'password';
+  toggle.setAttribute('aria-label',show?'隐藏密码':'显示密码');
+  toggle.style.opacity=show?'1':'';
+});
+
+/* 模拟登录:loading 1 秒后跳转个人中心 */
+document.getElementById('loginForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const btn=document.getElementById('loginBtn');
+  btn.classList.add('loading');
+  btn.textContent='登录中';
+  setTimeout(()=>location.href='profile.html',1000);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>注册 · 篮训BOT | INS篮球机器人训练营</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Bebas+Neue&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#d91f26;--red-deep:#a01218;
+  --ink:#0b0b0c;--ink-2:#141416;--paper:#f3f0ea;--grey:#8b8b8e;
+  --font-d:'Bebas Neue','Noto Sans SC',sans-serif;
+  --font-c:'Oswald','Noto Sans SC',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:#fff;font-family:var(--font-c);overflow-x:hidden;cursor:none;min-height:100vh}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--red);color:#fff}
+
+/* 光标 */
+.cursor-dot,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;border-radius:50%;transform:translate(-50%,-50%)}
+.cursor-dot{width:8px;height:8px;background:var(--red)}
+.cursor-ring{width:36px;height:36px;border:1.5px solid rgba(217,31,38,.65);transition:width .25s,height .25s,border-color .25s,background .25s}
+.cursor-ring.hovering{width:64px;height:64px;background:rgba(217,31,38,.12);border-color:var(--red)}
+@media (hover:none){.cursor-dot,.cursor-ring{display:none}body{cursor:auto}}
+
+/* 导航(全站统一) */
+.nav{position:fixed;top:18px;left:50%;transform:translateX(-50%);width:min(1240px,94vw);height:64px;z-index:900;display:flex;align-items:center;justify-content:space-between;padding:0 26px;border-radius:18px;background:rgba(14,14,16,.55);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border:1px solid rgba(255,255,255,.08);transition:box-shadow .4s,background .4s}
+.nav.scrolled{background:rgba(14,14,16,.85);box-shadow:0 18px 50px -18px rgba(0,0,0,.8)}
+.nav-logo{font-family:var(--font-d);font-size:26px;letter-spacing:2px;display:flex;align-items:center;gap:2px}
+.nav-logo .plus{color:var(--red);font-size:22px;transform:translateY(-1px)}
+.nav-logo small{font-family:var(--font-c);font-size:10px;letter-spacing:4px;color:var(--grey);margin-left:10px;font-weight:400}
+.nav-links{display:flex;align-items:center;gap:4px;font-size:12px;letter-spacing:2px;font-weight:500}
+.nav-links a{position:relative;padding:10px 14px;color:#c9c6c0;border-radius:999px;transition:color .35s,letter-spacing .35s,background .35s,transform .35s,text-shadow .35s}
+.nav-links a::after{content:"";position:absolute;left:50%;bottom:4px;width:0;height:2px;background:var(--red);border-radius:2px;box-shadow:0 0 10px var(--red);transition:width .35s cubic-bezier(.2,.8,.2,1),left .35s cubic-bezier(.2,.8,.2,1)}
+.nav-links a::before{content:"";position:absolute;top:2px;left:50%;width:5px;height:5px;border-radius:50%;background:var(--red);box-shadow:0 0 8px var(--red);transform:translateX(-50%) scale(0);transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+.nav-links a:hover{color:#fff;letter-spacing:3.5px;background:rgba(217,31,38,.12);transform:translateY(-2px);text-shadow:0 0 18px rgba(217,31,38,.9)}
+.nav-links a:hover::after{width:60%;left:20%}
+.nav-links a:hover::before{transform:translateX(-50%) scale(1)}
+.nav-icons{display:flex;align-items:center;gap:12px}
+.nav-icon{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.25);display:grid;place-items:center;transition:.3s;background:transparent}
+.nav-icon svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2}
+.nav-icon:hover{border-color:var(--red);background:var(--red);transform:translateY(-2px)}
+.nav-burger{width:44px;height:44px;border-radius:50%;background:#fff;border:none;display:grid;place-items:center;gap:0;cursor:none;transition:.3s}
+.nav-burger span{display:block;width:16px;height:2px;background:#111;margin:2px 0;transition:.3s}
+.nav-burger:hover{background:var(--red)}
+.nav-burger:hover span{background:#fff}
+@media(max-width:900px){.nav-links{display:none}}
+
+/* 主体布局(与登录页镜像:卡片在左,视觉区在右) */
+.auth-wrap{
+  position:relative;min-height:100vh;
+  display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:6vw;
+  padding:140px 6vw 80px;
+  background:
+    radial-gradient(900px 520px at 82% 30%,rgba(217,31,38,.16),transparent 62%),
+    radial-gradient(700px 460px at 12% 78%,rgba(217,31,38,.08),transparent 60%),
+    var(--ink);
+  overflow:hidden;
+}
+.auth-wrap::before{content:"";position:absolute;top:-10%;right:38%;width:min(46vw,640px);aspect-ratio:1;border:1px solid rgba(255,255,255,.06);border-radius:50%;pointer-events:none}
+.auth-wrap::after{content:"";position:absolute;bottom:-18%;right:-8%;width:min(38vw,520px);aspect-ratio:1;border:1px solid rgba(255,255,255,.05);border-radius:50%;pointer-events:none}
+
+/* 品牌视觉区 */
+.brand{position:relative;z-index:2;text-align:right}
+.brand-kicker{display:inline-flex;align-items:center;gap:12px;font-size:11px;letter-spacing:5px;color:var(--grey);margin-bottom:22px}
+.brand-kicker::after{content:"";width:36px;height:1px;background:var(--red)}
+.brand h1{font-family:var(--font-d);font-size:clamp(52px,6.4vw,110px);line-height:.94;letter-spacing:.02em}
+.brand h1 .ghost{color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.85)}
+.brand h1 .red{color:var(--red);text-shadow:0 0 40px rgba(217,31,38,.5)}
+.brand-slogan{margin:24px 0 0 auto;max-width:420px;font-size:13px;line-height:2.1;letter-spacing:1.5px;color:#c9c6c0}
+.brand-slogan b{color:#fff}
+.brand-rings{position:absolute;left:-8%;top:50%;transform:translateY(-50%);width:min(24vw,320px);aspect-ratio:1;pointer-events:none;opacity:.9}
+.brand-rings::before,.brand-rings::after{content:"";position:absolute;inset:0;border-radius:50%;border:1px solid rgba(255,255,255,.1)}
+.brand-rings::after{inset:18%;border-color:rgba(217,31,38,.4);box-shadow:0 0 40px -8px rgba(217,31,38,.4)}
+.brand-rings i{position:absolute;inset:36%;border-radius:50%;background:var(--red);box-shadow:0 0 60px -6px rgba(217,31,38,.8)}
+
+/* 注册玻璃卡 */
+.card{
+  position:relative;z-index:2;max-width:460px;width:100%;justify-self:start;
+  border:1px solid rgba(255,255,255,.14);border-radius:22px;
+  background:rgba(255,255,255,.05);
+  backdrop-filter:blur(20px) saturate(1.35);
+  -webkit-backdrop-filter:blur(20px) saturate(1.35);
+  padding:42px 40px 34px;overflow:hidden;
+  transition:transform .5s cubic-bezier(.2,.8,.2,1),border-color .5s,box-shadow .5s;
+}
+.card::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.13),transparent 42%);pointer-events:none;opacity:.7}
+.card::after{content:"";position:absolute;top:-70px;left:-70px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(217,31,38,.38),transparent 70%);opacity:0;transition:opacity .55s;pointer-events:none}
+.card:hover{transform:translateY(-6px);border-color:rgba(217,31,38,.5);box-shadow:0 36px 80px -28px rgba(217,31,38,.4)}
+.card:hover::after{opacity:1}
+.card h2{font-family:var(--font-d);font-size:34px;letter-spacing:2px;margin-bottom:6px;position:relative;z-index:1}
+.card-sub{font-size:11px;letter-spacing:3px;color:var(--grey);margin-bottom:28px;position:relative;z-index:1}
+
+.field{position:relative;margin-bottom:18px;z-index:1}
+.field label{display:block;font-size:10px;letter-spacing:3px;color:var(--grey);margin-bottom:8px;transition:color .3s}
+.field input,.field select{
+  width:100%;height:50px;padding:0 16px;border-radius:12px;
+  background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.14);
+  color:#fff;font-family:var(--font-c);font-size:14px;letter-spacing:1px;
+  outline:none;transition:border-color .3s,box-shadow .3s,background .3s;
+}
+.field input::placeholder{color:#5b5b5e;letter-spacing:2px;font-size:12px}
+.field input:focus,.field select:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(217,31,38,.18),0 0 24px -6px rgba(217,31,38,.55);background:rgba(0,0,0,.5)}
+.field:focus-within label{color:var(--red)}
+.field select{appearance:none;-webkit-appearance:none;cursor:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;background-size:16px}
+.field select option{background:var(--ink-2);color:#fff}
+
+/* 密码强度条 */
+.strength{display:flex;gap:6px;margin-top:10px}
+.strength i{flex:1;height:4px;border-radius:2px;background:rgba(255,255,255,.1);transition:background .3s,box-shadow .3s}
+.strength-text{font-size:10px;letter-spacing:2px;color:var(--grey);margin-top:6px;min-height:14px}
+.strength[data-level="1"] i:nth-child(1){background:var(--red);box-shadow:0 0 10px rgba(217,31,38,.7)}
+.strength[data-level="2"] i:nth-child(-n+2){background:#f08c1a;box-shadow:0 0 10px rgba(240,140,26,.6)}
+.strength[data-level="3"] i{background:#2fbf5f;box-shadow:0 0 10px rgba(47,191,95,.55)}
+.strength[data-level="1"] ~ .strength-text{color:var(--red)}
+.strength[data-level="2"] ~ .strength-text{color:#f08c1a}
+.strength[data-level="3"] ~ .strength-text{color:#2fbf5f}
+
+.agree{display:flex;align-items:flex-start;gap:9px;font-size:11.5px;letter-spacing:1.2px;color:#c9c6c0;line-height:1.8;margin:8px 0 24px;cursor:none;user-select:none;position:relative;z-index:1}
+.agree input{position:absolute;opacity:0;pointer-events:none}
+.agree .box{width:16px;height:16px;border-radius:4px;border:1px solid rgba(255,255,255,.35);display:grid;place-items:center;transition:.25s;flex:none;margin-top:3px}
+.agree .box::after{content:"";width:8px;height:8px;border-radius:2px;background:#fff;transform:scale(0);transition:transform .25s cubic-bezier(.34,1.56,.64,1)}
+.agree input:checked + .box{background:var(--red);border-color:var(--red);box-shadow:0 0 14px rgba(217,31,38,.6)}
+.agree input:checked + .box::after{transform:scale(1)}
+.agree a{color:#fff;transition:color .3s,text-shadow .3s}
+.agree a:hover{color:var(--red);text-shadow:0 0 14px rgba(217,31,38,.8)}
+
+.btn-main{
+  position:relative;z-index:1;width:100%;height:52px;border:none;border-radius:999px;
+  background:var(--red);color:#fff;font-family:var(--font-c);font-weight:700;
+  font-size:14px;letter-spacing:6px;cursor:none;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,background .35s;
+  box-shadow:0 14px 34px -12px rgba(217,31,38,.6);
+}
+.btn-main:hover{transform:translateY(-3px);box-shadow:0 22px 48px -12px rgba(217,31,38,.85);background:#e8252d}
+.btn-main:active{transform:translateY(-1px)}
+.btn-main.loading{pointer-events:none;opacity:.75}
+.btn-main.loading::after{content:"";display:inline-block;width:14px;height:14px;margin-left:10px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;vertical-align:-2px;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.card-foot{margin-top:26px;text-align:center;font-size:11.5px;letter-spacing:1.5px;color:var(--grey);position:relative;z-index:1}
+.card-foot a{color:#fff;font-weight:500;transition:color .3s,text-shadow .3s}
+.card-foot a:hover{color:var(--red);text-shadow:0 0 14px rgba(217,31,38,.8)}
+
+/* 显现 */
+.reveal{opacity:0;transform:translateY(46px);transition:opacity .9s cubic-bezier(.2,.8,.2,1),transform .9s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+@media(max-width:960px){
+  .auth-wrap{grid-template-columns:1fr;gap:56px;padding:130px 6vw 70px}
+  .card{justify-self:center;order:2}
+  .brand{text-align:center;order:1}
+  .brand-kicker{justify-content:center}
+  .brand-kicker::after{display:none}
+  .brand-kicker::before{content:"";width:36px;height:1px;background:var(--red)}
+  .brand-slogan{margin-left:auto;margin-right:auto}
+  .brand-rings{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+
+<nav class="nav" id="nav">
+  <a class="nav-logo" href="index.html">篮训<span class="plus">✚</span>BOT<small>INS ROBOT LAB</small></a>
+  <div class="nav-links">
+    <a href="index.html#top">健康体态</a>
+    <a href="coaches.html">明星教练</a>
+    <a href="training.html">训练体系</a>
+    <a href="index.html#booking">个人中心</a>
+    <a href="index.html#gallery">数据监测</a>
+    <a href="opensource.html">开源介绍</a>
+  </div>
+  <div class="nav-icons">
+    <a class="nav-icon" href="index.html#gallery" aria-label="搜索"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></a>
+    <a class="nav-icon" href="login.html" aria-label="用户"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></a>
+    <button class="nav-burger" aria-label="菜单"><span></span><span></span></button>
+  </div>
+</nav>
+
+<main class="auth-wrap">
+  <!-- 注册玻璃卡(左) -->
+  <section class="card reveal" id="regCard">
+    <h2>创建账号</h2>
+    <div class="card-sub">CREATE YOUR ACCOUNT</div>
+    <form id="regForm" novalidate>
+      <div class="field">
+        <label for="nick">昵称</label>
+        <input id="nick" type="text" placeholder="给自己起个球场代号" autocomplete="nickname" required>
+      </div>
+      <div class="field">
+        <label for="account">手机号 / 邮箱</label>
+        <input id="account" type="text" placeholder="请输入手机号或邮箱" autocomplete="username" required>
+      </div>
+      <div class="field">
+        <label for="pwd">设置密码</label>
+        <input id="pwd" type="password" placeholder="至少 6 位,建议混合字母与数字" autocomplete="new-password" required>
+        <div class="strength" id="strength" data-level="0"><i></i><i></i><i></i></div>
+        <div class="strength-text" id="strengthText"></div>
+      </div>
+      <div class="field">
+        <label for="pwd2">确认密码</label>
+        <input id="pwd2" type="password" placeholder="请再次输入密码" autocomplete="new-password" required>
+      </div>
+      <div class="field">
+        <label for="goal">训练目标</label>
+        <select id="goal" required>
+          <option value="" disabled selected>请选择你的训练目标</option>
+          <option value="fat">减脂塑形</option>
+          <option value="skill">提升球技</option>
+          <option value="fitness">体能强化</option>
+          <option value="recovery">康复恢复</option>
+        </select>
+      </div>
+      <label class="agree"><input type="checkbox" id="agree" required><span class="box"></span><span>我已阅读并同意<a href="#">《训练服务协议》</a></span></label>
+      <button class="btn-main" type="submit" id="regBtn">创建账号</button>
+    </form>
+    <div class="card-foot">已有账号? <a href="login.html">直接登录 →</a></div>
+  </section>
+
+  <!-- 品牌视觉区(右) -->
+  <section class="brand reveal">
+    <div class="brand-kicker">NEW RECRUIT · 新学员招募</div>
+    <h1><span class="red">JOIN</span> <span class="ghost">THE</span><br>加入训练营</h1>
+    <p class="brand-slogan">注册即开启你的<b>专属训练档案</b>——机器人陪练、AI 动作拆解、数据化成长曲线,从这一刻开始。</p>
+    <div class="brand-rings"><i></i></div>
+  </section>
+</main>
+
+<script>
+const dot=document.querySelector('.cursor-dot'),ring=document.querySelector('.cursor-ring');
+let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.14;ry+=(my-ry)*.14;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+document.querySelectorAll('a,button,.agree,input,select').forEach(el=>{
+  el.addEventListener('mouseenter',()=>ring.classList.add('hovering'));
+  el.addEventListener('mouseleave',()=>ring.classList.remove('hovering'));
+});
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40),{passive:true});
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* 密码强度条:弱(红)/中(橙)/强(绿) */
+const pwd=document.getElementById('pwd'),bar=document.getElementById('strength'),txt=document.getElementById('strengthText');
+pwd.addEventListener('input',()=>{
+  const v=pwd.value;let level=0;
+  if(v.length>=6)level=1;
+  if(v.length>=8&&/[a-zA-Z]/.test(v)&&/\d/.test(v))level=2;
+  if(v.length>=10&&/[a-z]/.test(v)&&/[A-Z]/.test(v)&&/\d/.test(v)&&/[^a-zA-Z0-9]/.test(v))level=3;
+  bar.dataset.level=level;
+  txt.textContent=['','密码强度:弱','密码强度:中','密码强度:强'][level];
+});
+
+/* 模拟注册:loading 1 秒后跳转登录页 */
+document.getElementById('regForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const btn=document.getElementById('regBtn');
+  btn.classList.add('loading');
+  btn.textContent='创建中';
+  setTimeout(()=>location.href='login.html',1000);
+});
+</script>
+</body>
+</html>
