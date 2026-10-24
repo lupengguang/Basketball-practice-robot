@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#eef1f6">
+<title>实时采集 · 篮训BOT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+SC:wght@400;500;700;900&family=Oswald:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#df2029;--red-dark:#97141a;
+  --bg:#eef1f6;--card:#fff;--ink:#10131a;--muted:#6f7482;--faint:#9aa0ad;--line:#e7eaf1;
+  --dark:#14161c;--green:#16a34a;--teal:#14c8b0;--blue:#5b6cff;--violet:#8f7bff;--orange:#f97316;
+  --shadow:0 18px 40px -20px rgba(15,23,42,.12);
+  --font-d:'Bebas Neue','Noto Sans SC',sans-serif;--font-c:'Oswald','Noto Sans SC',sans-serif;
+  --font-m:'JetBrains Mono','Noto Sans SC',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:linear-gradient(180deg,#f4f6fb 0%,#e9edf4 100%);color:var(--ink);font-family:var(--font-c);overflow-x:hidden;cursor:none;min-height:100vh}
+button,a{font:inherit;color:inherit;text-decoration:none}button{cursor:none;border:0;background:none}img{display:block;max-width:100%}
+::selection{background:var(--red);color:#fff}
+
+/* Custom cursor */
+.cursor-dot,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;border-radius:50%;transform:translate(-50%,-50%)}
+.cursor-dot{width:8px;height:8px;background:var(--red)}
+.cursor-ring{width:36px;height:36px;border:1.5px solid rgba(223,32,41,.72);transition:width .25s,height .25s,border-color .25s,background .25s}
+.cursor-ring.hovering{width:64px;height:64px;background:rgba(223,32,41,.12);border-color:var(--red)}
+
+/* Topbar (same as monitor.html) */
+.topbar{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px 4vw;background:rgba(255,255,255,.75);backdrop-filter:blur(14px) saturate(1.3);-webkit-backdrop-filter:blur(14px) saturate(1.3);border-bottom:1px solid var(--line)}
+.tb-left{display:flex;align-items:center;gap:20px;min-width:0}
+.tb-back{display:inline-flex;align-items:center;gap:9px;padding:10px 20px;border:1px solid #dfe3ec;border-radius:999px;background:#fff;color:var(--ink);font-size:11px;letter-spacing:2px;box-shadow:0 6px 18px -12px rgba(15,23,42,.25);transition:.3s}
+.tb-back svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;transition:transform .3s}
+.tb-back:hover{border-color:var(--red);color:var(--red);transform:translateY(-2px);box-shadow:0 14px 30px -14px rgba(223,32,41,.45)}
+.tb-back:hover svg{transform:translateX(-3px)}
+.tb-brand{display:flex;flex-direction:column;line-height:1.4;white-space:nowrap}
+.tb-brand b{font-size:12px;letter-spacing:2px;font-weight:600}
+.tb-brand span{font-size:9px;letter-spacing:3.5px;color:var(--faint)}
+.tb-nav{position:relative;padding:6px 2px;font-size:12px;letter-spacing:2px;font-weight:500;color:var(--muted);transition:color .3s;white-space:nowrap}
+.tb-nav::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;border-radius:2px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.tb-nav:hover,.tb-nav.active{color:var(--red)}
+.tb-nav:hover::after,.tb-nav.active::after{transform:scaleX(1)}
+.tb-icons{display:flex;align-items:center;gap:10px}
+.tb-icon{width:38px;height:38px;border-radius:12px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;color:var(--muted);transition:.3s}
+.tb-icon svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2}
+.tb-icon:hover{background:#f1f3f8;color:var(--ink)}
+
+/* Page frame */
+.page{padding:26px 4vw 90px}
+.shell{width:min(1240px,100%);margin:0 auto}
+.frame{background:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.75);border-radius:28px;padding:28px 28px 32px;box-shadow:0 30px 80px -46px rgba(15,23,42,.28)}
+
+/* Hero */
+.hero{display:flex;align-items:flex-end;justify-content:space-between;gap:26px;flex-wrap:wrap;padding:6px 4px 26px}
+.eyebrow{display:flex;align-items:center;gap:9px;font-size:10px;letter-spacing:3px;color:var(--muted)}.eyebrow::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--red);box-shadow:0 0 12px rgba(223,32,41,.55)}
+.hero-title{margin-top:12px;font-family:var(--font-d);font-size:clamp(52px,6.5vw,88px);line-height:.85;letter-spacing:2px}
+.hero-title em{font-style:normal;color:var(--red)}
+.hero-sub{margin-top:12px;font-size:12px;letter-spacing:2.5px;color:var(--faint)}
+.hero-badge{display:inline-flex;align-items:center;gap:9px;padding:12px 22px;border-radius:999px;background:#0d0f14;color:#fff;font-size:11px;letter-spacing:2px;box-shadow:0 14px 30px -14px rgba(13,15,20,.5)}
+.hero-badge i{width:8px;height:8px;border-radius:50%;background:#ff454e;box-shadow:0 0 10px #ff454e;animation:blink 1.2s ease infinite}
+
+/* Cards shared */
+.kcard{position:relative;background:var(--card);border-radius:22px;box-shadow:var(--shadow);padding:22px;overflow:hidden;transition:transform .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s}
+.kcard::after{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#ff454e,var(--red));transform:scaleX(0);transform-origin:left;transition:transform .45s cubic-bezier(.2,.8,.2,1);z-index:5}
+.kcard:hover{transform:translateY(-6px);box-shadow:0 32px 64px -26px rgba(15,23,42,.24)}
+.kcard:hover::after{transform:scaleX(1)}
+.card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.card-tag{display:flex;align-items:center;gap:8px;font-size:13px;letter-spacing:2px;font-weight:600}
+.card-tag::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red)}
+.card-no{font-size:10px;letter-spacing:2px;color:var(--faint)}
+.sec-gap{margin-top:16px}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}.reveal.in{opacity:1;transform:none}
+
+/* Module · camera + events */
+.cam-grid{display:grid;grid-template-columns:1.55fr 1fr;gap:16px}
+.cam-shell{position:relative;aspect-ratio:16/9;margin-top:18px;border-radius:16px;overflow:hidden;background:linear-gradient(160deg,#101319 0%,#171b24 100%);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
+.cam-shell img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cam-offline{position:absolute;inset:0;z-index:4;display:none;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:rgba(13,15,20,.88);color:rgba(255,255,255,.75);font-size:11px;letter-spacing:2.5px;text-align:center;padding:20px}
+.cam-offline.show{display:flex}
+.cam-offline svg{width:34px;height:34px;fill:none;stroke:#ff8f94;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.cam-offline b{color:#fff;font-size:13px;letter-spacing:3px}
+.live-badge{position:absolute;top:14px;right:14px;z-index:3;display:inline-flex;align-items:center;gap:7px;padding:6px 13px;border-radius:999px;background:rgba(13,15,20,.72);border:1px solid rgba(255,255,255,.14);color:#fff;font-size:9px;letter-spacing:2px}
+.live-badge i{width:7px;height:7px;border-radius:50%;background:#ff454e;box-shadow:0 0 8px #ff454e;animation:blink 1.2s ease infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.cam-tag{position:absolute;z-index:3;display:inline-flex;align-items:center;gap:6px;font-family:var(--font-m);font-size:9px;letter-spacing:1.5px;color:#fff}
+.cam-tag i{width:11px;height:11px;border-radius:50%;box-shadow:0 0 8px currentColor}
+.cam-tag.t1{top:16px;left:16px}.cam-tag.t2{top:44px;left:16px}
+.cam-tag.t1 i{background:#ff454e;color:#ff454e}.cam-tag.t2 i{background:#7f8dff;color:#7f8dff}
+.cam-status{display:flex;align-items:center;gap:0;margin-top:14px;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.cs-item{flex:1;display:flex;flex-direction:column;gap:4px;padding:12px 16px;border-right:1px solid var(--line)}
+.cs-item:last-child{border-right:0}
+.cs-k{font-size:9px;letter-spacing:2px;color:var(--faint)}
+.cs-v{font-family:var(--font-m);font-size:14px;font-weight:600;letter-spacing:1px;color:var(--ink)}
+.cs-v.ok{color:var(--green)}.cs-v.bad{color:var(--red)}
+
+/* Events panel */
+.events-card{display:flex;flex-direction:column}
+.ev-list{display:flex;flex-direction:column;gap:6px;margin-top:18px;min-height:420px}
+.ev-row{display:grid;grid-template-columns:52px 86px 1fr;gap:10px;align-items:center;padding:11px 12px;border-radius:14px;transition:background .25s}
+.ev-row:hover{background:#f4f6fa}
+.ev-row.ev-new{animation:evIn .5s cubic-bezier(.2,.8,.2,1)}
+@keyframes evIn{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
+.ev-time{font-family:var(--font-m);font-size:11px;color:var(--faint);letter-spacing:.5px}
+.ev-tag{display:inline-flex;align-items:center;justify-content:center;padding:5px 0;border-radius:8px;font-size:10px;letter-spacing:1.5px;font-weight:600;color:#fff}
+.ev-tag.green{background:var(--green)}.ev-tag.red{background:var(--red)}.ev-tag.blue{background:var(--blue)}.ev-tag.gray{background:#8a91a0}.ev-tag.orange{background:var(--orange)}.ev-tag.violet{background:var(--violet)}
+.ev-desc{font-size:11px;letter-spacing:1px;color:var(--muted);line-height:1.6}
+.ev-desc strong{color:var(--ink);font-weight:600}
+.ev-empty{display:flex;align-items:center;justify-content:center;height:100%;font-size:11px;letter-spacing:2px;color:var(--faint)}
+
+/* Module · scoreboard */
+.score-card{position:relative;background:#0c0e13;border-radius:22px;overflow:hidden;box-shadow:0 24px 54px -24px rgba(12,14,19,.55);transition:transform .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s;padding:0}
+.score-card:hover{transform:translateY(-6px);box-shadow:0 34px 74px -26px rgba(12,14,19,.65),0 0 44px -10px rgba(223,32,41,.45)}
+.score-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 20px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sc-title{display:flex;align-items:center;gap:12px;font-size:11px;letter-spacing:2px;color:rgba(255,255,255,.6)}
+.term-dots{display:flex;gap:6px}.term-dots i{width:9px;height:9px;border-radius:50%}
+.term-dots i:nth-child(1){background:#ff5f57}.term-dots i:nth-child(2){background:#febc2e}.term-dots i:nth-child(3){background:#28c840}
+.sc-live{display:inline-flex;align-items:center;gap:7px;font-size:9px;letter-spacing:2px;color:#ff8f94}
+.sc-live i{width:7px;height:7px;border-radius:50%;background:#ff454e;box-shadow:0 0 8px #ff454e;animation:blink 1.2s ease infinite}
+.score-board{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;padding:26px 26px 18px;text-align:center}
+.score-team{display:flex;flex-direction:column;align-items:center;gap:10px}
+.st-chip{display:inline-flex;align-items:center;padding:6px 14px;border-radius:999px;font-size:10px;letter-spacing:2px;border:1px solid}
+.st-chip.home{color:#ff9a9e;border-color:rgba(223,32,41,.5);background:rgba(223,32,41,.14)}
+.st-chip.away{color:#a9b3ff;border-color:rgba(91,108,255,.5);background:rgba(91,108,255,.14)}
+.score-num{font-family:var(--font-d);font-size:66px;line-height:.9;letter-spacing:2px;color:#fff;text-shadow:0 0 24px rgba(255,255,255,.14);transition:transform .25s}
+.score-num.bump{animation:bump .5s cubic-bezier(.2,.8,.2,1)}
+@keyframes bump{0%{transform:scale(1)}40%{transform:scale(1.18);color:#ffd166}100%{transform:scale(1)}}
+.score-mid{display:flex;flex-direction:column;align-items:center;gap:8px}
+.score-sep{font-family:var(--font-d);font-size:38px;line-height:1;color:rgba(255,255,255,.28)}
+.score-poss{font-family:var(--font-m);font-size:10px;letter-spacing:2px;color:rgba(255,255,255,.55);padding:6px 14px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1)}
+.score-poss b{color:#ffd166;font-weight:600}
+
+/* Module · detection objects */
+.obj-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.obj-ico{width:44px;height:44px;border-radius:13px;background:#f4f5f9;display:grid;place-items:center;color:var(--ink);transition:.3s}
+.kcard:hover .obj-ico{background:rgba(223,32,41,.1);color:var(--red)}
+.obj-ico svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.obj-name{margin-top:14px;font-size:14px;letter-spacing:2px;font-weight:600}
+.obj-name small{margin-left:7px;font-size:9px;letter-spacing:2px;color:var(--faint);font-weight:400}
+.obj-num{margin-top:12px;font-family:var(--font-d);font-size:42px;line-height:.9;letter-spacing:1px;transition:color .3s}
+.kcard:hover .obj-num{color:var(--red)}
+.obj-num small{font-family:var(--font-c);font-size:11px;letter-spacing:1px;color:var(--faint);margin-left:5px}
+.obj-conf{margin-top:8px;font-size:10px;letter-spacing:1.5px;color:var(--muted)}
+.obj-conf b{color:var(--ink);font-weight:600;font-family:var(--font-m)}
+
+/* Toast */
+.toast{position:fixed;z-index:1100;left:50%;bottom:25px;transform:translate(-50%,100px);display:flex;align-items:center;gap:9px;padding:12px 18px;border:1px solid rgba(255,255,255,.16);border-radius:999px;background:#19191b;color:#fff;font-size:11px;letter-spacing:1.3px;box-shadow:0 16px 35px -16px #000;transition:.35s}
+.toast.show{transform:translate(-50%,0)}
+.toast i{width:8px;height:8px;border-radius:50%;background:#64e582;box-shadow:0 0 9px #64e582}
+
+@media(max-width:1080px){
+  .cam-grid{grid-template-columns:1fr}
+  .obj-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:630px){
+  body{cursor:auto}
+  .cursor-dot,.cursor-ring{display:none}
+  .topbar{padding:10px 14px;gap:12px}
+  .tb-brand{display:none}
+  .tb-back{padding:9px 16px}
+  .tb-nav{display:none}
+  .page{padding:16px 14px 70px}
+  .frame{padding:16px;border-radius:20px}
+  .hero-title{font-size:48px}
+  .hero{padding-bottom:18px}
+  .sec-gap{margin-top:12px}
+  .ev-row{grid-template-columns:46px 78px 1fr;gap:8px;padding:10px}
+  .ev-list{min-height:300px}
+  .obj-grid{grid-template-columns:1fr}
+  .score-board{padding:20px 14px 14px;gap:6px}
+  .score-num{font-size:46px}
+  .cs-item{padding:10px 10px}
+  .cs-v{font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="cursor-dot"></div><div class="cursor-ring"></div>
+
+<header class="topbar">
+  <div class="tb-left">
+    <a class="tb-back interactive" href="health.html"><svg viewBox="0 0 24 24"><path d="M19 12H5m6-6-6 6 6 6"/></svg>返回监测台</a>
+    <div class="tb-brand"><b>篮训BOT · 实时采集</b><span>LIVE CAPTURE</span></div>
+    <a class="tb-nav interactive" href="monitor.html">详情监测</a>
+    <a class="tb-nav active interactive" href="camera.html">实时采集</a>
+  </div>
+  <div class="tb-icons">
+    <button class="tb-icon interactive" aria-label="通知" data-toast="演示环境 · 通知中心仅作展示"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></button>
+    <button class="tb-icon interactive" aria-label="设置" data-toast="演示环境 · 设置仅作展示"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06-.06a2 2 0 1 1-2.83-2.83l.06.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 .33-1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+  </div>
+</header>
+
+<main class="page">
+  <div class="shell">
+    <div class="frame">
+
+      <!-- Hero -->
+      <header class="hero">
+        <div>
+          <div class="eyebrow">LOCAL BACKEND · CAMERA PIPELINE</div>
+          <h1 class="hero-title">实时<em>采集</em>看板</h1>
+          <p class="hero-sub">本机摄像头采集 · 模拟事件流 · 仅作前端展示,未加载 AI 模型</p>
+        </div>
+        <span class="hero-badge"><i></i>LOCALHOST : 8765</span>
+      </header>
+
+      <!-- Module · camera + events -->
+      <section class="cam-grid sec-gap" aria-label="摄像头实时画面与事件流">
+        <article class="kcard reveal">
+          <div class="card-head"><span class="card-tag">摄像头实时画面</span><span class="card-no">01 / CAMERA</span></div>
+          <div class="cam-shell">
+            <img id="camFeed" src="/video_feed" alt="摄像头实时画面">
+            <div class="cam-offline" id="camOffline">
+              <svg viewBox="0 0 24 24"><path d="M2 2l20 20M9.5 4h6a4 4 0 0 1 4 4v5.5M6 6.5A4 4 0 0 0 4.5 10v6a4 4 0 0 0 4 4h7"/><path d="M12 12.5v.1"/></svg>
+              <b>摄像头未连接</b>
+              <span>请检查设备连接 · 正在显示占位画面</span>
+            </div>
+            <span class="cam-tag t1"><i></i>P1 · RED</span>
+            <span class="cam-tag t2"><i></i>P2 · BLUE</span>
+            <span class="live-badge"><i></i>LIVE · 采集中</span>
+          </div>
+          <div class="cam-status">
+            <div class="cs-item"><span class="cs-k">设备状态</span><span class="cs-v" id="csCam">--</span></div>
+            <div class="cs-item"><span class="cs-k">分辨率</span><span class="cs-v" id="csRes">--</span></div>
+            <div class="cs-item"><span class="cs-k">帧率 FPS</span><span class="cs-v" id="csFps">--</span></div>
+            <div class="cs-item"><span class="cs-k">运行时长</span><span class="cs-v" id="csUp">--</span></div>
+          </div>
+        </article>
+
+        <article class="kcard events-card reveal">
+          <div class="card-head"><span class="card-tag">实时事件流</span><span class="card-no">EVENTS · LIVE</span></div>
+          <div class="ev-list" id="evList">
+            <div class="ev-empty">等待事件数据…</div>
+          </div>
+        </article>
+      </section>
+
+      <!-- Module · scoreboard -->
+      <section class="sec-gap" aria-label="当前球权与比分">
+        <article class="score-card reveal">
+          <div class="score-top">
+            <div class="sc-title"><span class="term-dots"><i></i><i></i><i></i></span>当前球权与比分 · SCOREBOARD</div>
+            <span class="sc-live"><i></i>LIVE</span>
+          </div>
+          <div class="score-board">
+            <div class="score-team">
+              <span class="st-chip home">主队 · 红队</span>
+              <span class="score-num" id="scoreRed">--</span>
+            </div>
+            <div class="score-mid">
+              <span class="score-sep">:</span>
+              <span class="score-poss" id="possLabel">球权 · <b>--</b></span>
+            </div>
+            <div class="score-team">
+              <span class="st-chip away">客队 · 蓝队</span>
+              <span class="score-num" id="scoreBlue">--</span>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <!-- Module · detection objects -->
+      <section class="sec-gap" aria-label="检测对象统计">
+        <div class="card-head" style="padding:0 4px 16px"><span class="card-tag">检测对象统计</span><span class="card-no">DETECTION</span></div>
+        <div class="obj-grid">
+          <article class="kcard reveal">
+            <span class="obj-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="7.4" r="3.2"/><path d="M5.5 20v-1.6a5.2 5.2 0 0 1 5.2-5.2h2.6a5.2 5.2 0 0 1 5.2 5.2V20"/></svg></span>
+            <div class="obj-name">球员<small>PLAYER</small></div>
+            <div class="obj-num" id="cntPlayer">0<small>个</small></div>
+            <div class="obj-conf">平均置信度 <b id="confPlayer">--</b></div>
+          </article>
+          <article class="kcard reveal">
+            <span class="obj-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.2"/><path d="M3.8 12h16.4M12 3.8c2.6 2.4 2.6 14 0 16.4M12 3.8c-2.6 2.4-2.6 14 0 16.4"/></svg></span>
+            <div class="obj-name">篮球<small>BALL</small></div>
+            <div class="obj-num" id="cntBall">0<small>个</small></div>
+            <div class="obj-conf">平均置信度 <b id="confBall">--</b></div>
+          </article>
+          <article class="kcard reveal">
+            <span class="obj-ico"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="9" rx="8" ry="2.6"/><path d="M5.2 10.4 8.6 19h6.8l3.4-8.6"/><path d="M9 10.9l1.4 7M15 10.9l-1.4 7M12 11.2v7"/></svg></span>
+            <div class="obj-name">篮筐<small>RIM</small></div>
+            <div class="obj-num" id="cntRim">0<small>个</small></div>
+            <div class="obj-conf">平均置信度 <b id="confRim">--</b></div>
+          </article>
+          <article class="kcard reveal">
+            <span class="obj-ico"><svg viewBox="0 0 24 24"><path d="M2.5 8.5h9l6.5 4.5v1a5.5 5.5 0 1 1-11 0v-1.6"/><circle cx="12.5" cy="14" r="1.7"/><path d="M4.5 8.5V7h6v1.5"/></svg></span>
+            <div class="obj-name">裁判<small>REFEREE</small></div>
+            <div class="obj-num" id="cntRef">0<small>个</small></div>
+            <div class="obj-conf">平均置信度 <b id="confRef">--</b></div>
+          </article>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</main>
+
+<div class="toast" id="toast"><i></i><span id="toastText">已更新</span></div>
+
+<script>
+const $ = (selector, root = document) => root.querySelector(selector);
+const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+
+const cursorDot = $('.cursor-dot');
+const cursorRing = $('.cursor-ring');
+let pointerX = innerWidth / 2, pointerY = innerHeight / 2, ringX = pointerX, ringY = pointerY;
+addEventListener('mousemove', event => { pointerX = event.clientX; pointerY = event.clientY; cursorDot.style.left = pointerX + 'px'; cursorDot.style.top = pointerY + 'px'; });
+(function followPointer(){ ringX += (pointerX - ringX) * .14; ringY += (pointerY - ringY) * .14; cursorRing.style.left = ringX + 'px'; cursorRing.style.top = ringY + 'px'; requestAnimationFrame(followPointer); })();
+$$('a,button,.interactive').forEach(element => { element.addEventListener('mouseenter', () => cursorRing.classList.add('hovering')); element.addEventListener('mouseleave', () => cursorRing.classList.remove('hovering')); });
+
+const toast = $('#toast');
+let toastTimeout;
+function showToast(message){ $('#toastText').textContent = message; toast.classList.add('show'); clearTimeout(toastTimeout); toastTimeout = setTimeout(() => toast.classList.remove('show'), 2600); }
+$$('[data-toast]').forEach(element => element.addEventListener('click', event => { event.preventDefault(); showToast(element.dataset.toast); }));
+
+/* Scroll reveal */
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('in'); revealObserver.unobserve(entry.target); } });
+}, {threshold:.12});
+$$('.reveal').forEach(element => revealObserver.observe(element));
+
+/* ---------- /api/status ---------- */
+const csCam = $('#csCam'), csRes = $('#csRes'), csFps = $('#csFps'), csUp = $('#csUp');
+const camOffline = $('#camOffline');
+function fmtUptime(sec){
+  const h = Math.floor(sec / 3600), m = Math.floor(sec % 3600 / 60), s = Math.floor(sec % 60);
+  return (h ? String(h).padStart(2,'0') + ':' : '') + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+}
+async function pollStatus(){
+  try{
+    const r = await fetch('/api/status');
+    const d = await r.json();
+    csCam.textContent = d.camera ? 'ONLINE' : 'OFFLINE';
+    csCam.className = 'cs-v ' + (d.camera ? 'ok' : 'bad');
+    csRes.textContent = d.resolution;
+    csFps.textContent = d.camera ? d.fps : '--';
+    csUp.textContent = fmtUptime(d.uptime);
+    camOffline.classList.toggle('show', !d.camera);
+  }catch(e){
+    csCam.textContent = 'OFFLINE'; csCam.className = 'cs-v bad';
+    camOffline.classList.add('show');
+  }
+}
+pollStatus(); setInterval(pollStatus, 3000);
+
+/* ---------- /api/events ---------- */
+const evList = $('#evList');
+const scoreRed = $('#scoreRed'), scoreBlue = $('#scoreBlue'), possLabel = $('#possLabel');
+let lastFrame = -1;
+let lastRed = null, lastBlue = null;
+
+const EVENT_META = {
+  shot_made:    {label:'投篮·命中', cls:'green'},
+  shot_miss:    {label:'投篮·未中', cls:'red'},
+  shot_unknown: {label:'投篮·待定', cls:'gray'},
+  pass:         {label:'传球',      cls:'blue'},
+  dribble:      {label:'运球',      cls:'gray'},
+  rebound:      {label:'篮板',      cls:'orange'},
+  steal:        {label:'抢断',      cls:'orange'},
+  turnover:     {label:'失误',      cls:'violet'},
+};
+
+function eventKey(rec){
+  const ev = rec.event;
+  if(!ev) return null;
+  if(ev.type === 'shot') return 'shot_' + ev.result;
+  return ev.type;
+}
+function eventDesc(rec){
+  const ev = rec.event;
+  const p = '<strong>' + ev.player_id + '</strong>';
+  const c = '置信度 ' + ev.confidence.toFixed(2);
+  switch(ev.type){
+    case 'shot':
+      if(ev.result === 'made') return p + ' ' + (ev.shot_value === 3 ? '三分' : '两分') + '命中,' + c;
+      if(ev.result === 'miss') return p + ' 出手未中,' + c;
+      return p + ' 出手,结果待定,' + c;
+    case 'pass': return '<strong>' + ev.player_id + ' → ' + ev.receiver_id + '</strong> 转移球,' + c;
+    case 'dribble': return p + ' 运球推进,' + c;
+    case 'rebound': return p + ' 收下' + (ev.rebound_type === 'offensive' ? '前场' : '后场') + '篮板,' + c;
+    case 'steal': return p + ' 完成抢断,攻守转换,' + c;
+    case 'turnover': return p + ' 失误,球权转换,' + c;
+    default: return p + ' ' + ev.type + ',' + c;
+  }
+}
+function fmtClock(ts){
+  const m = Math.floor(ts / 60), s = Math.floor(ts % 60);
+  return String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+}
+
+function renderEvents(records){
+  const withEv = records.filter(r => r.event);
+  if(!withEv.length){ evList.innerHTML = '<div class="ev-empty">等待事件数据…</div>'; return; }
+  evList.innerHTML = '';
+  withEv.slice(0, 12).forEach(rec => {
+    const key = eventKey(rec);
+    const meta = EVENT_META[key] || {label: rec.event.type, cls: 'gray'};
+    const row = document.createElement('div');
+    row.className = 'ev-row' + (rec.frame > lastFrame ? ' ev-new' : '');
+    row.innerHTML = '<span class="ev-time">' + fmtClock(rec.timestamp) + '</span>' +
+                    '<span class="ev-tag ' + meta.cls + '">' + meta.label + '</span>' +
+                    '<span class="ev-desc">' + eventDesc(rec) + '</span>';
+    evList.appendChild(row);
+  });
+  lastFrame = Math.max(lastFrame, ...records.map(r => r.frame));
+}
+
+function renderScore(rec){
+  if(!rec || !rec.score) return;
+  const {red, blue} = rec.score;
+  if(lastRed !== null && red !== lastRed){ scoreRed.classList.remove('bump'); void scoreRed.offsetWidth; scoreRed.classList.add('bump'); }
+  if(lastBlue !== null && blue !== lastBlue){ scoreBlue.classList.remove('bump'); void scoreBlue.offsetWidth; scoreBlue.classList.add('bump'); }
+  lastRed = red; lastBlue = blue;
+  scoreRed.textContent = red;
+  scoreBlue.textContent = blue;
+  possLabel.innerHTML = '球权 · <b>' + (rec.possession === 'red' ? '红队' : '蓝队') + '</b>';
+}
+
+function renderObjects(records){
+  const agg = {player:{n:0,s:0}, ball:{n:0,s:0}, rim:{n:0,s:0}, referee:{n:0,s:0}};
+  const latest = {};
+  records.slice(0, 5).forEach(rec => (rec.objects || []).forEach(o => {
+    if(agg[o.class]){ agg[o.class].s += o.confidence; if(!latest[o.class]) latest[o.class] = 0; }
+  }));
+  // 取最新一帧的数量 + 近 5 帧平均置信度
+  const newest = records.find(r => r.objects);
+  const counts = {player:0, ball:0, rim:0, referee:0};
+  if(newest) newest.objects.forEach(o => { if(o.class in counts) counts[o.class]++; if(agg[o.class]) agg[o.class].n++; });
+  const set = (cntId, confId, cls) => {
+    $(cntId).innerHTML = counts[cls] + '<small>个</small>';
+    $(confId).textContent = agg[cls].n ? (agg[cls].s / agg[cls].n).toFixed(2) : '--';
+  };
+  set('#cntPlayer', '#confPlayer', 'player');
+  set('#cntBall', '#confBall', 'ball');
+  set('#cntRim', '#confRim', 'rim');
+  set('#cntRef', '#confRef', 'referee');
+}
+
+async function pollEvents(){
+  try{
+    const r = await fetch('/api/events');
+    const d = await r.json();
+    if(!d.records || !d.records.length) return;
+    renderEvents(d.records);
+    renderScore(d.records[0]);
+    renderObjects(d.records);
+  }catch(e){ /* 后端未启动时静默 */ }
+}
+pollEvents(); setInterval(pollEvents, 2000);
+</script>
+</body>
+</html>
