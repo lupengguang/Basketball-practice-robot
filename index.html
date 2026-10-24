@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>篮训BOT · INS篮球机器人训练营</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Bebas+Neue&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#d91f26;
+  --red-deep:#a01218;
+  --ink:#0b0b0c;
+  --ink-2:#131315;
+  --paper:#f3f0ea;
+  --grey:#8b8b8e;
+  --font-d:'Bebas Neue','Noto Sans SC',sans-serif;
+  --font-c:'Oswald','Noto Sans SC',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink);
+  color:#fff;
+  font-family:var(--font-c);
+  overflow-x:hidden;
+  cursor:none;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--red);color:#fff}
+
+/* ---------- 自定义光标 ---------- */
+.cursor-dot,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;border-radius:50%;transform:translate(-50%,-50%)}
+.cursor-dot{width:8px;height:8px;background:var(--red)}
+.cursor-ring{width:36px;height:36px;border:1.5px solid rgba(217,31,38,.65);transition:width .25s,height .25s,border-color .25s,background .25s}
+.cursor-ring.hovering{width:64px;height:64px;background:rgba(217,31,38,.12);border-color:var(--red)}
+@media (hover:none){.cursor-dot,.cursor-ring{display:none}body{cursor:auto}}
+
+/* ---------- 顶部导航 ---------- */
+.nav{
+  position:fixed;top:18px;left:50%;transform:translateX(-50%);
+  width:min(1240px,94vw);height:64px;z-index:900;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 26px;border-radius:18px;
+  background:rgba(14,14,16,.55);
+  backdrop-filter:blur(18px) saturate(1.4);
+  -webkit-backdrop-filter:blur(18px) saturate(1.4);
+  border:1px solid rgba(255,255,255,.08);
+  transition:box-shadow .4s,background .4s;
+}
+.nav.scrolled{background:rgba(14,14,16,.85);box-shadow:0 18px 50px -18px rgba(0,0,0,.8)}
+.nav-logo{font-family:var(--font-d);font-size:26px;letter-spacing:2px;display:flex;align-items:center;gap:2px}
+.nav-logo .plus{color:var(--red);font-size:22px;transform:translateY(-1px)}
+.nav-logo small{font-family:var(--font-c);font-size:10px;letter-spacing:4px;color:var(--grey);margin-left:10px;font-weight:400}
+.nav-links{display:flex;align-items:center;gap:10px;font-size:12px;letter-spacing:3px;font-weight:500}
+.nav-links a{position:relative;padding:6px 4px;color:#e8e6e1;transition:color .3s}
+.nav-links a::after{content:"";position:absolute;left:50%;bottom:0;width:0;height:2px;background:var(--red);transition:width .3s,left .3s}
+.nav-links a:hover{color:#fff}
+.nav-links a:hover::after{width:100%;left:0}
+.nav-links .sep{color:var(--red);font-size:10px}
+.nav-icons{display:flex;align-items:center;gap:12px}
+.nav-icon{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.25);display:grid;place-items:center;transition:.3s;background:transparent}
+.nav-icon svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2}
+.nav-icon:hover{border-color:var(--red);background:var(--red);transform:translateY(-2px)}
+.nav-burger{width:44px;height:44px;border-radius:50%;background:#fff;border:none;display:grid;place-items:center;gap:0;cursor:none;transition:.3s}
+.nav-burger span{display:block;width:16px;height:2px;background:#111;margin:2px 0;transition:.3s}
+.nav-burger:hover{background:var(--red)}
+.nav-burger:hover span{background:#fff}
+@media(max-width:900px){.nav-links{display:none}}
+
+/* ---------- Hero ---------- */
+.hero{
+  position:relative;min-height:100vh;
+  padding:120px 4vw 0;
+  background:
+    radial-gradient(1000px 600px at 50% 38%,rgba(217,31,38,.14),transparent 60%),
+    linear-gradient(#0b0b0c,#0b0b0c);
+  overflow:hidden;
+}
+.hero-frame{
+  position:relative;height:calc(100vh - 120px);min-height:640px;
+  border:1px solid rgba(255,255,255,.1);border-bottom:none;
+  border-radius:22px 22px 0 0;padding:26px 34px 0;
+}
+.hero-grid-lines{position:absolute;inset:0;border-radius:22px 22px 0 0;overflow:hidden;pointer-events:none}
+.hero-grid-lines::before,.hero-grid-lines::after{content:"";position:absolute;top:0;bottom:0;width:1px;background:rgba(255,255,255,.05)}
+.hero-grid-lines::before{left:25%}.hero-grid-lines::after{right:25%}
+.hero-circle{position:absolute;top:14%;left:50%;transform:translateX(-50%);width:min(46vw,640px);aspect-ratio:1;border:1px solid rgba(255,255,255,.08);border-radius:50%;pointer-events:none}
+.hero-disc{position:absolute;top:20%;left:50%;transform:translateX(-50%);width:min(30vw,420px);aspect-ratio:1;background:var(--red);border-radius:50%;z-index:1;transition:transform .2s ease-out}
+.hero-tags{display:flex;gap:10px;position:relative;z-index:5}
+.pill{border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:6px 16px;font-size:11px;letter-spacing:3px;transition:.3s;background:rgba(0,0,0,.3)}
+.pill:hover{background:var(--red);border-color:var(--red);transform:translateY(-3px)}
+.hero-release{position:absolute;top:26px;right:34px;font-size:10px;letter-spacing:3px;color:#d8d5cf;z-index:5}
+.hero-roman{position:absolute;top:90px;left:50%;transform:translateX(-50%);display:flex;gap:7px;z-index:6}
+.hero-roman i{width:7px;height:42px;background:#fff;display:block;box-shadow:0 0 20px rgba(255,255,255,.35)}
+.hero-cast{
+  position:relative;z-index:5;margin-top:46px;
+  display:grid;grid-template-columns:1fr 1fr 1fr 1fr;align-items:end;
+  font-family:var(--font-d);font-size:clamp(16px,1.9vw,28px);letter-spacing:2px;
+}
+.hero-cast div:nth-child(2){text-align:left;padding-left:2vw}
+.hero-cast div:nth-child(3){text-align:right;padding-right:2vw}
+.hero-cast div:nth-child(4){text-align:right}
+.hero-cast small{display:block;font-family:var(--font-c);font-size:10px;letter-spacing:3px;color:var(--grey);margin-top:4px;font-weight:400}
+.hero-title{
+  position:absolute;left:50%;bottom:4%;transform:translateX(-50%);
+  z-index:2;width:100%;text-align:center;pointer-events:none;
+  font-family:var(--font-d);
+  font-size:clamp(120px,20.5vw,400px);
+  line-height:.86;letter-spacing:.02em;color:#fff;white-space:nowrap;
+}
+.hero-title .stroke{color:transparent;-webkit-text-stroke:2px #fff}
+.hero-bot{
+  position:absolute;left:50%;bottom:0;transform:translateX(-50%);
+  z-index:3;height:72%;filter:drop-shadow(0 30px 60px rgba(0,0,0,.7));
+  transition:transform .15s ease-out;will-change:transform;
+}
+.hero-bot img{height:100%;width:auto}
+.hero-year{position:absolute;right:26px;bottom:8%;z-index:5;writing-mode:vertical-rl;font-family:var(--font-d);font-size:22px;letter-spacing:4px}
+.hero-story{position:absolute;left:34px;bottom:34px;z-index:5;max-width:250px}
+.hero-story h5{font-size:10px;letter-spacing:3px;color:#fff;display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.hero-story h5::before{content:"";width:14px;height:14px;border-radius:50%;background:var(--red)}
+.hero-story p{font-size:11px;line-height:1.9;color:#b7b4ae;letter-spacing:1px}
+.hero-story p b{color:#fff}
+.hero-book{position:absolute;right:34px;bottom:120px;z-index:6}
+.btn-book{
+  display:inline-flex;align-items:center;gap:12px;
+  border:1px solid rgba(255,255,255,.5);border-radius:999px;
+  padding:14px 30px;font-size:13px;letter-spacing:4px;font-weight:600;
+  background:rgba(0,0,0,.35);backdrop-filter:blur(8px);
+  transition:background .3s,border-color .3s;will-change:transform;
+}
+.btn-book:hover{background:var(--red);border-color:var(--red)}
+.btn-book svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2;transition:transform .3s}
+.btn-book:hover svg{transform:translateX(4px)}
+.hero-num{position:absolute;right:120px;bottom:44px;z-index:5;display:flex;align-items:center;gap:14px}
+.hero-num .n{width:44px;height:44px;border:1px solid rgba(255,255,255,.4);border-radius:50%;display:grid;place-items:center;font-size:13px}
+.hero-num .badge{width:64px;height:64px;border-radius:50%;background:conic-gradient(var(--red),#5a0a10,var(--red));display:grid;place-items:center;font-family:var(--font-d);font-size:15px;letter-spacing:1px;animation:spin 10s linear infinite;border:2px solid rgba(255,255,255,.2)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero-scroll{position:absolute;left:50%;bottom:-22px;transform:translateX(-50%);z-index:8;width:52px;height:52px;border-radius:50%;background:var(--red);display:grid;place-items:center;box-shadow:0 12px 34px -8px var(--red)}
+.hero-scroll svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2.4;animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(4px)}}
+@media(max-width:900px){
+  .hero-cast{grid-template-columns:1fr 1fr;gap:14px}
+  .hero-title{font-size:26vw;white-space:normal}
+  .hero-story{display:none}
+}
+
+/* ---------- 胶片条 ---------- */
+.filmstrip{position:relative;background:var(--red);height:64px;overflow:hidden;z-index:7;transform:rotate(-1.2deg) scale(1.02);margin:-6px 0}
+.filmstrip::before,.filmstrip::after{
+  content:"";position:absolute;left:0;right:0;height:16px;z-index:2;
+  background-image:radial-gradient(circle at 8px 8px,#111 4.5px,transparent 5px);
+  background-size:26px 16px;
+}
+.filmstrip::before{top:0}.filmstrip::after{bottom:0}
+.filmtrack{display:flex;align-items:center;height:100%;white-space:nowrap;animation:marq 22s linear infinite}
+.filmtrack span{font-family:var(--font-d);font-size:24px;letter-spacing:6px;color:#fff;padding:0 34px;position:relative}
+.filmtrack span::after{content:"✦";position:absolute;right:-12px;color:rgba(0,0,0,.5);font-size:14px}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+/* ---------- 数据区(深色) ---------- */
+.stats{position:relative;background:var(--ink);padding:90px 4vw 120px;overflow:hidden}
+.stats::before{content:"";position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:900px;height:900px;border:1px solid rgba(255,255,255,.06);border-radius:50%;pointer-events:none}
+.stats-inner{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1fr auto 1fr;gap:40px;align-items:start;position:relative}
+.stats-label{font-size:10px;letter-spacing:3px;color:#cfcabf;display:flex;align-items:center;gap:8px;margin-bottom:16px}
+.stats-label::before{content:"";width:14px;height:14px;border-radius:50%;background:var(--red)}
+.studio-box{display:inline-block;border:1px solid rgba(255,255,255,.3);padding:10px 18px;font-family:var(--font-d);font-size:20px;letter-spacing:2px}
+.studio-box b{color:var(--red)}
+.stats-rate{margin-top:80px;display:flex;align-items:center;gap:16px}
+.stats-rate .num2{width:44px;height:44px;border:1px solid rgba(255,255,255,.4);border-radius:50%;display:grid;place-items:center;font-size:13px}
+.stars{display:flex;gap:4px}
+.stars svg{width:14px;height:14px;fill:var(--red)}
+.stars svg.dim{fill:#3a3a3d}
+.badges{display:flex;gap:26px;justify-content:center}
+.badge-c{width:128px;height:128px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:transform .35s;will-change:transform}
+.badge-c:hover{transform:translateY(-8px) scale(1.05)}
+.badge-c small{font-size:9px;letter-spacing:3px;font-weight:400}
+.badge-c strong{font-family:var(--font-d);font-size:38px;line-height:1}
+.badge-w{background:#fff;color:#111}
+.badge-r{background:var(--red);color:#fff;box-shadow:0 20px 50px -14px var(--red)}
+.badge-o{border:1px solid rgba(255,255,255,.35);color:#fff}
+.stats-quote{max-width:280px;justify-self:end;border-left:2px solid var(--red);padding-left:18px}
+.stats-quote p{font-size:13px;line-height:2;letter-spacing:2px;font-weight:600}
+.stats-quote a{display:inline-block;margin-top:14px;font-size:11px;letter-spacing:3px;color:var(--grey)}
+.stats-quote a:hover{color:var(--red)}
+.stats-dots{display:flex;gap:10px;justify-content:flex-end;margin-top:40px}
+.stats-dots i{width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,.3);display:grid;place-items:center}
+.stats-dots i::before{content:"";width:6px;height:6px;border-radius:50%;background:#555}
+.stats-dots i.on::before{background:var(--red)}
+.stats-figure{display:flex;justify-content:center;margin-top:60px}
+.tilt-card{width:220px;border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,.12);box-shadow:0 40px 90px -30px rgba(0,0,0,.9);transform-style:preserve-3d;transition:transform .18s ease-out;background:#000}
+@media(max-width:900px){.stats-inner{grid-template-columns:1fr}.stats-quote{justify-self:start}}
+
+/* ---------- 白底编辑区 ---------- */
+.paper{background:var(--paper);color:#111;border-radius:26px 26px 0 0;margin-top:-24px;position:relative;z-index:8;padding:80px 4vw 60px;overflow:hidden}
+.paper-nav-btns{display:flex;justify-content:space-between;max-width:1240px;margin:0 auto 30px}
+.round-btn{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;transition:.3s;cursor:none;border:none}
+.round-btn svg{width:18px;height:18px;stroke-width:2.4;fill:none}
+.round-btn.red{background:var(--red);box-shadow:0 14px 36px -10px var(--red)}
+.round-btn.red svg{stroke:#fff}
+.round-btn.red:hover{transform:translateX(-5px) scale(1.06)}
+.round-btn.white{background:#fff;box-shadow:0 14px 36px -14px rgba(0,0,0,.3)}
+.round-btn.white svg{stroke:#111}
+.round-btn.white:hover{transform:translateX(5px) scale(1.06);background:var(--red)}
+.round-btn.white:hover svg{stroke:#fff}
+.paper-head{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:auto 1fr;gap:0 40px;align-items:center}
+.paper-title{font-family:var(--font-d);font-size:clamp(64px,10.5vw,190px);line-height:.92;letter-spacing:.01em;color:#111;white-space:nowrap}
+.paper-title .by{font-size:.32em;vertical-align:middle;color:#555;margin:0 .3em}
+.paper-title .ghost{color:transparent;-webkit-text-stroke:2px #111}
+.paper-meta{font-size:12px;line-height:2;letter-spacing:1px;color:#333;max-width:520px;justify-self:end}
+.paper-meta h5{font-size:10px;letter-spacing:3px;color:#111;display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.paper-meta h5::before{content:"";width:14px;height:14px;border-radius:50%;background:var(--red)}
+.paper-meta b{color:var(--red)}
+.paper-gallery-tag{max-width:1240px;margin:60px auto 0;font-size:10px;letter-spacing:4px;color:#777}
+@media(max-width:900px){.paper-head{grid-template-columns:1fr}.paper-meta{justify-self:start;margin-top:24px}}
+
+/* ---------- 瀑布流网格 ---------- */
+.waterfall{max-width:1240px;margin:40px auto 0;columns:3;column-gap:26px}
+@media(max-width:1000px){.waterfall{columns:2}}
+@media(max-width:620px){.waterfall{columns:1}}
+.wf-item{break-inside:avoid;margin-bottom:26px;position:relative}
+.wf-num{font-family:var(--font-d);font-size:22px;letter-spacing:2px;color:#111;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.wf-num::after{content:"";flex:1;height:1px;background:rgba(0,0,0,.15)}
+.wf-card{position:relative;border-radius:14px;overflow:hidden;background:#111;transform:translateZ(0)}
+.wf-card img{width:100%;transition:transform .8s cubic-bezier(.2,.8,.2,1),filter .8s}
+.wf-card::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,12,.85),transparent 55%);opacity:0;transition:opacity .5s}
+.wf-info{position:absolute;left:18px;right:18px;bottom:16px;z-index:2;opacity:0;transform:translateY(14px);transition:.5s cubic-bezier(.2,.8,.2,1);color:#fff}
+.wf-info h4{font-family:var(--font-d);font-size:22px;letter-spacing:2px}
+.wf-info p{font-size:11px;letter-spacing:2px;color:#d8d5cf;margin-top:4px}
+.wf-tag{position:absolute;top:14px;left:14px;z-index:2;background:var(--red);color:#fff;font-size:10px;letter-spacing:2px;padding:5px 12px;border-radius:999px;opacity:0;transform:translateY(-10px);transition:.45s}
+.wf-card:hover img{transform:scale(1.08) rotate(.5deg);filter:saturate(1.15)}
+.wf-card:hover::after{opacity:1}
+.wf-card:hover .wf-info{opacity:1;transform:translateY(0)}
+.wf-card:hover .wf-tag{opacity:1;transform:translateY(0)}
+
+/* ---------- 预约区(深色卡+头像) ---------- */
+.booking{max-width:1240px;margin:70px auto 0;display:grid;grid-template-columns:1fr auto 1fr;gap:30px;align-items:center}
+.part p{font-size:12px;line-height:2;color:#333;letter-spacing:1px;max-width:340px}
+.part h5{font-size:10px;letter-spacing:3px;color:#111;display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.part h5::before{content:"";width:14px;height:14px;border-radius:50%;background:var(--red)}
+.part b{color:var(--red)}
+.part.right{text-align:right}
+.part.right p{margin-left:auto}
+.part.right h5{justify-content:flex-end}
+.part.right h5::before{order:2}
+.avatars{display:flex;margin-top:26px}
+.avatars img{width:52px;height:52px;border-radius:50%;object-fit:cover;border:3px solid var(--paper);margin-left:-14px;transition:transform .3s}
+.avatars img:first-child{margin-left:0}
+.avatars img:hover{transform:translateY(-8px) scale(1.1);z-index:2;position:relative}
+.arrows{display:flex;align-items:center;gap:8px;margin-top:20px;color:#111}
+.arrows svg{width:34px;height:12px;stroke:#111;fill:none;stroke-width:2}
+.ticket{
+  position:relative;width:300px;background:#111;color:#fff;border-radius:22px;
+  padding:26px 24px 24px;box-shadow:0 40px 90px -30px rgba(0,0,0,.5);
+  transform-style:preserve-3d;transition:transform .18s ease-out;
+}
+.ticket::before{content:"";position:absolute;top:-1px;left:50%;transform:translateX(-50%);width:56px;height:56px;border-radius:50%;background:var(--paper)}
+.ticket-logo{position:absolute;top:-20px;left:50%;transform:translateX(-50%);width:40px;height:40px;border-radius:50%;background:var(--red);display:grid;place-items:center;font-family:var(--font-d);font-size:15px;z-index:2;border:2px solid #111}
+.ticket small{display:block;text-align:center;font-size:9px;letter-spacing:4px;color:#999;margin:14px 0 4px}
+.ticket h3{text-align:center;font-family:var(--font-d);font-size:30px;letter-spacing:2px;margin-bottom:18px}
+.ticket-row{display:flex;gap:12px;margin-bottom:12px}
+.ticket-cell{flex:1;background:#1c1c1f;border-radius:12px;padding:12px 14px}
+.ticket-cell small{text-align:left;margin:0 0 4px;font-size:8px;letter-spacing:2px;color:#888;display:block}
+.ticket-cell strong{font-family:var(--font-d);font-size:16px;letter-spacing:1px}
+.ticket-cell.map{background:#1c1c1f url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=dark%20city%20street%20map%20top%20view%20with%20red%20location%20pin%20glowing%20minimal%20navigation%20ui&image_size=square') center/cover;min-height:88px;position:relative;overflow:hidden}
+.ticket-btn{width:100%;margin-top:8px;background:var(--red);border:none;color:#fff;border-radius:12px;padding:15px;font-family:var(--font-c);font-size:13px;letter-spacing:4px;font-weight:600;display:flex;align-items:center;justify-content:space-between;padding-left:22px;padding-right:18px;cursor:none;transition:.3s}
+.ticket-btn:hover{background:var(--red-deep);letter-spacing:6px}
+.ticket-btn svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2}
+@media(max-width:1000px){.booking{grid-template-columns:1fr}.part.right{text-align:left}.part.right h5{justify-content:flex-start}.part.right h5::before{order:0}.ticket{margin:0 auto}}
+
+/* ---------- 页脚 ---------- */
+.footer{background:var(--ink);border-radius:26px 0 0 0;position:relative;z-index:8;padding:90px 4vw 0;overflow:hidden}
+.footer-inner{max-width:1240px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.4fr;gap:40px;padding-bottom:60px;border-bottom:1px solid rgba(255,255,255,.1)}
+.footer-logo{font-family:var(--font-d);font-size:34px;letter-spacing:2px}
+.footer-logo .plus{color:var(--red)}
+.footer-desc{font-size:12px;line-height:2;color:#8b8b8e;letter-spacing:1px;margin-top:16px;max-width:280px}
+.footer h6{font-size:11px;letter-spacing:4px;color:#fff;margin-bottom:22px}
+.footer-col a{display:block;font-size:12px;letter-spacing:2px;color:#8b8b8e;margin-bottom:14px;transition:.3s;width:fit-content}
+.footer-col a:hover{color:var(--red);transform:translateX(6px)}
+.socials{display:flex;gap:12px;margin-top:24px}
+.socials a{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.2);display:grid;place-items:center;transition:.3s}
+.socials a svg{width:15px;height:15px;fill:#fff}
+.socials a:hover{background:var(--red);border-color:var(--red);transform:translateY(-4px)}
+.newsletter{display:flex;margin-top:20px;border:1px solid rgba(255,255,255,.2);border-radius:999px;overflow:hidden}
+.newsletter input{flex:1;background:transparent;border:none;outline:none;color:#fff;padding:13px 20px;font-family:var(--font-c);font-size:12px;letter-spacing:2px}
+.newsletter button{background:var(--red);border:none;color:#fff;padding:0 24px;font-family:var(--font-c);font-size:12px;letter-spacing:2px;cursor:none;transition:.3s}
+.newsletter button:hover{background:var(--red-deep)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding:26px 0;font-size:10px;letter-spacing:2px;color:#666}
+.footer-bottom .links{display:flex;gap:26px}
+.footer-bottom a:hover{color:var(--red)}
+.footer-watermark{font-family:var(--font-d);font-size:clamp(80px,15vw,280px);line-height:.8;text-align:center;color:rgba(255,255,255,.04);letter-spacing:.05em;white-space:nowrap;pointer-events:none;user-select:none;transform:translateY(18%)}
+@media(max-width:900px){.footer-top{grid-template-columns:1fr 1fr}}
+
+/* ---------- 滚动显现 ---------- */
+.reveal{opacity:0;transform:translateY(46px);transition:opacity .9s cubic-bezier(.2,.8,.2,1),transform .9s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:translateY(0)}
+.reveal-l{opacity:0;transform:translateX(-50px);transition:opacity .9s,transform .9s cubic-bezier(.2,.8,.2,1)}
+.reveal-l.in{opacity:1;transform:translateX(0)}
+.reveal-r{opacity:0;transform:translateX(50px);transition:opacity .9s,transform .9s cubic-bezier(.2,.8,.2,1)}
+.reveal-r.in{opacity:1;transform:translateX(0)}
+</style>
+</head>
+<body>
+
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+
+<!-- ================= 顶部导航 ================= -->
+<nav class="nav" id="nav">
+  <a class="nav-logo" href="#top">篮训<span class="plus">✚</span>BOT<small>INS ROBOT LAB</small></a>
+  <div class="nav-links">
+    <a href="#trainers">明星教练</a><span class="sep">·</span>
+    <a href="#program">训练体系</a><span class="sep">·</span>
+    <a href="#gallery">训练营实录</a><span class="sep">·</span>
+    <a href="#booking">预约体验</a>
+  </div>
+  <div class="nav-icons">
+    <a class="nav-icon" href="#gallery" aria-label="搜索"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></a>
+    <a class="nav-icon" href="#booking" aria-label="用户"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></a>
+    <button class="nav-burger" aria-label="菜单"><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="top">
+  <div class="hero-frame">
+    <div class="hero-grid-lines"></div>
+    <div class="hero-circle"></div>
+    <div class="hero-disc" id="disc"></div>
+
+    <div class="hero-tags">
+      <span class="pill">AI 特训</span>
+      <span class="pill">实战对抗</span>
+      <span class="pill">数据复盘</span>
+    </div>
+    <div class="hero-release">开营时间 [ 2026.05 ]</div>
+
+    <div class="hero-roman"><i></i><i></i><i></i></div>
+
+    <div class="hero-cast" id="trainers">
+      <div>王锐 RAY<small>总教练 · 前CBA后卫</small></div>
+      <div>陈曦 LEO<small>机器人工程师</small></div>
+      <div>林悦 SUE<small>体能训练师</small></div>
+      <div>赵衡 KEN<small>数据分析师</small></div>
+    </div>
+
+    <h1 class="hero-title" id="heroTitle"><span id="tA">灌篮</span><span class="stroke" id="tB">机器</span></h1>
+
+    <div class="hero-bot" id="heroBot">
+      <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=futuristic%20humanoid%20basketball%20training%20robot%20glossy%20crimson%20red%20and%20matte%20black%20carbon%20armor%20arms%20crossed%20confident%20heroic%20front%20pose%20holding%20basketball%20under%20one%20arm%20dramatic%20studio%20rim%20light%20pure%20black%20background%20cinematic%20hyper%20detailed%20sci-fi%20sports%20photography&image_size=portrait_4_3" alt="篮球机器人教练">
+    </div>
+
+    <div class="hero-year">[ 第三季 ]</div>
+
+    <div class="hero-story">
+      <h5>篮训BOT 计划</h5>
+      <p><b>PART A.</b>&nbsp;&nbsp;当机器人站上球场,人类教练与AI共同执教的篮球训练营正式开营——第三季全面升级对抗算法。</p>
+    </div>
+
+    <div class="hero-book">
+      <a class="btn-book magnetic" href="#booking">立即预约<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+
+    <div class="hero-num">
+      <span class="n">01</span>
+      <span class="badge">篮训<br>BOT</span>
+    </div>
+
+    <a class="hero-scroll" href="#program"><svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
+  </div>
+</header>
+
+<!-- ================= 胶片条 ================= -->
+<div class="filmstrip">
+  <div class="filmtrack" id="filmtrack">
+    <span>投篮命中率 +38%</span><span>AI 实时纠错</span><span>1V1 机器人对抗</span><span>全场数据追踪</span><span>第三季开营</span>
+  </div>
+</div>
+
+<!-- ================= 数据区 ================= -->
+<section class="stats" id="program">
+  <div class="stats-inner">
+    <div class="reveal-l">
+      <div class="stats-label">出品方 PRODUCTION</div>
+      <div class="studio-box"><b>星核</b>实验室</div>
+      <div class="stats-rate">
+        <span class="num2">02</span>
+        <span class="stars">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18.5 21 12 16.5 5.5 21l2-7.5L2 9h7z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18.5 21 12 16.5 5.5 21l2-7.5L2 9h7z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18.5 21 12 16.5 5.5 21l2-7.5L2 9h7z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18.5 21 12 16.5 5.5 21l2-7.5L2 9h7z"/></svg>
+          <svg class="dim" viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18.5 21 12 16.5 5.5 21l2-7.5L2 9h7z"/></svg>
+        </span>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="badges">
+        <div class="badge-c badge-w"><small>体验课</small><strong><span class="count" data-to="90">0</span>′</strong></div>
+        <div class="badge-c badge-r"><small>特训课程</small><strong><span class="count" data-to="36">0</span>+</strong></div>
+        <div class="badge-c badge-o"><small>开营</small><strong>5月</strong></div>
+      </div>
+    </div>
+
+    <div class="reveal-r">
+      <div class="stats-quote">
+        <p>“王锐教练说,他原本以为自己再也不会回到球场执教——直到这台机器人投进了第一个三分。”</p>
+        <a href="#gallery">阅读完整专访 ↗</a>
+      </div>
+      <div class="stats-dots"><i></i><i class="on"></i><i></i></div>
+    </div>
+  </div>
+
+  <div class="stats-figure reveal">
+    <div class="tilt-card" data-tilt>
+      <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=basketball%20training%20robot%20torso%20detail%20wearing%20red%20jersey%20armor%20with%20circular%20team%20emblem%20studio%20light%20pure%20black%20background%20product%20photography%20hyper%20detailed&image_size=square" alt="机器人战衣细节">
+    </div>
+  </div>
+</section>
+
+<!-- ================= 白底编辑区 ================= -->
+<section class="paper">
+  <div class="paper-nav-btns">
+    <button class="round-btn red magnetic" aria-label="上一页"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+    <button class="round-btn white magnetic" aria-label="下一页"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+  </div>
+
+  <div class="paper-head">
+    <h2 class="paper-title reveal">倾力打造<span class="by">BY</span><span class="ghost">星核团队</span></h2>
+    <div class="paper-meta reveal-r">
+      <h5>开营信息 RELEASE</h5>
+      <p><b>PART B.</b>&nbsp;&nbsp;第三季训练营定于 <b>2026年5月3日</b> 在上海星核球馆开营。此前曾计划于9月6日启动,后调整至11月8日,最终提档至5月,成为年度最受期待的篮球科技盛事。</p>
+    </div>
+  </div>
+
+  <div class="paper-gallery-tag" id="gallery">训练营实录 GALLERY 07 / 32</div>
+
+  <!-- 瀑布流 -->
+  <div class="waterfall">
+    <div class="wf-item reveal">
+      <div class="wf-num">01</div>
+      <div class="wf-card">
+        <span class="wf-tag">实战对抗</span>
+        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=dynamic%20basketball%20robot%20mid-air%20slam%20dunk%20red%20armor%20neon%20court%20motion%20blur%20cinematic%20sports%20photography%20dark%20arena%20spotlight&image_size=portrait_4_3" alt="机器人暴扣瞬间">
+        <div class="wf-info"><h4>暴扣模块</h4><p>弹跳算法 3.0 · 滞空姿态控制</p></div>
+      </div>
+    </div>
+    <div class="wf-item reveal">
+      <div class="wf-num">02</div>
+      <div class="wf-card">
+        <span class="wf-tag">投篮特训</span>
+        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=basketball%20robot%20shooting%20jump%20shot%20perfect%20form%20red%20and%20black%20armor%20stadium%20lights%20bokeh%20cinematic%20photography&image_size=portrait_4_3" alt="跳投训练">
+        <div class="wf-info"><h4>跳投校准</h4><p>毫米级出手角度捕捉</p></div>
+      </div>
+    </div>
+    <div class="wf-item reveal">
+      <div class="wf-num">03</div>
+      <div class="wf-card">
+        <span class="wf-tag">数据中枢</span>
+        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=holographic%20basketball%20analytics%20interface%203d%20court%20heatmap%20red%20glow%20dark%20control%20room%20futuristic%20ui%20screens&image_size=landscape_4_3" alt="数据分析中枢">
+        <div class="wf-info"><h4>数据中枢</h4><p>全场热力图 · 实时复盘</p></div>
+      </div>
+    </div>
+    <div class="wf-item reveal">
+      <div class="wf-num">04</div>
+      <div class="wf-card">
+        <span class="wf-tag">人机合练</span>
+        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=chinese%20coach%20training%20humanoid%20robot%20on%20basketball%20court%20holding%20tablet%20futuristic%20gym%20warm%20light%20documentary%20photography&image_size=portrait_4_3" alt="教练与机器人合练">
+        <div class="wf-info"><h4>人机合练</h4><p>教练平板直连机器人终端</p></div>
+      </div>
+    </div>
+    <div class="wf-item reveal">
+      <div class="wf-num">05</div>
+      <div class="wf-card">
+        <span class="wf-tag">运球专项</span>
+        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=futuristic%20training%20robot%20dribbling%20basketball%20low%20angle%20glossy%20black%20red%20armor%20indoor%20arena%20red%20led%20lights%20cinematic&image_size=square" alt="运球训练">
+        <div class="wf-info"><h4>运球节奏</h4><p>变向频率自适应学习</p></div>
+      </div>
+    </div>
+    <div class="wf-item reveal">
+      <div class="wf-num">06</div>
+      <div class="wf-card">
+        <span class="wf-tag">战队集结</span>
+        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=team%20of%20humanoid%20robots%20lined%20up%20on%20futuristic%20basketball%20court%20red%20neon%20symmetric%20composition%20cinematic%20wide%20shot&image_size=landscape_4_3" alt="机器人战队集结">
+        <div class="wf-info"><h4>战队集结</h4><p>第三季 12 台机型全员到齐</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 预约区 -->
+  <div class="booking" id="booking">
+    <div class="part reveal-l">
+      <h5>关于计划 X-MEN</h5>
+      <p><b>PART C.</b>&nbsp;&nbsp;篮训BOT,代号「红衣教官」,首次亮相便因“嘴炮式纠错”走红全网,如今已是训练营的灵魂人物。</p>
+      <div class="avatars">
+        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=portrait%20of%20chinese%20male%20basketball%20coach%2040s%20confident%20studio%20red%20backdrop%20editorial%20photography&image_size=square" alt="教练王锐">
+        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=portrait%20of%20young%20chinese%20female%20fitness%20coach%20ponytail%20studio%20black%20backdrop%20editorial%20photography&image_size=square" alt="训练师林悦">
+        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=portrait%20of%20chinese%20male%20sports%20data%20analyst%20with%20glasses%20studio%20grey%20backdrop%20editorial%20photography&image_size=square" alt="分析师赵衡">
+        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=portrait%20of%20chinese%20male%20robotics%20engineer%20buzz%20cut%20studio%20red%20backdrop%20editorial%20photography&image_size=square" alt="工程师陈曦">
+      </div>
+      <div class="arrows">
+        <svg viewBox="0 0 34 12"><path d="M8 1L2 6l6 5M2 6h32"/></svg>
+        <svg viewBox="0 0 34 12"><path d="M26 1l6 5-6 5M32 6H0"/></svg>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="ticket" data-tilt>
+        <div class="ticket-logo">III</div>
+        <small>训练营 CAMP</small>
+        <h3>灌篮机器 III</h3>
+        <div class="ticket-row">
+          <div class="ticket-cell map"></div>
+          <div class="ticket-cell"><small>球馆 ARENA</small><strong>星核<br>中心球馆</strong></div>
+        </div>
+        <div class="ticket-row">
+          <div class="ticket-cell"><small>日期 DATE</small><strong>5月 29</strong></div>
+          <div class="ticket-cell"><small>时间 TIME</small><strong>21:30</strong></div>
+        </div>
+        <button class="ticket-btn magnetic">预约体验课<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+    </div>
+
+    <div class="part right reveal-r">
+      <h5>首训直播 PREMIERE</h5>
+      <p><b>PART D.</b>&nbsp;&nbsp;第三季首训原定于9月6日直播,后改档至11月8日,最终官宣提档至 <b>5月3日</b> 全平台同步开播。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 页脚 ================= -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">篮训<span class="plus">✚</span>BOT</div>
+        <p class="footer-desc">INS风篮球机器人训练营官网。AI 执教、人机对抗、数据驱动——让每一次投篮都被精确计算。</p>
+        <div class="socials">
+          <a href="#" aria-label="微信"><svg viewBox="0 0 24 24"><path d="M8.7 4C4.9 4 2 6.6 2 9.8c0 1.8 1 3.4 2.5 4.5l-.6 2.2 2.5-1.3c.7.2 1.4.3 2.2.3h.4A5.9 5.9 0 0 1 13 8.6C12.6 6 10.9 4 8.7 4zm6 4.6c-3.3 0-6 2.3-6 5.1s2.7 5.1 6 5.1c.6 0 1.2-.1 1.8-.3l2.2 1.2-.5-1.9c1.5-.9 2.5-2.4 2.5-4 0-2.9-2.7-5.2-6-5.2z"/></svg></a>
+          <a href="#" aria-label="微博"><svg viewBox="0 0 24 24"><path d="M10.1 20.6c-3.9.4-7.3-1.6-7.6-4.6-.3-3 2.6-5.8 6.5-6.2 3.9-.4 7.3 1.6 7.6 4.6.3 3-2.6 5.8-6.5 6.2zm4.9-9.9c-.3-.1-.5-.2-.4-.6.1-.4.4-.7.6-.7.3-.1 1.5 0 1.8.3.3.4.3 1.1-.5 1.4-.7.3-1.2-.3-1.5-.4zm2-3.1c-.5-.2-.8-.3-.7-.8.1-.5.6-1.1 1-1.2.5-.1 2.4.1 2.9.6.5.6.4 1.9-.9 2.4-1.2.4-1.9-.8-2.3-1z"/></svg></a>
+          <a href="#" aria-label="抖音"><svg viewBox="0 0 24 24"><path d="M16.5 3c.4 2.3 1.8 3.8 4 4v3c-1.6 0-3-.5-4-1.4v6.6c0 3.4-2.6 5.8-5.9 5.8A5.6 5.6 0 0 1 5 15.3c0-3.2 2.8-5.6 6.2-5.4v3.1c-1.7-.3-3.1.7-3.1 2.3 0 1.5 1.1 2.6 2.6 2.6 1.6 0 2.8-1.2 2.8-3V3h3z"/></svg></a>
+          <a href="#" aria-label="B站"><svg viewBox="0 0 24 24"><path d="M17 4l2-2 1 1.5L18 5h2a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2L4 3.5 5 2l2 2h10zM8 11v3M16 11v3" stroke="#fff" stroke-width="2" fill="none"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h6>训练营</h6>
+        <a href="#trainers">明星教练团</a>
+        <a href="#program">训练体系</a>
+        <a href="#gallery">训练营实录</a>
+        <a href="#booking">预约体验课</a>
+      </div>
+      <div class="footer-col">
+        <h6>支持</h6>
+        <a href="#">常见问题</a>
+        <a href="#">课程退款政策</a>
+        <a href="#">设备安全说明</a>
+        <a href="#">联系客服</a>
+      </div>
+      <div>
+        <h6>订阅开营通知</h6>
+        <p class="footer-desc" style="margin-top:0">第一时间获取第三季开营信息与直播入口。</p>
+        <div class="newsletter">
+          <input type="email" placeholder="输入你的邮箱">
+          <button class="magnetic">订阅</button>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 篮训BOT · 星核实验室 保留所有权利</span>
+      <div class="links">
+        <a href="#">隐私政策</a>
+        <a href="#">服务条款</a>
+        <a href="#">沪ICP备2026号</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-watermark">灌篮机器</div>
+</footer>
+
+<script>
+/* ---------- 自定义光标 ---------- */
+const dot=document.querySelector('.cursor-dot'),ring=document.querySelector('.cursor-ring');
+let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
+addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+(function loop(){rx+=(mx-rx)*.14;ry+=(my-ry)*.14;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
+document.querySelectorAll('a,button,.pill,.wf-card,.badge-c,.avatars img').forEach(el=>{
+  el.addEventListener('mouseenter',()=>ring.classList.add('hovering'));
+  el.addEventListener('mouseleave',()=>ring.classList.remove('hovering'));
+});
+
+/* ---------- 导航滚动态 ---------- */
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40),{passive:true});
+
+/* ---------- Hero 视差 ---------- */
+const heroBot=document.getElementById('heroBot'),disc=document.getElementById('disc'),
+      tA=document.getElementById('tA'),tB=document.getElementById('tB');
+const hero=document.querySelector('.hero');
+hero.addEventListener('mousemove',e=>{
+  const cx=(e.clientX/innerWidth-.5),cy=(e.clientY/innerHeight-.5);
+  heroBot.style.transform=`translateX(calc(-50% + ${cx*26}px)) translateY(${cy*14}px) rotate(${cx*2}deg)`;
+  disc.style.transform=`translateX(calc(-50% + ${cx*-30}px)) translateY(${cy*-18}px)`;
+  tA.style.transform=`translateX(${cx*-16}px)`;tB.style.transform=`translateX(${cx*-22}px)`;
+  tA.style.display='inline-block';tB.style.display='inline-block';
+});
+hero.addEventListener('mouseleave',()=>{
+  heroBot.style.transform='translateX(-50%)';
+  disc.style.transform='translateX(-50%)';
+  tA.style.transform='';tB.style.transform='';
+});
+
+/* ---------- 滚动显现 ---------- */
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+}),{threshold:.12});
+document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>io.observe(el));
+
+/* ---------- 数字滚动 ---------- */
+const cio=new IntersectionObserver(es=>es.forEach(e=>{
+  if(!e.isIntersecting)return;
+  const el=e.target,to=+el.dataset.to;let cur=0;
+  const step=()=>{cur+=Math.max(1,Math.round(to/40));if(cur>=to)cur=to;el.textContent=cur;if(cur<to)requestAnimationFrame(step);};
+  step();cio.unobserve(el);
+}),{threshold:.6});
+document.querySelectorAll('.count').forEach(el=>cio.observe(el));
+
+/* ---------- 3D 倾斜卡片 ---------- */
+document.querySelectorAll('[data-tilt]').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+    card.style.transform=`perspective(800px) rotateY(${x*16}deg) rotateX(${-y*16}deg) translateZ(10px)`;
+  });
+  card.addEventListener('mouseleave',()=>card.style.transform='perspective(800px) rotateY(0) rotateX(0)');
+});
+
+/* ---------- 磁吸按钮 ---------- */
+document.querySelectorAll('.magnetic').forEach(btn=>{
+  btn.addEventListener('mousemove',e=>{
+    const r=btn.getBoundingClientRect();
+    btn.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.28}px,${(e.clientY-r.top-r.height/2)*.28}px)`;
+  });
+  btn.addEventListener('mouseleave',()=>btn.style.transform='translate(0,0)');
+});
+
+/* ---------- 胶片条内容复制以实现无缝滚动 ---------- */
+const track=document.getElementById('filmtrack');
+track.innerHTML+=track.innerHTML;
+</script>
+</body>
+</html>
