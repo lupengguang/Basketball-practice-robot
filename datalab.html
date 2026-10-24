@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 双引擎 · 数据监测 | 篮训BOT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Bebas+Neue&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/training-detail.css">
+<style>
+  :root{--green:#2fbf71;--green-glow:rgba(47,191,113,.42);--violet:#8b7bff;--violet-glow:rgba(139,123,255,.42)}
+  .tl-stroke{color:transparent;-webkit-text-stroke:2.2px rgba(255,255,255,.92)}
+  .tl-solid{color:var(--red)}
+
+  /* 场景区块容器:局部覆盖强调色 */
+  .scene{max-width:1240px;margin:0 auto;padding:70px 4vw 10px}
+  .scene-green{--accent:var(--green);--accent-glow:var(--green-glow)}
+  .scene-violet{--accent:var(--violet);--accent-glow:var(--violet-glow)}
+
+  .scene-tag{display:inline-flex;align-items:center;gap:10px;font-size:10px;letter-spacing:4px;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:8px 18px;margin-bottom:18px;background:rgba(255,255,255,.03)}
+  .scene-tag::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
+  .scene h2{font-family:var(--font-d);font-size:clamp(34px,4.6vw,60px);letter-spacing:2px;line-height:1}
+  .scene h2 span{color:transparent;-webkit-text-stroke:1.6px rgba(255,255,255,.85)}
+  .scene-sub{margin-top:14px;font-size:13.5px;line-height:2;color:#b9b6b0;letter-spacing:.6px;max-width:760px}
+  .scene-sub b{color:#fff}
+
+  .scene-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:24px;margin-top:30px;align-items:stretch}
+
+  .panel{position:relative;border-radius:22px;padding:30px;overflow:hidden;background:rgba(255,255,255,.05);backdrop-filter:blur(20px) saturate(1.3);-webkit-backdrop-filter:blur(20px) saturate(1.3);border:1px solid rgba(255,255,255,.12);transition:transform .5s cubic-bezier(.2,.8,.2,1),border-color .5s,box-shadow .5s,background .5s;transform-style:preserve-3d;will-change:transform}
+  .panel::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.13),transparent 42%);opacity:.7;pointer-events:none}
+  .panel::after{content:"";position:absolute;top:-80px;right:-80px;width:210px;height:210px;border-radius:50%;background:radial-gradient(circle,var(--accent-glow),transparent 70%);opacity:0;transition:opacity .55s;pointer-events:none}
+  .panel:hover{transform:translateY(-6px);border-color:var(--accent);box-shadow:0 34px 80px -34px var(--accent-glow);background:rgba(255,255,255,.08)}
+  .panel:hover::after{opacity:1}
+  .panel-label{font-size:10px;letter-spacing:4px;color:var(--accent);font-weight:600;display:flex;align-items:center;gap:9px;margin-bottom:18px}
+  .panel-label::before{content:"";width:16px;height:1px;background:var(--accent)}
+
+  /* 规格表 */
+  .spec-table{width:100%;border-collapse:collapse;font-size:12.5px}
+  .spec-table th{text-align:left;font-family:var(--font-d);font-size:15px;letter-spacing:2px;color:var(--accent);padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.14);font-weight:400}
+  .spec-table td{padding:11px 14px;border-bottom:1px dashed rgba(255,255,255,.08);color:#c9c6c0;letter-spacing:.5px;line-height:1.7;vertical-align:top;transition:background .3s,color .3s}
+  .spec-table td:first-child{color:#8d8a84;letter-spacing:1.5px;font-size:11px;white-space:nowrap;padding-right:20px}
+  .spec-table tr:hover td{background:var(--accent-glow);color:#fff}
+  .spec-table tr:hover td:first-child{color:#fff}
+  .spec-table b{color:#fff;font-weight:600}
+
+  .perf-chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+  .perf-chips span{font-size:10.5px;letter-spacing:2px;border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:8px 16px;color:#cfcbc4;background:rgba(255,255,255,.03);transition:.35s}
+  .perf-chips span:hover{border-color:var(--accent);color:#fff;transform:translateY(-2px);box-shadow:0 12px 30px -16px var(--accent)}
+  .perf-chips b{color:var(--accent);margin-left:6px;letter-spacing:1px}
+
+  .cap-list{list-style:none;margin-top:6px}
+  .cap-list li{position:relative;padding:14px 0 14px 30px;font-size:12.5px;line-height:1.95;color:#c4c1ba;letter-spacing:.5px;border-bottom:1px dashed rgba(255,255,255,.08)}
+  .cap-list li:last-child{border-bottom:none}
+  .cap-list li::before{content:"";position:absolute;left:2px;top:22px;width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent-glow)}
+  .cap-list b{color:#fff;font-weight:600}
+  .cap-list small{display:block;color:#8d8a84;font-size:10.5px;letter-spacing:1.5px;margin-top:3px}
+
+  /* 双实例 + 滚动记忆流程 */
+  .flow{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:stretch;margin-top:8px}
+  .flow-node{position:relative;border-radius:18px;padding:22px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);transition:.4s}
+  .flow-node:hover{border-color:var(--accent);background:rgba(255,255,255,.08);transform:translateY(-4px)}
+  .flow-node h4{font-family:var(--font-d);font-size:21px;letter-spacing:2px;display:flex;align-items:center;gap:10px}
+  .flow-node h4 i{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 14px var(--accent);flex:none}
+  .flow-node p{font-size:11.5px;line-height:1.95;color:#b5b2ac;margin-top:10px;letter-spacing:.5px}
+  .flow-node .tag{display:inline-block;margin-top:12px;font-size:9.5px;letter-spacing:2px;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:5px 12px}
+  .flow-arrow{display:grid;place-items:center;color:var(--accent)}
+  .flow-arrow svg{width:30px;height:30px;stroke:currentColor;fill:none;stroke-width:2}
+  .mem-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+  .mem-layer{position:relative;border-radius:14px;padding:16px 18px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);transition:.35s;overflow:hidden}
+  .mem-layer::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--accent),transparent)}
+  .mem-layer:hover{border-color:var(--accent);transform:translateY(-3px);box-shadow:0 18px 40px -20px var(--accent-glow)}
+  .mem-layer h5{font-family:var(--font-d);font-size:17px;letter-spacing:2px;color:#fff}
+  .mem-layer p{font-size:10.5px;line-height:1.85;color:#a5a29c;margin-top:6px;letter-spacing:.5px}
+  .mem-layer .cycle{font-size:9px;letter-spacing:2px;color:var(--accent);margin-top:8px;display:block}
+  .flow-note{margin-top:16px;font-size:12px;line-height:2;color:#b9b6b0;letter-spacing:.5px;padding:16px 18px;border-radius:14px;background:rgba(255,255,255,.03);border:1px dashed rgba(255,255,255,.14)}
+  .flow-note b{color:#fff}
+  .flow-note em{font-style:normal;color:var(--accent);font-weight:600}
+
+  /* 场景二 三能力卡 */
+  .trio{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:26px}
+  .trio-card{position:relative;border-radius:20px;padding:26px 24px;overflow:hidden;background:rgba(255,255,255,.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.12);transition:transform .5s cubic-bezier(.2,.8,.2,1),border-color .5s,box-shadow .5s,background .5s;transform-style:preserve-3d;will-change:transform}
+  .trio-card::after{content:"";position:absolute;top:-70px;right:-70px;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle,var(--accent-glow),transparent 70%);opacity:0;transition:opacity .55s;pointer-events:none}
+  .trio-card:hover{transform:translateY(-6px);border-color:var(--accent);box-shadow:0 34px 80px -34px var(--accent-glow);background:rgba(255,255,255,.08)}
+  .trio-card:hover::after{opacity:1}
+  .trio-no{font-family:var(--font-d);font-size:38px;line-height:1;color:transparent;-webkit-text-stroke:1.3px rgba(255,255,255,.22);transition:.4s}
+  .trio-card:hover .trio-no{color:var(--accent);-webkit-text-stroke:0;text-shadow:0 0 24px var(--accent-glow)}
+  .trio-card h4{font-family:var(--font-d);font-size:21px;letter-spacing:2px;margin:12px 0 10px}
+  .trio-card p{font-size:11.5px;line-height:2;color:#b5b2ac;letter-spacing:.5px}
+  .trio-card p b{color:#fff}
+  .trio-card .case{margin-top:14px;padding:13px 15px;border-radius:12px;background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.1);font-size:10.5px;line-height:1.9;color:#9d9a94;letter-spacing:.4px}
+  .trio-card .case em{font-style:normal;color:var(--accent)}
+
+  /* 配图 */
+  .scene-img{margin-top:26px;border-radius:22px;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,.14);box-shadow:0 0 0 1px rgba(217,31,38,.12),0 30px 70px -30px var(--accent-glow);transition:transform .6s cubic-bezier(.2,.8,.2,1),box-shadow .6s}
+  .scene-img img{display:block;width:100%;height:auto;transform:scale(1.001);transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+  .scene-img:hover{transform:translateY(-5px)}
+  .scene-img:hover img{transform:scale(1.035)}
+  .scene-img figcaption{position:absolute;left:16px;bottom:14px;font-size:9.5px;letter-spacing:3px;color:#e6e3dc;background:rgba(10,10,12,.55);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:7px 15px}
+
+  .scene-quote{margin-top:26px;border-radius:20px;padding:26px 30px;background:linear-gradient(120deg,var(--accent-glow),transparent 55%),rgba(255,255,255,.04);border:1px solid var(--accent);font-size:14px;line-height:2.1;color:#efede8;letter-spacing:.8px;position:relative;overflow:hidden}
+  .scene-quote::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent)}
+  .scene-quote b{color:var(--accent)}
+
+  /* 对比区 */
+  .compare{max-width:1240px;margin:0 auto;padding:80px 4vw 30px}
+  .cmp-cards{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:30px}
+  .cmp-card{position:relative;border-radius:22px;padding:30px;overflow:hidden;background:rgba(255,255,255,.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.12);transition:transform .5s cubic-bezier(.2,.8,.2,1),border-color .5s,box-shadow .5s}
+  .cmp-card:hover{transform:translateY(-6px);box-shadow:0 34px 80px -34px var(--accent-glow);border-color:var(--accent)}
+  .cmp-edge{--accent:var(--green);--accent-glow:var(--green-glow)}
+  .cmp-cloud{--accent:var(--violet);--accent-glow:var(--violet-glow)}
+  .cmp-card .cmp-role{font-family:var(--font-d);font-size:26px;letter-spacing:2px}
+  .cmp-card .cmp-sub{font-size:10px;letter-spacing:3px;color:var(--accent);margin-top:6px}
+  .cmp-table{width:100%;border-collapse:collapse;margin-top:26px;font-size:12px;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.1)}
+  .cmp-table th{font-family:var(--font-d);font-weight:400;font-size:16px;letter-spacing:2px;padding:13px 16px;text-align:left;background:rgba(255,255,255,.05)}
+  .cmp-table th:nth-child(2){color:var(--green)}
+  .cmp-table th:nth-child(3){color:var(--violet)}
+  .cmp-table td{padding:13px 16px;border-top:1px dashed rgba(255,255,255,.08);color:#c4c1ba;line-height:1.8;letter-spacing:.4px;vertical-align:top;transition:background .3s,color .3s}
+  .cmp-table td:first-child{color:#8d8a84;font-size:10.5px;letter-spacing:2px;white-space:nowrap}
+  .cmp-table tr:hover td{background:rgba(217,31,38,.14);color:#fff}
+  .cmp-table tr:hover td:first-child{color:#fff}
+  .final-quote{margin-top:34px;text-align:center;font-size:clamp(15px,1.6vw,19px);line-height:2.1;letter-spacing:1px;color:#eceae4;padding:30px 34px;border-radius:22px;background:rgba(255,255,255,.04);border:1px solid rgba(217,31,38,.4);position:relative;overflow:hidden}
+  .final-quote::before,.final-quote::after{content:"";position:absolute;top:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(217,31,38,.3),transparent 70%);pointer-events:none}
+  .final-quote::before{left:-60px}
+  .final-quote::after{right:-60px}
+  .final-quote b{color:var(--red)}
+
+  @media(max-width:1000px){
+    .scene-grid,.cmp-cards{grid-template-columns:1fr}
+    .trio{grid-template-columns:1fr}
+    .flow{grid-template-columns:1fr}
+    .flow-arrow{transform:rotate(90deg);padding:4px 0}
+    .mem-bar{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+
+<nav class="nav" id="nav">
+  <a class="nav-logo" href="index.html">篮训<span class="plus">✚</span>BOT<small>INS ROBOT LAB</small></a>
+  <div class="nav-links">
+    <a href="index.html#top">健康体态</a>
+    <a href="coaches.html">明星教练</a>
+    <a href="training.html">训练体系</a>
+    <a href="profile.html">个人中心</a>
+    <a href="datalab.html" class="active">数据监测</a>
+    <a href="opensource.html">开源介绍</a>
+  </div>
+  <div class="nav-icons">
+    <a class="nav-icon" href="index.html#gallery" aria-label="搜索"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></a>
+    <a class="nav-icon" href="login.html" aria-label="用户"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></a>
+    <button class="nav-burger" aria-label="菜单"><span></span><span></span></button>
+  </div>
+</nav>
+
+<header class="dt-hero">
+  <div class="dt-wrap">
+    <div class="dt-kicker reveal">数据监测 / AI DATA LAB</div>
+    <div class="dt-grid">
+      <div class="reveal">
+        <div class="dt-num">VL</div>
+        <h1 class="dt-title"><span class="tl-solid">AI</span> <span class="tl-stroke">双引擎</span></h1>
+        <div class="dt-en">QWEN3-VL × OPENHOOPVISION</div>
+        <p class="dt-quote">AI 视觉模型双引擎:Qwen3-VL 与 OpenHoopVision 的协同——OpenHoopVision 负责检测,Qwen3-VL 负责理解与追问。</p>
+        <div class="dt-meta">
+          <span>边缘端<b>Qwen3-VL-2B</b></span>
+          <span>云端<b>235B-A22B-Thinking</b></span>
+          <span>时间基准<b>帧级时间对齐</b></span>
+        </div>
+      </div>
+      <aside class="dt-coach reveal">
+        <div class="dt-coach-label">协同逻辑</div>
+        <p>检测器给出<b>「谁、在哪里、做什么」</b>,视觉语言模型给出<b>「为什么、接下来怎么办」</b>。一个在 Jetson 盒子里实时对话,一个在 8 卡 GPU 集群上深度复盘——同一条帧级时间线,两种时间尺度的智能。</p>
+      </aside>
+    </div>
+  </div>
+</header>
+
+<!-- ============ 场景一:边缘端 ============ -->
+<section class="scene scene-green">
+  <div class="reveal">
+    <div class="scene-tag">场景一 / EDGE · REALTIME</div>
+    <h2>边缘端实时交互 <span>Qwen3-VL-2B</span></h2>
+    <p class="scene-sub">定位:Jetson 级硬件上的<b>「现场对话层」</b>,为对话交互和工具调用优化。</p>
+  </div>
+
+  <div class="scene-grid">
+    <div class="panel reveal" data-tilt>
+      <div class="panel-label">规格参数 / SPEC SHEET</div>
+      <table class="spec-table">
+        <tr><th style="width:38%">参数项</th><th>数值 / 说明</th></tr>
+        <tr><td>总参数</td><td><b>2B</b></td></tr>
+        <tr><td>文本隐藏维度</td><td><b>2048</b></td></tr>
+        <tr><td>文本层数</td><td><b>28</b></td></tr>
+        <tr><td>注意力头</td><td><b>16</b>(8 KV heads · GQA)</td></tr>
+        <tr><td>视觉编码器</td><td>24 层 ViT(1024d / 16 heads / patch 16)</td></tr>
+        <tr><td>上下文</td><td><b>262,144 tokens</b></td></tr>
+        <tr><td>量化后体积</td><td><b>1.5GB</b>(INT4 NF4;BF16 约 4.1GB,缩小 2.7 倍)</td></tr>
+      </table>
+    </div>
+
+    <div class="panel reveal" data-tilt>
+      <div class="panel-label">边缘推理性能 / EDGE BENCHMARK</div>
+      <p style="font-size:12.5px;line-height:2;color:#b9b6b0;letter-spacing:.5px">Snapdragon 8 Elite 实测:</p>
+      <div class="perf-chips">
+        <span>首 token 延迟<b>0.46–1.86s</b></span>
+        <span>输出速度<b>41.5 tokens/s</b></span>
+      </div>
+      <div class="panel-label" style="margin-top:26px">能力边界 / CAPABILITY</div>
+      <ul class="cap-list">
+        <li><b>架构保留</b>:Interleaved-MRoPE、DeepStack、Text–Timestamp Alignment 全部保留</li>
+        <li><b>空间关系判断</b>:球员 / 球 / 篮筐相对位置</li>
+        <li><b>32 种语言 OCR</b>:记分牌、号码、场地标识<small>多语言场景直接可用</small></li>
+        <li><b>视觉智能体基础</b>:GUI 元素识别 + 工具调用</li>
+        <li><b>秒级时间定位</b>:回答「刚才 5 秒内发生了什么」</li>
+      </ul>
+    </div>
+  </div>
+
+  <figure class="scene-img reveal">
+    <img loading="lazy" alt="场边 Jetson 开发板上的边缘 AI 芯片" src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=Jetson%20development%20board%20on%20basketball%20court%20sideline%2C%20glowing%20edge%20AI%20chip%2C%20dark%20cinematic%2C%20red%20accent%20lighting&image_size=landscape_16_9">
+    <figcaption>EDGE NODE / COURTSIDE JETSON</figcaption>
+  </figure>
+
+  <div class="panel reveal" data-tilt style="margin-top:26px">
+    <div class="panel-label">核心架构 / 双实例 + 滚动记忆</div>
+    <p style="font-size:12px;line-height:2;color:#b9b6b0;letter-spacing:.5px;margin-bottom:18px">Seeed Studio 在 Jetson AGX Orin 64GB 验证的 Streaming Vision Agent 方案:</p>
+    <div class="flow">
+      <div class="flow-node">
+        <h4><i></i>识别实例</h4>
+        <p>持续处理视频流,约每 45 秒写入情节事件。不受提问干扰,记忆写入永不阻塞。</p>
+        <span class="tag">STREAMING · ALWAYS-ON</span>
+      </div>
+      <div class="flow-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+      <div class="flow-node">
+        <h4><i></i>Ask 实例</h4>
+        <p>响应自然语言提问,检索滚动记忆中的事件轨迹,而非重新分析整段视频。</p>
+        <span class="tag">ON-DEMAND · QA</span>
+      </div>
+    </div>
+    <div class="mem-bar">
+      <div class="mem-layer">
+        <h5>视觉记忆</h5>
+        <p>VLM2Vec 帧嵌入 + JPEG 证据</p>
+        <span class="cycle">约 5 秒更新</span>
+      </div>
+      <div class="mem-layer">
+        <h5>情节记忆</h5>
+        <p>事件流持续沉淀</p>
+        <span class="cycle">约 45 秒写入</span>
+      </div>
+      <div class="mem-layer">
+        <h5>语义事实</h5>
+        <p>实体状态与时间线</p>
+        <span class="cycle">长期演化</span>
+      </div>
+    </div>
+    <div class="flow-note"><b>分离原因:</b>提问不阻塞记忆写入。<br><b>示例:</b>教练问<em>「红队刚才那次丢球怎么发生的」</em>,Ask 实例检索已沉淀的事件轨迹,而非重新分析整段视频。</div>
+  </div>
+
+  <div class="scene-quote reveal">OpenHoopVision 检测器负责<b>「看见」</b>,2B 让检测结果<b>可被追问、可追溯</b>,跑在场边 Jetson 盒子里,不依赖云端。</div>
+</section>
+
+<!-- ============ 场景二:云端 ============ -->
+<section class="scene scene-violet">
+  <div class="reveal">
+    <div class="scene-tag">场景二 / CLOUD · TACTICAL</div>
+    <h2>云端战术分析 <span>Qwen3-VL-235B</span></h2>
+    <p class="scene-sub">A22B-Thinking:把结构化时间线数据转化为<b>可解释的战术语义</b>;MoE 架构总 235B / 每 token 激活 22B;Thinking 版强化多步推理,适合<b>分析</b>而非即时反应。</p>
+  </div>
+
+  <div class="panel reveal" data-tilt style="margin-top:30px">
+    <div class="panel-label">规格参数 / SPEC SHEET</div>
+    <table class="spec-table">
+      <tr><th style="width:22%">参数项</th><th>数值 / 说明</th></tr>
+      <tr><td>架构</td><td>MoE(<b>235B</b> 总参数 / 每 token 激活 <b>22B</b>)</td></tr>
+      <tr><td>上下文</td><td>原生 <b>256K</b>,可扩展至 <b>1M</b></td></tr>
+      <tr><td>视觉能力</td><td>2D + 3D grounding(方位 / 遮挡判断)</td></tr>
+      <tr><td>时间定位</td><td><b>帧级时间戳对齐</b>(支持「秒」与「时:分:秒」)</td></tr>
+      <tr><td>部署硬件</td><td>至少 <b>8×80GB GPU</b>(A100 / H100 / H200,FP8 约 263GB)</td></tr>
+      <tr><td>量化成本</td><td>INT4 约 <b>1.06 美元/小时</b>;FP8 约 3–3.9 美元/小时</td></tr>
+      <tr><td>部署分层</td><td>云端定位,与边缘部署<b>明确分层</b></td></tr>
+    </table>
+  </div>
+
+  <figure class="scene-img reveal">
+    <img loading="lazy" alt="云端 GPU 集群与篮球战术全息分析" src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=massive%20GPU%20server%20cluster%20data%20center%2C%20tactical%20basketball%20analytics%20hologram%2C%20deep%20blue%20purple%20cinematic&image_size=landscape_16_9">
+    <figcaption>CLOUD CLUSTER / TACTICAL HOLOGRAM</figcaption>
+  </figure>
+
+  <div class="trio">
+    <div class="trio-card reveal" data-tilt>
+      <div class="trio-no">01</div>
+      <h4>帧级时间戳对齐</h4>
+      <p>直接消费 OpenHoopVision 的 <b>JSONL 时间线</b>;Text–Timestamp Alignment 让时间戳与视频帧交错输入;能回答「第 15 分钟穿红衣服的人做了什么」。</p>
+      <div class="case">因果推理示例:不是<em>「第3节 07:42 投篮不中」</em>,而是<em>「防守者横移晚 0.8 秒 → 封盖角度偏移 → 出手角度从 51° 被压到 44°」</em>。</div>
+    </div>
+    <div class="trio-card reveal" data-tilt>
+      <div class="trio-no">02</div>
+      <h4>3D 空间感知</h4>
+      <p>从 2D 球场坐标<b>反推战术结构</b>:防守阵型紧凑度、进攻空间利用效率、挡拆后防守轮转迟滞方向。</p>
+      <div class="case">平面坐标 → 立体战术:<em>阵型 / 空间 / 轮转</em>三类高阶指标从坐标流中自动涌现。</div>
+    </div>
+    <div class="trio-card reveal" data-tilt>
+      <div class="trio-no">03</div>
+      <h4>Thinking 推理</h4>
+      <p>生成球探报告:防守者站位偏移 → 持球人突破路线打开 → 协防触发偏晚 → 底角空位 → 分球决策是否最优。</p>
+      <div class="case">这种<em>因果链式战术叙事</em>,是规则引擎无法生成的。</div>
+    </div>
+  </div>
+
+  <div class="scene-quote reveal">规则引擎告诉你<b>「发生了什么」</b>,235B-Thinking 告诉你<b>「为什么发生,以及下一次应该怎么做」</b>。</div>
+</section>
+
+<!-- ============ 双引擎对比 ============ -->
+<section class="compare">
+  <div class="dt-sec-head reveal">
+    <h2>双引擎<em>对比</em></h2>
+    <div class="en">EDGE × CLOUD / TIME SCALE</div>
+  </div>
+
+  <div class="cmp-cards">
+    <div class="cmp-card cmp-edge reveal" data-tilt>
+      <div class="cmp-role">Qwen3-VL-2B</div>
+      <div class="cmp-sub">边缘端 · 现场对话层</div>
+      <p style="margin-top:14px;font-size:12px;line-height:2;color:#b5b2ac;letter-spacing:.5px">让检测结果<b style="color:#fff">可被追问</b>——站在场边,随问随答。</p>
+    </div>
+    <div class="cmp-card cmp-cloud reveal" data-tilt>
+      <div class="cmp-role">235B-A22B-Thinking</div>
+      <div class="cmp-sub">云端 · 战术分析层</div>
+      <p style="margin-top:14px;font-size:12px;line-height:2;color:#b5b2ac;letter-spacing:.5px">让时间线数据<b style="color:#fff">可被解释</b>——赛后复盘,洞察成因。</p>
+    </div>
+  </div>
+
+  <table class="cmp-table reveal">
+    <tr><th style="width:16%">维度</th><th style="width:42%">边缘端 2B</th><th>云端 235B</th></tr>
+    <tr><td>响应尺度</td><td>秒级~分钟级现场对话</td><td>分钟级~小时级赛后复盘</td></tr>
+    <tr><td>输入</td><td>实时视频流 + 滚动记忆</td><td>JSONL 时间线 + 关键帧</td></tr>
+    <tr><td>输出示例</td><td>「刚才那次防守轮转谁慢了半拍」</td><td>「整场防守轮转迟滞集中在哪种战术类型」</td></tr>
+    <tr><td>硬件</td><td>Jetson AGX Orin 64GB + 1.5GB 量化模型</td><td>8×80GB GPU + 263GB FP8</td></tr>
+    <tr><td>核心价值</td><td>让检测结果可被追问</td><td>让时间线数据可被解释</td></tr>
+  </table>
+
+  <figure class="scene-img reveal" style="--accent:#d91f26;--accent-glow:rgba(217,31,38,.45)">
+    <img loading="lazy" alt="边缘端与云端双引擎协同概念图" src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=edge%20AI%20chip%20and%20cloud%20server%20cluster%20connected%20by%20glowing%20data%20streams%20above%20basketball%20court%20at%20night%2C%20dual%20engine%20concept%2C%20dark%20cinematic%20red%20and%20violet&image_size=landscape_16_9">
+    <figcaption>DUAL ENGINE / SEE · UNDERSTAND · DECIDE</figcaption>
+  </figure>
+
+  <div class="final-quote reveal">两者分工不是<b>「强弱之分」</b>,而是<b>「时间尺度之分」</b>——串联构成从「看见」到「理解」再到「决策」的完整链路。</div>
+</section>
+
+<div class="back-bar">
+  <a class="back-home" href="index.html"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>返回官网首页</a>
+</div>
+
+<script src="assets/training-detail.js"></script>
+</body>
+</html>
