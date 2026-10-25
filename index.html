@@ -213,6 +213,15 @@ a{color:inherit;text-decoration:none}
 .tilt-card::after{content:"";position:absolute;top:-70px;right:-70px;z-index:2;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle,rgba(217,31,38,.4),transparent 70%);opacity:0;transition:opacity .55s;pointer-events:none}
 .tilt-card:hover{border-color:rgba(217,31,38,.68);box-shadow:0 38px 80px -28px rgba(217,31,38,.45),inset 0 0 0 1px rgba(255,255,255,.07)}
 .tilt-card:hover::after{opacity:1}
+/* ---------- 二屏机器人自动轮播 ---------- */
+.stats-figure .tilt-card{width:280px}
+.robot-carousel{position:relative;width:100%;aspect-ratio:4/5}
+.robot-carousel .rc-slide{position:absolute;inset:0;opacity:0;transform:scale(1.06);transition:opacity 1s ease,transform 1.4s ease}
+.robot-carousel .rc-slide.on{opacity:1;transform:scale(1)}
+.robot-carousel .rc-slide img{width:100%;height:100%;object-fit:cover;display:block}
+.rc-dots{position:absolute;left:0;right:0;bottom:12px;z-index:4;display:flex;justify-content:center;gap:7px}
+.rc-dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.35);transition:.35s;cursor:none}
+.rc-dots i.on{background:var(--red);box-shadow:0 0 9px var(--red);transform:scale(1.3)}
 @media(max-width:900px){.stats-inner{grid-template-columns:1fr}.stats-quote{justify-self:start}}
 @media(max-width:1200px){.stats-inner{gap:28px}}
 
@@ -455,7 +464,12 @@ a{color:inherit;text-decoration:none}
 
   <div class="stats-figure reveal">
     <div class="tilt-card" data-tilt>
-      <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=basketball%20training%20robot%20torso%20detail%20wearing%20red%20jersey%20armor%20with%20circular%20team%20emblem%20studio%20light%20pure%20black%20background%20product%20photography%20hyper%20detailed&image_size=square" alt="机器人战衣细节">
+      <div class="robot-carousel" id="robotCarousel">
+        <div class="rc-slide on"><img src="assets/robot-slide-1.jpg" alt="机器人扣篮瞬间"></div>
+        <div class="rc-slide"><img src="assets/robot-slide-2.jpg" alt="机器人飞身上篮"></div>
+        <div class="rc-slide"><img src="assets/robot-slide-3.jpg" alt="机器人双手扣篮"></div>
+        <div class="rc-dots"><i class="on"></i><i></i><i></i></div>
+      </div>
     </div>
   </div>
 </section>
@@ -700,6 +714,20 @@ document.querySelectorAll('.magnetic').forEach(btn=>{
 /* ---------- 胶片条内容复制以实现无缝滚动 ---------- */
 const track=document.getElementById('filmtrack');
 track.innerHTML+=track.innerHTML;
+
+/* ---------- 二屏机器人自动轮播:4.5s 交叉淡入淡出,圆点可点击 ---------- */
+const rc=document.getElementById('robotCarousel');
+if(rc){
+  const slides=[...rc.querySelectorAll('.rc-slide')];
+  const dots=[...rc.querySelectorAll('.rc-dots i')];
+  let rcIdx=0,rcTimer;
+  const rcGo=n=>{slides[rcIdx].classList.remove('on');dots[rcIdx].classList.remove('on');
+    rcIdx=(n+slides.length)%slides.length;
+    slides[rcIdx].classList.add('on');dots[rcIdx].classList.add('on');};
+  const rcAuto=()=>{clearInterval(rcTimer);rcTimer=setInterval(()=>rcGo(rcIdx+1),4500);};
+  dots.forEach((d,i)=>d.addEventListener('click',()=>{rcGo(i);rcAuto();}));
+  rcAuto();
+}
 </script>
   <script src="assets/fx.js" defer></script>
 </body>
