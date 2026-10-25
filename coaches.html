@@ -79,39 +79,63 @@ a{color:inherit;text-decoration:none}
 .g-title small{font-family:var(--font-c);font-size:11px;letter-spacing:4px;color:var(--grey);margin-left:14px;font-weight:400}
 .g-line{flex:1;height:1px;background:rgba(255,255,255,.12)}
 
-/* 球星玻璃卡 */
+/* 分组场景横幅 */
+.g-banner{position:relative;margin:-6px 0 36px;border-radius:20px;overflow:hidden;border:1px solid rgba(217,31,38,.5);box-shadow:0 26px 64px -26px rgba(217,31,38,.4),inset 0 0 0 1px rgba(255,255,255,.05)}
+.g-banner img{display:block;width:100%;aspect-ratio:16/6;object-fit:cover;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+.g-banner::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,11,12,.45),transparent 42%);pointer-events:none}
+.g-banner:hover img{transform:scale(1.04)}
+@media(max-width:640px){.g-banner img{aspect-ratio:16/9}}
+
+/* 球星玻璃卡(人物全屏背景) */
 .stars{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:22px}
 .star{
-  position:relative;border-radius:20px;padding:30px 26px 26px;overflow:hidden;
+  position:relative;border-radius:20px;padding:26px 24px 22px;overflow:hidden;min-height:380px;
+  display:flex;flex-direction:column;justify-content:flex-end;
   background:rgba(255,255,255,.05);
-  backdrop-filter:blur(18px) saturate(1.3);
-  -webkit-backdrop-filter:blur(18px) saturate(1.3);
   border:1px solid rgba(255,255,255,.12);
-  transition:transform .5s cubic-bezier(.2,.8,.2,1),border-color .5s,box-shadow .5s,background .5s;
+  transition:transform .5s cubic-bezier(.2,.8,.2,1),border-color .5s,box-shadow .5s;
   cursor:none;
 }
-.star::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.13),transparent 42%);pointer-events:none;opacity:.7;transition:opacity .5s}
-.star::after{content:"";position:absolute;bottom:-70px;right:-70px;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle,rgba(217,31,38,.38),transparent 70%);opacity:0;transition:opacity .55s;pointer-events:none}
-.star:hover{transform:translateY(-9px);border-color:rgba(217,31,38,.65);box-shadow:0 36px 80px -28px rgba(217,31,38,.45),inset 0 0 0 1px rgba(255,255,255,.06);background:rgba(255,255,255,.08)}
-.star:hover::after{opacity:1}
-.star.has-portrait::before{background:linear-gradient(135deg,rgba(255,255,255,.12),rgba(11,11,12,.16) 38%,rgba(11,11,12,.82) 100%),var(--portrait) right 18px top 18px/178px auto no-repeat;opacity:.8}
-.star.has-portrait:hover::before{opacity:1}
+#legends .star,#active .star{min-height:420px}
+.star:hover{transform:translateY(-8px);border-color:rgba(217,31,38,.65);box-shadow:0 36px 80px -28px rgba(217,31,38,.45),inset 0 0 0 1px rgba(255,255,255,.08)}
 .star:focus-visible{outline:2px solid #fff;outline-offset:4px}
-.star-rank{position:absolute;top:18px;right:20px;font-family:var(--font-d);font-size:40px;line-height:1;color:transparent;-webkit-text-stroke:1.2px rgba(255,255,255,.22);transition:.45s}
+/* 人物背景图 + 底部渐变蒙版 */
+.star-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.star:hover .star-bg{transform:scale(1.06)}
+.star-shade{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(11,11,12,.3) 0%,transparent 34%,rgba(0,0,0,.85) 92%);pointer-events:none}
+.star-rank{position:absolute;top:14px;right:20px;z-index:2;font-family:var(--font-d);font-size:44px;line-height:1;color:transparent;-webkit-text-stroke:1.2px rgba(255,255,255,.45);text-shadow:0 2px 14px rgba(0,0,0,.4);transition:.45s}
 .star:hover .star-rank{color:var(--red);-webkit-text-stroke:0;text-shadow:0 0 22px rgba(217,31,38,.8)}
-.star-tag{display:inline-block;font-size:9.5px;letter-spacing:3px;color:var(--red);border:1px solid rgba(217,31,38,.5);border-radius:999px;padding:4px 12px;margin-bottom:16px;transition:.35s}
+.star-tag{position:relative;z-index:2;align-self:flex-start;display:inline-block;font-size:9.5px;letter-spacing:3px;color:var(--red);border:1px solid rgba(217,31,38,.6);background:rgba(11,11,12,.45);border-radius:999px;padding:4px 12px;margin-bottom:14px;transition:.35s}
 .star:hover .star-tag{background:var(--red);color:#fff;box-shadow:0 8px 20px -6px var(--red)}
-.star h3{font-family:var(--font-c);font-weight:900;font-size:21px;letter-spacing:1px;margin-bottom:4px;position:relative;z-index:1}
-.star .en{font-family:var(--font-d);font-size:13px;letter-spacing:2px;color:var(--grey);margin-bottom:14px;transition:color .4s}
+.star h3{font-family:var(--font-c);font-weight:900;font-size:21px;letter-spacing:1px;margin-bottom:4px;position:relative;z-index:2;text-shadow:0 2px 14px rgba(0,0,0,.65)}
+.star .en{position:relative;z-index:2;font-family:var(--font-d);font-size:13px;letter-spacing:2px;color:#c0bdb6;margin-bottom:12px;transition:color .4s}
 .star:hover .en{color:#fff}
-.star p{font-size:12px;line-height:1.95;color:#b0ada6;letter-spacing:.5px;position:relative;z-index:1;transition:color .4s}
-.star:hover p{color:#e8e6e1}
-.star-bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(var(--red),transparent);transform:scaleY(0);transform-origin:top;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.star p{position:relative;z-index:2;font-size:12px;line-height:1.9;color:#d4d1ca;letter-spacing:.5px;text-shadow:0 1px 10px rgba(0,0,0,.55)}
+.star-bar{position:absolute;left:0;top:0;bottom:0;width:3px;z-index:2;background:linear-gradient(var(--red),transparent);transform:scaleY(0);transform-origin:top;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
 .star:hover .star-bar{transform:scaleY(1)}
-/* 球星头像 */
-.star-ava{width:74px;height:74px;border-radius:18px;object-fit:cover;display:block;margin-bottom:16px;border:1px solid rgba(255,255,255,.16);filter:grayscale(.55) brightness(.85);box-shadow:0 12px 28px -12px rgba(0,0,0,.8);transition:filter .5s,transform .5s cubic-bezier(.34,1.56,.64,1),border-color .5s,box-shadow .5s;position:relative;z-index:1}
-.star:hover .star-ava{filter:grayscale(0) brightness(1.05);transform:scale(1.12) rotate(-3deg);border-color:var(--red);box-shadow:0 16px 40px -12px var(--red)}
-.star-action{position:relative;z-index:2;display:inline-flex;align-items:center;gap:8px;margin-top:19px;color:#fff;font-size:10px;letter-spacing:2px;opacity:.7;transition:.35s}.star-action svg{width:13px;height:13px;fill:none;stroke:var(--red);stroke-width:2;transition:transform .35s}.star:hover .star-action{opacity:1}.star:hover .star-action svg{transform:translateX(4px)}
+.star-action{position:relative;z-index:2;display:inline-flex;align-items:center;gap:8px;margin-top:15px;color:#fff;font-size:10px;letter-spacing:2px;opacity:.8;transition:.35s}.star-action svg{width:13px;height:13px;fill:none;stroke:var(--red);stroke-width:2;transition:transform .35s}.star:hover .star-action{opacity:1}.star:hover .star-action svg{transform:translateX(4px)}
+/* 生平玻璃浮层 */
+.star-bio{
+  position:absolute;left:12px;right:12px;bottom:12px;z-index:4;
+  padding:18px 18px 14px;border-radius:16px;
+  background:rgba(20,20,24,.72);
+  backdrop-filter:blur(18px) saturate(1.3);-webkit-backdrop-filter:blur(18px) saturate(1.3);
+  border:1px solid rgba(255,255,255,.12);
+  transform:translateY(calc(100% + 16px));opacity:0;
+  transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .5s cubic-bezier(.2,.8,.2,1);
+  pointer-events:none;
+}
+.star-bio::before{content:"";position:absolute;top:0;left:18px;right:18px;height:2px;background:var(--red);border-radius:2px;box-shadow:0 0 14px var(--red)}
+.star:hover .star-bio,.star:focus-visible .star-bio{transform:translateY(0);opacity:1}
+.bio-head{display:flex;align-items:baseline;gap:10px;margin-bottom:8px}
+.bio-head b{font-size:15px;font-weight:900;letter-spacing:1px}
+.bio-head span{font-size:9.5px;letter-spacing:2px;color:var(--red)}
+.star-bio p{position:static;font-size:11.5px;line-height:1.85;color:#dcd9d3;letter-spacing:.3px;text-shadow:none}
+.bio-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.bio-tags i{font-style:normal;font-size:9px;letter-spacing:2px;color:#f2c1c3;border:1px solid rgba(217,31,38,.5);border-radius:999px;padding:3px 10px}
+@media (hover:none){
+  .star-bio{position:static;transform:none;opacity:1;margin-top:14px;background:rgba(20,20,24,.55)}
+}
 
 /* 返回悬浮 */
 .back-bar{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:800}
@@ -164,6 +188,7 @@ a{color:inherit;text-decoration:none}
 <!-- 历史传奇 -->
 <section class="group" id="legends">
   <div class="g-head reveal"><span class="g-no">01</span><h2 class="g-title">历史传奇<small>ALL-TIME LEGENDS</small></h2><span class="g-line"></span></div>
+  <figure class="g-banner reveal"><img loading="lazy" src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=black%20and%20white%20film%20noir%20classic%20basketball%20arena%20at%20night%20dramatic%20spotlight%20on%20empty%20vintage%20court%20film%20grain%20cinematic%20wide%20shot&image_size=landscape_16_9" alt="黑白胶片风经典球场夜景"></figure>
   <div class="stars">
     <div class="star reveal"><span class="star-bar"></span><span class="star-rank">23</span><span class="star-tag">GOAT</span><h3>迈克尔·乔丹</h3><div class="en">MICHAEL JORDAN</div><p>公认的篮球之神,将 NBA 推向全球的旗帜人物。</p></div>
     <div class="star reveal"><span class="star-bar"></span><span class="star-rank">06</span><span class="star-tag">全能前锋</span><h3>勒布朗·詹姆斯</h3><div class="en">LEBRON JAMES</div><p>历史级别的全能前锋,生涯极长且持续保持顶尖水平。</p></div>
@@ -181,6 +206,7 @@ a{color:inherit;text-decoration:none}
 <!-- 现役巨星 -->
 <section class="group" id="active">
   <div class="g-head reveal"><span class="g-no">02</span><h2 class="g-title">现役巨星<small>ACTIVE SUPERSTARS</small></h2><span class="g-line"></span></div>
+  <figure class="g-banner reveal"><img loading="lazy" src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=modern%20NBA%20basketball%20arena%20at%20night%20neon%20red%20lights%20packed%20crowd%20glossy%20court%20reflections%20cinematic%20wide%20angle&image_size=landscape_16_9" alt="霓虹灯光下的现代 NBA 赛场"></figure>
   <div class="stars">
     <div class="star reveal"><span class="star-bar"></span><span class="star-rank">15</span><span class="star-tag">组织中锋</span><h3>尼古拉·约基奇</h3><div class="en">NIKOLA JOKIC</div><p>划时代的组织中锋,多次常规赛 MVP 得主。</p></div>
     <div class="star reveal"><span class="star-bar"></span><span class="star-rank">77</span><span class="star-tag">持球大核</span><h3>卢卡·东契奇</h3><div class="en">LUKA DONCIC</div><p>持球大核心打法的代表人物,数据全面。</p></div>
@@ -198,6 +224,7 @@ a{color:inherit;text-decoration:none}
 <!-- 中国力量 -->
 <section class="group" id="china">
   <div class="g-head reveal"><span class="g-no">03</span><h2 class="g-title">中国力量<small>CHINA PRIDE</small></h2><span class="g-line"></span></div>
+  <figure class="g-banner reveal"><img loading="lazy" src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=indoor%20basketball%20stadium%20red%20lighting%20chinese%20five%20star%20red%20flag%20dramatic%20haze%20cinematic%20atmosphere%20wide%20shot&image_size=landscape_16_9" alt="红色灯光体育馆与五星红旗元素"></figure>
   <div class="stars">
     <div class="star reveal"><span class="star-bar"></span><span class="star-rank">11</span><span class="star-tag">名人堂</span><h3>姚明</h3><div class="en">YAO MING</div><p>中国篮球最具全球影响力的球星,NBA 名人堂成员。</p></div>
     <div class="star reveal"><span class="star-bar"></span><span class="star-rank">09</span><span class="star-tag">领军人物</span><h3>易建联</h3><div class="en">YI JIANLIAN</div><p>后姚明时代中国男篮的领军人物,CBA 历史级别的巨星。</p></div>
@@ -210,6 +237,7 @@ a{color:inherit;text-decoration:none}
 <!-- WNBA -->
 <section class="group" id="wnba">
   <div class="g-head reveal"><span class="g-no">04</span><h2 class="g-title">WNBA 巨星<small>WOMEN'S GAME</small></h2><span class="g-line"></span></div>
+  <figure class="g-banner reveal"><img loading="lazy" src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=women%27s%20basketball%20arena%20at%20night%20purple%20spotlights%20dramatic%20light%20beams%20over%20court%20cinematic%20wide%20shot&image_size=landscape_16_9" alt="紫色灯光女子篮球赛场"></figure>
   <div class="stars">
     <div class="star reveal"><span class="star-bar"></span><span class="star-rank">22</span><span class="star-tag">门面人物</span><h3>阿贾·威尔逊</h3><div class="en">A'JA WILSON</div><p>多次获得 MVP 的统治级内线,WNBA 的门面人物之一。</p></div>
     <div class="star reveal"><span class="star-bar"></span><span class="star-rank">22</span><span class="star-tag">现象级新秀</span><h3>凯特琳·克拉克</h3><div class="en">CAITLIN CLARK</div><p>以超远三分和超高人气极大地提升了 WNBA 的关注度。</p></div>
@@ -239,12 +267,15 @@ addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40),{passi
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.1});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-/* ---------- 球星头像背景 + 动作档案入口 ---------- */
+/* ---------- 球星全屏背景 + 生平浮层 + 动作档案入口 ---------- */
 document.querySelectorAll('.star').forEach(s=>{
   const h=s.querySelector('h3');const player=window.COACH_BY_NAME[h.textContent.trim()];
   if(!player)return;
-  s.classList.add('has-portrait');s.style.setProperty('--portrait',`url("${player.portrait}")`);
-  const img=document.createElement('img');img.className='star-ava';img.loading='lazy';img.alt=player.cn;img.src=player.portrait;s.insertBefore(img,s.querySelector('.star-tag'));
+  const bg=document.createElement('img');bg.className='star-bg';bg.loading='lazy';bg.alt=player.cn;bg.src=player.portrait;s.insertBefore(bg,s.firstChild);
+  const shade=document.createElement('div');shade.className='star-shade';s.insertBefore(shade,bg.nextSibling);
+  const bio=document.createElement('div');bio.className='star-bio';
+  bio.innerHTML='<div class="bio-head"><b>'+player.cn+'</b><span>#'+player.no+' · '+player.tag+'</span></div><p>'+(player.bio||'')+'</p><div class="bio-tags"><i>'+player.role+'</i><i>'+player.era+'</i></div>';
+  s.appendChild(bio);
   const action=document.createElement('span');action.className='star-action';action.innerHTML='查看动作档案 <svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>';s.appendChild(action);
   const open=()=>{location.href=`coach-detail.html?player=${encodeURIComponent(player.id)}`;};
   s.tabIndex=0;s.setAttribute('role','link');s.setAttribute('aria-label',`查看${player.cn}的动作档案`);s.addEventListener('click',open);s.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}});
