@@ -323,6 +323,7 @@ a.pf-item:hover,a.pf-item:hover b{color:var(--red)}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
 </style>
+  <link rel="stylesheet" href="assets/fx.css">
 </head>
 <body>
 <div class="cursor-dot"></div><div class="cursor-ring"></div>
@@ -765,5 +766,6 @@ const revealObserver = new IntersectionObserver(entries => {
 }, {threshold:.12});
 $$('.reveal').forEach(element => revealObserver.observe(element));
 </script>
+  <script src="assets/fx.js" defer></script>
 </body>
 </html>

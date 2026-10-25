@@ -80,6 +80,7 @@ button,a{font:inherit;color:inherit;text-decoration:none}button{cursor:none;bord
 @media(max-width:630px){body{cursor:auto}.cursor-dot,.cursor-ring{display:none}.page{padding:103px 16px 70px}.nav{top:10px;width:calc(100% - 24px);height:58px;padding:0 17px}.nav-logo{font-size:23px}.nav-logo small,.nav-icon{display:none}.nav-icons{gap:5px}.profile-head{grid-template-columns:1fr;gap:23px;padding-bottom:24px}.profile-title{font-size:68px}.identity{padding:0}.today-card{padding:23px;min-height:390px}.signal-card{min-height:230px}.metrics-grid{grid-template-columns:1fr 1fr;gap:10px}.metric-card{padding:17px;min-height:150px}.metric-card:last-child{grid-column:span 2}.metric-card .metric-value{font-size:44px}.ability-body{grid-template-columns:1fr;gap:6px}.ability-list{padding:0 3px}.dashboard-right{grid-template-columns:1fr}.film-grid{grid-template-columns:1fr}.film-main{grid-column:auto}.film,.film-main{min-height:205px}.films-top{display:block}.films-top p{margin-top:18px}.ticker{height:48px}.ticker-flow span{font-size:16px}.modal{padding:25px 20px}.timer{font-size:65px}.court-lines{right:-100px}.orb-a{right:-460px}.orb-b{right:-360px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
 </style>
+  <link rel="stylesheet" href="assets/fx.css">
 </head>
 <body>
 <div class="cursor-dot"></div><div class="cursor-ring"></div>
@@ -300,5 +301,6 @@ if (matchMedia('(hover:hover)').matches) {
 }
 addEventListener('keydown', event => { if (event.key === 'Escape' && sessionModal.classList.contains('open')) closeSession(); });
 </script>
+  <script src="assets/fx.js" defer></script>
 </body>
 </html>
