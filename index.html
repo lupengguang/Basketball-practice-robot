@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -250,27 +250,41 @@ a{color:inherit;text-decoration:none}
 /* 桌面端收窄大标题,保证 8 字标题 + 右侧 meta 在 1024-1920px 均有合理空间 */
 @media(min-width:901px){.paper-title{font-size:clamp(64px,7.6vw,146px)}}
 
-/* ---------- 瀑布流网格 ---------- */
-.waterfall{max-width:1240px;margin:40px auto 0;columns:3;column-gap:26px}
-@media(max-width:1000px){.waterfall{columns:2}}
-@media(max-width:620px){.waterfall{columns:1}}
-.wf-item{break-inside:avoid;margin-bottom:26px;position:relative}
-.wf-num{font-family:var(--font-d);font-size:22px;letter-spacing:2px;color:#111;margin-bottom:12px;display:flex;align-items:center;gap:10px}
-.wf-num::after{content:"";flex:1;height:1px;background:rgba(0,0,0,.15)}
-.wf-card{position:relative;border-radius:14px;overflow:hidden;background:#111;transform:translateZ(0);border:1px solid rgba(255,255,255,.14);transition:transform .45s cubic-bezier(.2,.8,.2,1),border-color .45s,box-shadow .45s}
-.wf-card::before{content:"";position:absolute;top:-70px;right:-70px;z-index:1;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle,rgba(217,31,38,.4),transparent 70%);opacity:0;transition:opacity .55s;pointer-events:none}
-.wf-card:hover{transform:translateY(-7px);border-color:rgba(217,31,38,.68);box-shadow:0 38px 80px -28px rgba(217,31,38,.45),inset 0 0 0 1px rgba(255,255,255,.07)}
-.wf-card:hover::before{opacity:1}
-.wf-card img{width:100%;transition:transform .8s cubic-bezier(.2,.8,.2,1),filter .8s}
-.wf-card::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,12,.85),transparent 55%);opacity:0;transition:opacity .5s}
-.wf-info{position:absolute;left:18px;right:18px;bottom:16px;z-index:2;opacity:0;transform:translateY(14px);transition:.5s cubic-bezier(.2,.8,.2,1);color:#fff}
-.wf-info h4{font-family:var(--font-d);font-size:22px;letter-spacing:2px}
-.wf-info p{font-size:11px;letter-spacing:2px;color:#d8d5cf;margin-top:4px}
-.wf-tag{position:absolute;top:14px;left:14px;z-index:2;background:var(--red);color:#fff;font-size:10px;letter-spacing:2px;padding:5px 12px;border-radius:999px;opacity:0;transform:translateY(-10px);transition:.45s}
-.wf-card:hover img{transform:scale(1.08) rotate(.5deg);filter:saturate(1.15)}
-.wf-card:hover::after{opacity:1}
-.wf-card:hover .wf-info{opacity:1;transform:translateY(0)}
-.wf-card:hover .wf-tag{opacity:1;transform:translateY(0)}
+/* ---------- 瀑布流卡片堆叠 + 毛玻璃拟态 ---------- */
+.waterfall{position:relative;max-width:1240px;height:620px;margin:50px auto 0;columns:unset;column-gap:0;perspective:1200px}
+.wf-item{break-inside:unset;margin:0}
+.wf-card{position:absolute;width:280px;height:440px;border-radius:18px;overflow:hidden;will-change:transform,opacity;transform-origin:center bottom;transition:transform .55s cubic-bezier(.2,.9,.2,1),opacity .55s cubic-bezier(.2,.9,.2,1),box-shadow .45s,border-color .45s;filter:drop-shadow(0 12px 30px rgba(0,0,0,.35))}
+.wf-card{opacity:0}
+.wf-card.in-stack{opacity:1;transform:translate(0,0) rotate(var(--r,0deg)) scale(var(--s,.92));z-index:var(--z,1)}
+/* 堆叠初始态:6 张居中层叠 */
+.wf-card.in-stack{transform:translate(calc(50% - 140px),calc(50% - 220px)) rotate(var(--r,0deg)) scale(var(--s,.92))}
+.waterfall:hover .wf-card.in-stack{transition:transform .6s cubic-bezier(.2,.9,.2,1),opacity .55s,filter .45s}
+.waterfall:hover .wf-card:nth-child(1).in-stack{transform:translate(-260px,30px) rotate(14deg) scale(.86);z-index:3}
+.waterfall:hover .wf-card:nth-child(2).in-stack{transform:translate(-150px,0px) rotate(7deg) scale(.9);z-index:5}
+.waterfall:hover .wf-card:nth-child(3).in-stack{transform:translate(-50px,-10px) rotate(2deg) scale(.94);z-index:7}
+.waterfall:hover .wf-card:nth-child(4).in-stack{transform:translate(60px,-10px) rotate(-2deg) scale(.94);z-index:8}
+.waterfall:hover .wf-card:nth-child(5).in-stack{transform:translate(160px,0px) rotate(-7deg) scale(.9);z-index:6}
+.waterfall:hover .wf-card:nth-child(6).in-stack{transform:translate(280px,30px) rotate(-14deg) scale(.86);z-index:4}
+.wf-card:hover{z-index:99!important;transform:translateY(-14px) rotate(0deg) scale(1.04)!important;box-shadow:0 42px 70px -20px rgba(217,31,38,.55),0 12px 28px rgba(0,0,0,.5)!important;border-color:rgba(217,31,38,.9)!important}
+/* 毛玻璃叠加层(覆盖原背景) */
+.wf-card::before{content:"";position:absolute;inset:0;z-index:3;background:linear-gradient(160deg,rgba(24,18,18,.46) 0%,rgba(12,8,8,.52) 100%);backdrop-filter:blur(18px) saturate(155%);-webkit-backdrop-filter:blur(18px) saturate(155%);opacity:.85;transition:opacity .45s}
+.wf-card:hover::before{opacity:.55}
+.wf-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;transition:transform .9s cubic-bezier(.2,.9,.2,1),filter .8s}
+.wf-card::after{content:"";position:absolute;inset:0;z-index:4;pointer-events:none;border-radius:18px;border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -60px 80px -40px rgba(0,0,0,.55);background:linear-gradient(120deg,transparent 55%,rgba(255,255,255,.08) 58%,transparent 70%)}
+.wf-card:hover::after{border-color:rgba(217,31,38,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -60px 80px -40px rgba(0,0,0,.55),0 0 40px rgba(217,31,38,.35)}
+.wf-num{position:absolute;top:14px;right:16px;z-index:6;font-family:var(--font-d);font-size:44px;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.82);letter-spacing:2px;line-height:1}
+.wf-num::after{display:none}
+.wf-tag{position:absolute;top:18px;left:18px;z-index:6;background:rgba(217,31,38,.82);backdrop-filter:blur(8px);color:#fff;font-size:10px;letter-spacing:2px;padding:6px 14px;border-radius:999px;opacity:1;transform:none}
+.wf-info{position:absolute;left:18px;right:18px;bottom:16px;z-index:6;color:#fff;opacity:1;transform:none;background:rgba(0,0,0,.35);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.14)}
+.wf-info h4{font-family:var(--font-d);font-size:17px;letter-spacing:2px}
+.wf-info p{font-size:11px;letter-spacing:2px;color:#d8d5cf;margin-top:3px}
+.wf-card:hover img{transform:scale(1.12) rotate(1deg);filter:saturate(1.25)}
+/* 移动端退化:恢复 1 列网格 */
+@media(max-width:900px){
+  .waterfall{height:auto;max-width:420px}
+  .wf-item{margin-bottom:26px}
+  .wf-card{position:relative;width:100%;height:360px;transform:none!important;opacity:1!important;z-index:auto;filter:none}
+}
 
 /* ---------- 预约区(深色卡+头像) ---------- */
 .booking{max-width:1240px;margin:70px auto 0;display:grid;grid-template-columns:1fr auto 1fr;gap:30px;align-items:center}
@@ -488,49 +502,22 @@ a{color:inherit;text-decoration:none}
 
   <!-- 瀑布流 -->
   <div class="waterfall">
-    <div class="wf-item reveal">
-      <div class="wf-num">01</div>
-      <div class="wf-card">
+    <div class="wf-item reveal"><div class="wf-card"><div class="wf-num">01</div>
         <span class="wf-tag">实战对抗</span>
         <img src="assets/gallery-01.jpg" alt="机器人暴扣瞬间">
-        <div class="wf-info"><h4>暴扣模块</h4><p>弹跳算法 3.0 · 滞空姿态控制</p></div>
-      </div>
-    </div>
-    <div class="wf-item reveal">
-      <div class="wf-num">02</div>
-      <div class="wf-card">
+        <div class="wf-info"><h4>暴扣模块</h4><p>弹跳算法 3.0 · 滞空姿态控制</p></div></div><div class="wf-item reveal"><div class="wf-card"><div class="wf-num">02</div>
         <span class="wf-tag">投篮特训</span>
         <img src="assets/gallery-02.jpg" alt="跳投训练">
-        <div class="wf-info"><h4>跳投校准</h4><p>毫米级出手角度捕捉</p></div>
-      </div>
-    </div>
-    <div class="wf-item reveal">
-      <div class="wf-num">03</div>
-      <div class="wf-card">
+        <div class="wf-info"><h4>跳投校准</h4><p>毫米级出手角度捕捉</p></div></div><div class="wf-item reveal"><div class="wf-card"><div class="wf-num">03</div>
         <span class="wf-tag">数据中枢</span>
         <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=holographic%20basketball%20analytics%20interface%203d%20court%20heatmap%20red%20glow%20dark%20control%20room%20futuristic%20ui%20screens&image_size=landscape_4_3" alt="数据分析中枢">
-        <div class="wf-info"><h4>数据中枢</h4><p>全场热力图 · 实时复盘</p></div>
-      </div>
-    </div>
-    <div class="wf-item reveal">
-      <div class="wf-num">04</div>
-      <div class="wf-card">
+        <div class="wf-info"><h4>数据中枢</h4><p>全场热力图 · 实时复盘</p></div></div><div class="wf-item reveal"><div class="wf-card"><div class="wf-num">04</div>
         <span class="wf-tag">人机合练</span>
         <img src="assets/gallery-04.jpg" alt="教练与机器人合练">
-        <div class="wf-info"><h4>人机合练</h4><p>教练平板直连机器人终端</p></div>
-      </div>
-    </div>
-    <div class="wf-item reveal">
-      <div class="wf-num">05</div>
-      <div class="wf-card">
+        <div class="wf-info"><h4>人机合练</h4><p>教练平板直连机器人终端</p></div></div><div class="wf-item reveal"><div class="wf-card"><div class="wf-num">05</div>
         <span class="wf-tag">运球专项</span>
         <img src="assets/gallery-05.jpg" alt="运球训练">
-        <div class="wf-info"><h4>运球节奏</h4><p>变向频率自适应学习</p></div>
-      </div>
-    </div>
-    <div class="wf-item reveal">
-      <div class="wf-num">06</div>
-      <div class="wf-card">
+        <div class="wf-info"><h4>运球节奏</h4><p>变向频率自适应学习</p></div></div><div class="wf-item reveal"><div class="wf-card"><div class="wf-num">06</div>
         <span class="wf-tag">战队集结</span>
         <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=team%20of%20humanoid%20robots%20lined%20up%20on%20futuristic%20basketball%20court%20red%20neon%20symmetric%20composition%20cinematic%20wide%20shot&image_size=landscape_4_3" alt="机器人战队集结">
         <div class="wf-info"><h4>战队集结</h4><p>第三季 12 台机型全员到齐</p></div>
@@ -696,6 +683,28 @@ if(matchMedia('(hover:hover)').matches){
     card.addEventListener('mouseleave',()=>card.style.transform='');
   });
 }
+
+/* ---------- 瀑布流卡片堆叠初始化:层叠入场 + 随机 rotate/z-index/scale ---------- */
+(function initStack(){
+  const container=document.querySelector('.waterfall');
+  if(!container)return;
+  const cards=container.querySelectorAll('.wf-card');
+  const params=[
+    {r:-18,s:.84,z:1},
+    {r:-10,s:.88,z:2},
+    {r:-3, s:.91,z:3},
+    {r:3,  s:.94,z:6},
+    {r:10, s:.97,z:5},
+    {r:18, s:.86,z:4},
+  ];
+  cards.forEach((card,i)=>{
+    const p=params[i]||{r:0,s:.9,z:i+1};
+    card.style.setProperty('--r',p.r+'deg');
+    card.style.setProperty('--s',p.s);
+    card.style.setProperty('--z',p.z);
+    setTimeout(()=>card.classList.add('in-stack'),120*i);
+  });
+})();
 
 /* ---------- 磁吸按钮 ---------- */
 document.querySelectorAll('.magnetic').forEach(btn=>{
