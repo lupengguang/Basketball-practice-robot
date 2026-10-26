@@ -62,7 +62,13 @@
   </div>
 </section>
 
-<main class="drills">
+<div class="drills-wrap" id="drillCarousel">
+  <div class="drills-controls">
+    <div class="drills-dots" id="drillDots"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+    <button class="drills-btn" id="drillPrev" aria-label="上一张">‹</button>
+    <button class="drills-btn" id="drillNext" aria-label="下一张">›</button>
+  </div>
+  <main class="drills" id="drillTrack">
 
   <article class="drill reveal" data-tilt>
     <div class="d-idx">01</div>
@@ -130,6 +136,7 @@
   </article>
 
 </main>
+</div>
 
 <section class="dt-switch">
   <div class="dt-switch-head reveal">模块切换</div>
