@@ -245,45 +245,50 @@ a{color:inherit;text-decoration:none}
 .paper-meta h5{font-size:10px;letter-spacing:3px;color:#111;display:flex;align-items:center;gap:8px;margin-bottom:8px}
 .paper-meta h5::before{content:"";width:14px;height:14px;border-radius:50%;background:var(--red)}
 .paper-meta b{color:var(--red)}
-.paper-gallery-tag{max-width:1240px;margin:60px auto 0;font-size:10px;letter-spacing:4px;color:#777}
+.paper-gallery-tag{max-width:1400px;margin:60px auto 0;font-size:10px;letter-spacing:4px;color:#777;padding:0 4vw}
 @media(max-width:900px){.paper-head{grid-template-columns:1fr}.paper-meta{justify-self:start;margin-top:24px}}
-/* 桌面端收窄大标题,保证 8 字标题 + 右侧 meta 在 1024-1920px 均有合理空间 */
 @media(min-width:901px){.paper-title{font-size:clamp(64px,7.6vw,146px)}}
 
-/* ---------- 瀑布流卡片堆叠 + 毛玻璃拟态 ---------- */
-.waterfall{position:relative;max-width:1240px;height:620px;margin:50px auto 0;columns:unset;column-gap:0;perspective:1200px}
-.wf-item{break-inside:unset;margin:0}
-.wf-card{position:absolute;width:280px;height:440px;border-radius:18px;overflow:hidden;will-change:transform,opacity;transform-origin:center bottom;transition:transform .55s cubic-bezier(.2,.9,.2,1),opacity .55s cubic-bezier(.2,.9,.2,1),box-shadow .45s,border-color .45s;filter:drop-shadow(0 12px 30px rgba(0,0,0,.35))}
-.wf-card{opacity:0}
-.wf-card.in-stack{opacity:1;transform:translate(0,0) rotate(var(--r,0deg)) scale(var(--s,.92));z-index:var(--z,1)}
-/* 堆叠初始态:6 张居中层叠 */
-.wf-card.in-stack{transform:translate(calc(50% - 140px),calc(50% - 220px)) rotate(var(--r,0deg)) scale(var(--s,.92))}
-.waterfall:hover .wf-card.in-stack{transition:transform .6s cubic-bezier(.2,.9,.2,1),opacity .55s,filter .45s}
-.waterfall:hover .wf-card:nth-child(1).in-stack{transform:translate(-260px,30px) rotate(14deg) scale(.86);z-index:3}
-.waterfall:hover .wf-card:nth-child(2).in-stack{transform:translate(-150px,0px) rotate(7deg) scale(.9);z-index:5}
-.waterfall:hover .wf-card:nth-child(3).in-stack{transform:translate(-50px,-10px) rotate(2deg) scale(.94);z-index:7}
-.waterfall:hover .wf-card:nth-child(4).in-stack{transform:translate(60px,-10px) rotate(-2deg) scale(.94);z-index:8}
-.waterfall:hover .wf-card:nth-child(5).in-stack{transform:translate(160px,0px) rotate(-7deg) scale(.9);z-index:6}
-.waterfall:hover .wf-card:nth-child(6).in-stack{transform:translate(280px,30px) rotate(-14deg) scale(.86);z-index:4}
-.wf-card:hover{z-index:99!important;transform:translateY(-14px) rotate(0deg) scale(1.04)!important;box-shadow:0 42px 70px -20px rgba(217,31,38,.55),0 12px 28px rgba(0,0,0,.5)!important;border-color:rgba(217,31,38,.9)!important}
-/* 毛玻璃叠加层(覆盖原背景) */
-.wf-card::before{content:"";position:absolute;inset:0;z-index:3;background:linear-gradient(160deg,rgba(24,18,18,.46) 0%,rgba(12,8,8,.52) 100%);backdrop-filter:blur(18px) saturate(155%);-webkit-backdrop-filter:blur(18px) saturate(155%);opacity:.85;transition:opacity .45s}
-.wf-card:hover::before{opacity:.55}
-.wf-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;transition:transform .9s cubic-bezier(.2,.9,.2,1),filter .8s}
-.wf-card::after{content:"";position:absolute;inset:0;z-index:4;pointer-events:none;border-radius:18px;border:1px solid rgba(255,255,255,.18);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -60px 80px -40px rgba(0,0,0,.55);background:linear-gradient(120deg,transparent 55%,rgba(255,255,255,.08) 58%,transparent 70%)}
-.wf-card:hover::after{border-color:rgba(217,31,38,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.22),inset 0 -60px 80px -40px rgba(0,0,0,.55),0 0 40px rgba(217,31,38,.35)}
-.wf-num{position:absolute;top:14px;right:16px;z-index:6;font-family:var(--font-d);font-size:44px;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.82);letter-spacing:2px;line-height:1}
-.wf-num::after{display:none}
-.wf-tag{position:absolute;top:18px;left:18px;z-index:6;background:rgba(217,31,38,.82);backdrop-filter:blur(8px);color:#fff;font-size:10px;letter-spacing:2px;padding:6px 14px;border-radius:999px;opacity:1;transform:none}
-.wf-info{position:absolute;left:18px;right:18px;bottom:16px;z-index:6;color:#fff;opacity:1;transform:none;background:rgba(0,0,0,.35);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.14)}
-.wf-info h4{font-family:var(--font-d);font-size:17px;letter-spacing:2px}
-.wf-info p{font-size:11px;letter-spacing:2px;color:#d8d5cf;margin-top:3px}
-.wf-card:hover img{transform:scale(1.12) rotate(1deg);filter:saturate(1.25)}
-/* 移动端退化:恢复 1 列网格 */
+/* ---------- 训练营实录:横向轮播 + 毛玻璃卡片 ---------- */
+.gallery-carousel{position:relative;max-width:1400px;margin:40px auto 0;padding:0 4vw 28px;overflow:hidden}
+.gc-controls{position:absolute;right:4vw;top:-44px;display:flex;align-items:center;gap:12px;z-index:6}
+.gc-btn{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.08);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.2);color:#fff;cursor:pointer;display:grid;place-items:center;transition:.35s;font-size:18px;font-weight:700;line-height:1}
+.gc-btn:hover{background:var(--red);border-color:var(--red);box-shadow:0 0 18px rgba(217,31,38,.55);transform:scale(1.08)}
+.gc-dots{display:flex;gap:7px}
+.gc-dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.3);transition:.35s;cursor:pointer}
+.gc-dots i.on{background:var(--red);box-shadow:0 0 9px var(--red);transform:scale(1.35)}
+.gc-track{display:flex;gap:26px;transition:transform .75s cubic-bezier(.2,.8,.2,1);will-change:transform}
+.gc-slide{flex:0 0 auto;width:min(360px,78vw);position:relative}
+.wf-num{position:absolute;top:-6px;left:0;z-index:5;font-family:var(--font-d);font-size:22px;letter-spacing:2px;color:#111;margin-bottom:12px;display:flex;align-items:center;gap:10px;pointer-events:none;transition:.35s}
+.wf-num::after{content:"";flex:1;height:1px;background:rgba(0,0,0,.15)}
+.gc-slide:hover .wf-num{color:var(--red)}
+.wf-card{position:relative;border-radius:22px;overflow:hidden;
+  background:rgba(255,255,255,.06);backdrop-filter:blur(18px) saturate(1.35);-webkit-backdrop-filter:blur(18px) saturate(1.35);
+  border:1px solid rgba(255,255,255,.18);box-shadow:0 12px 42px -18px rgba(0,0,0,.7);
+  transform:translateZ(0);transition:transform .5s cubic-bezier(.2,.8,.2,1),border-color .45s,box-shadow .5s,background .45s}
+.wf-card::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:3;
+  background:linear-gradient(135deg,rgba(255,255,255,.22) 0 18%,transparent 36%);opacity:.7;transition:opacity .55s}
+.wf-card::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:2;
+  background:linear-gradient(to top,rgba(10,10,12,.92) 0%,rgba(10,10,12,.3) 48%,transparent 70%);opacity:.75;transition:opacity .5s}
+.wf-card:hover{transform:translateY(-9px) scale(1.02);border-color:rgba(217,31,38,.7);
+  box-shadow:0 48px 90px -32px rgba(217,31,38,.55),inset 0 0 0 1px rgba(255,255,255,.15);background:rgba(255,255,255,.1)}
+.wf-card:hover::before{opacity:1}
+.wf-card:hover::after{opacity:.95}
+.wf-card img{position:relative;z-index:0;width:100%;aspect-ratio:4/5;object-fit:cover;transition:transform .8s cubic-bezier(.2,.8,.2,1),filter .8s;filter:brightness(.95)}
+.wf-card:hover img{transform:scale(1.09) rotate(.5deg);filter:brightness(1.05) saturate(1.15)}
+.wf-info{position:absolute;left:20px;right:20px;bottom:20px;z-index:4;color:#fff;opacity:1;transform:translateY(0)}
+.wf-info h4{font-family:var(--font-d);font-size:26px;letter-spacing:2px;text-shadow:0 1px 10px rgba(0,0,0,.55)}
+.wf-info p{font-size:11px;letter-spacing:2px;color:#d8d5cf;margin-top:4px}
+.wf-tag{position:absolute;top:16px;left:16px;z-index:5;background:rgba(217,31,38,.85);backdrop-filter:blur(8px);color:#fff;font-size:10px;letter-spacing:2px;padding:5px 12px;border-radius:999px;opacity:0;transform:translateY(-10px);transition:.45s}
+.wf-card:hover .wf-tag{opacity:1;transform:translateY(0)}
 @media(max-width:900px){
-  .waterfall{height:auto;max-width:420px}
-  .wf-item{margin-bottom:26px}
-  .wf-card{position:relative;width:100%;height:360px;transform:none!important;opacity:1!important;z-index:auto;filter:none}
+  .gc-controls{top:-36px;gap:8px}
+  .gc-btn{width:34px;height:34px;font-size:15px}
+  .gc-slide{flex-basis:80vw}
+}
+@media(max-width:520px){
+  .gc-slide{flex-basis:86vw}
+  .wf-info h4{font-size:20px}
 }
 
 /* ---------- 预约区(深色卡+头像) ---------- */
@@ -500,27 +505,49 @@ a{color:inherit;text-decoration:none}
 
   <div class="paper-gallery-tag" id="gallery">训练营实录 GALLERY 07 / 32</div>
 
-  <!-- 瀑布流 -->
-  <div class="waterfall">
-    <div class="wf-item reveal"><div class="wf-card"><div class="wf-num">01</div>
-        <span class="wf-tag">实战对抗</span>
-        <img src="assets/gallery-01.jpg" alt="机器人暴扣瞬间">
-        <div class="wf-info"><h4>暴扣模块</h4><p>弹跳算法 3.0 · 滞空姿态控制</p></div></div><div class="wf-item reveal"><div class="wf-card"><div class="wf-num">02</div>
-        <span class="wf-tag">投篮特训</span>
-        <img src="assets/gallery-02.jpg" alt="跳投训练">
-        <div class="wf-info"><h4>跳投校准</h4><p>毫米级出手角度捕捉</p></div></div><div class="wf-item reveal"><div class="wf-card"><div class="wf-num">03</div>
-        <span class="wf-tag">数据中枢</span>
-        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=holographic%20basketball%20analytics%20interface%203d%20court%20heatmap%20red%20glow%20dark%20control%20room%20futuristic%20ui%20screens&image_size=landscape_4_3" alt="数据分析中枢">
-        <div class="wf-info"><h4>数据中枢</h4><p>全场热力图 · 实时复盘</p></div></div><div class="wf-item reveal"><div class="wf-card"><div class="wf-num">04</div>
-        <span class="wf-tag">人机合练</span>
-        <img src="assets/gallery-04.jpg" alt="教练与机器人合练">
-        <div class="wf-info"><h4>人机合练</h4><p>教练平板直连机器人终端</p></div></div><div class="wf-item reveal"><div class="wf-card"><div class="wf-num">05</div>
-        <span class="wf-tag">运球专项</span>
-        <img src="assets/gallery-05.jpg" alt="运球训练">
-        <div class="wf-info"><h4>运球节奏</h4><p>变向频率自适应学习</p></div></div><div class="wf-item reveal"><div class="wf-card"><div class="wf-num">06</div>
-        <span class="wf-tag">战队集结</span>
-        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=team%20of%20humanoid%20robots%20lined%20up%20on%20futuristic%20basketball%20court%20red%20neon%20symmetric%20composition%20cinematic%20wide%20shot&image_size=landscape_4_3" alt="机器人战队集结">
-        <div class="wf-info"><h4>战队集结</h4><p>第三季 12 台机型全员到齐</p></div>
+  <!-- 横向轮播 + 毛玻璃卡片 -->
+  <div class="gallery-carousel" id="galleryCarousel">
+    <div class="gc-controls">
+      <div class="gc-dots" id="gcDots"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
+      <button class="gc-btn" id="gcPrev" aria-label="上一张">‹</button>
+      <button class="gc-btn" id="gcNext" aria-label="下一张">›</button>
+    </div>
+    <div class="gc-track" id="gcTrack">
+      <div class="gc-slide reveal">
+        <div class="wf-num">01</div>
+        <div class="wf-card ripple-host"><span class="wf-tag">实战对抗</span>
+          <img src="assets/gallery-01.jpg" alt="机器人暴扣瞬间">
+          <div class="wf-info"><h4>暴扣模块</h4><p>弹跳算法 3.0 · 滞空姿态控制</p></div></div>
+      </div>
+      <div class="gc-slide reveal">
+        <div class="wf-num">02</div>
+        <div class="wf-card ripple-host"><span class="wf-tag">投篮特训</span>
+          <img src="assets/gallery-02.jpg" alt="跳投训练">
+          <div class="wf-info"><h4>跳投校准</h4><p>毫米级出手角度捕捉</p></div></div>
+      </div>
+      <div class="gc-slide reveal">
+        <div class="wf-num">03</div>
+        <div class="wf-card ripple-host"><span class="wf-tag">数据中枢</span>
+          <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=holographic%20basketball%20analytics%20interface%203d%20court%20heatmap%20red%20glow%20dark%20control%20room%20futuristic%20ui%20screens&image_size=landscape_4_3" alt="数据分析中枢">
+          <div class="wf-info"><h4>数据中枢</h4><p>全场热力图 · 实时复盘</p></div></div>
+      </div>
+      <div class="gc-slide reveal">
+        <div class="wf-num">04</div>
+        <div class="wf-card ripple-host"><span class="wf-tag">人机合练</span>
+          <img src="assets/gallery-04.jpg" alt="教练与机器人合练">
+          <div class="wf-info"><h4>人机合练</h4><p>教练平板直连机器人终端</p></div></div>
+      </div>
+      <div class="gc-slide reveal">
+        <div class="wf-num">05</div>
+        <div class="wf-card ripple-host"><span class="wf-tag">运球专项</span>
+          <img src="assets/gallery-05.jpg" alt="运球训练">
+          <div class="wf-info"><h4>运球节奏</h4><p>变向频率自适应学习</p></div></div>
+      </div>
+      <div class="gc-slide reveal">
+        <div class="wf-num">06</div>
+        <div class="wf-card ripple-host"><span class="wf-tag">战队集结</span>
+          <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=team%20of%20humanoid%20robots%20lined%20up%20on%20futuristic%20basketball%20court%20red%20neon%20symmetric%20composition%20cinematic%20wide%20shot&image_size=landscape_4_3" alt="机器人战队集结">
+          <div class="wf-info"><h4>战队集结</h4><p>第三季 12 台机型全员到齐</p></div></div>
       </div>
     </div>
   </div>
@@ -684,28 +711,6 @@ if(matchMedia('(hover:hover)').matches){
   });
 }
 
-/* ---------- 瀑布流卡片堆叠初始化:层叠入场 + 随机 rotate/z-index/scale ---------- */
-(function initStack(){
-  const container=document.querySelector('.waterfall');
-  if(!container)return;
-  const cards=container.querySelectorAll('.wf-card');
-  const params=[
-    {r:-18,s:.84,z:1},
-    {r:-10,s:.88,z:2},
-    {r:-3, s:.91,z:3},
-    {r:3,  s:.94,z:6},
-    {r:10, s:.97,z:5},
-    {r:18, s:.86,z:4},
-  ];
-  cards.forEach((card,i)=>{
-    const p=params[i]||{r:0,s:.9,z:i+1};
-    card.style.setProperty('--r',p.r+'deg');
-    card.style.setProperty('--s',p.s);
-    card.style.setProperty('--z',p.z);
-    setTimeout(()=>card.classList.add('in-stack'),120*i);
-  });
-})();
-
 /* ---------- 磁吸按钮 ---------- */
 document.querySelectorAll('.magnetic').forEach(btn=>{
   btn.addEventListener('mousemove',e=>{
@@ -731,6 +736,90 @@ if(rc){
   const rcAuto=()=>{clearInterval(rcTimer);rcTimer=setInterval(()=>rcGo(rcIdx+1),4500);};
   dots.forEach((d,i)=>d.addEventListener('click',()=>{rcGo(i);rcAuto();}));
   rcAuto();
+}
+
+/* ---------- 训练营实录:横向轮播(首尾克隆无缝循环) ---------- */
+const gc=document.getElementById('galleryCarousel');
+if(gc){
+  const track=gc.querySelector('#gcTrack');
+  const dots=[...gc.querySelectorAll('#gcDots i')];
+  const prev=document.getElementById('gcPrev'),next=document.getElementById('gcNext');
+  let realSlides=[...track.querySelectorAll('.gc-slide')];
+  let slideW=realSlides[0].offsetWidth+26; // +gap
+  let idx=0, isAnim=false, timer=null;
+
+  // 首尾克隆,实现无缝循环
+  const firstClone=realSlides[0].cloneNode(true);
+  const lastClone=realSlides[realSlides.length-1].cloneNode(true);
+  firstClone.classList.add('clone'); lastClone.classList.add('clone');
+  track.appendChild(firstClone);
+  track.insertBefore(lastClone, realSlides[0]);
+  const allSlides=[...track.querySelectorAll('.gc-slide')]; // 含 2 个克隆,共 8 个
+  track.style.transition='none';
+  track.style.transform=`translateX(${-slideW}px)`; // 定位到真实首卡(第 2 个)
+  void track.offsetWidth; // 强制 reflow
+  track.style.transition='';
+
+  const slideCount=realSlides.length; // 6,不含克隆
+  const go=(dir)=>{
+    if(isAnim) return;
+    isAnim=true;
+    idx=(idx+dir+slideCount)%slideCount;
+    track.style.transform=`translateX(${-(idx+1)*slideW}px)`; // +1 跳过前克隆
+    dots.forEach((d,i)=>d.classList.toggle('on', i===idx));
+    setTimeout(()=>{
+      // 无缝重置:若滑到克隆卡,瞬时跳回对应真实卡(无 transition)
+      if(idx===0 && dir===-1){
+        track.style.transition='none'; track.style.transform=`translateX(${-slideCount*slideW}px)`;
+      } else if(idx===slideCount-1 && dir===1){
+        track.style.transition='none'; track.style.transform=`translateX(${-(slideW)}px)`;
+      }
+      void track.offsetWidth; track.style.transition=''; isAnim=false;
+    },760);
+  };
+
+  const goTo=(i)=>{ if(isAnim) return; idx=i; track.style.transform=`translateX(${-(idx+1)*slideW}px)`; dots.forEach((d,k)=>d.classList.toggle('on', k===idx)); };
+
+  dots.forEach((d,i)=>d.addEventListener('click',()=>{goTo(i); gcAuto();}));
+  prev.addEventListener('click',()=>{go(-1); gcAuto();});
+  next.addEventListener('click',()=>{go(1); gcAuto();});
+
+  // 触摸滑动
+  let touchX=null;
+  track.addEventListener('touchstart',e=>{touchX=e.touches[0].clientX; clearInterval(timer);},{passive:true});
+  track.addEventListener('touchend',e=>{
+    if(touchX!=null){
+      const dx=e.changedTouches[0].clientX-touchX;
+      if(Math.abs(dx)>50) go(dx<0?1:-1);
+      touchX=null; gcAuto();
+    }
+  });
+
+  // 鼠标拖拽
+  let dragStart=null;
+  track.addEventListener('mousedown',e=>{dragStart=e.clientX; clearInterval(timer);});
+  document.addEventListener('mouseup',e=>{
+    if(dragStart!=null){
+      const dx=e.clientX-dragStart;
+      if(Math.abs(dx)>60) go(dx<0?1:-1);
+      dragStart=null; gcAuto();
+    }
+  });
+
+  const gcAuto=()=>{clearInterval(timer); timer=setInterval(()=>go(1),4500);};
+  gcAuto();
+
+  // 响应式重算
+  window.addEventListener('resize',()=>{
+    slideW=realSlides[0].offsetWidth+26;
+    track.style.transition='none';
+    track.style.transform=`translateX(${-(idx+1)*slideW}px)`;
+    void track.offsetWidth; track.style.transition='';
+  });
+
+  // hover 暂停
+  gc.addEventListener('mouseenter',()=>clearInterval(timer));
+  gc.addEventListener('mouseleave',gcAuto);
 }
 </script>
   <script src="assets/fx.js" defer></script>
