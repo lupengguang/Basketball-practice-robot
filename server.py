@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""篮训BOT 本地摄像头采集后端(演示用途,不加载任何 AI 模型)。
+"""INS 篮球机器人训练营 本地摄像头采集后端(演示用途,不加载任何 AI 模型)。
 
 - GET /video_feed   MJPEG 摄像头流,摄像头不可用时输出占位帧
 - GET /api/status   摄像头状态 / FPS / 分辨率 / 运行时长
@@ -430,7 +430,7 @@ def static_page(page):
 
 if __name__ == "__main__":
     print("=" * 56)
-    print("  篮训BOT · 本地实时采集后端(演示用途,未加载 AI 模型)")
+    print("  INS 篮球机器人训练营 · 本地实时采集后端(演示用途,未加载 AI 模型)")
     print(f"  实时采集页:  http://{HOST}:{PORT}/camera.html")
     print(f"  网站首页:    http://{HOST}:{PORT}/")
     print(f"  MJPEG 流:    http://{HOST}:{PORT}/video_feed")

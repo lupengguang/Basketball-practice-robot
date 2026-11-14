@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>篮训BOT · INS篮球机器人训练营</title>
+<title>首页 · INS 篮球机器人训练营</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Bebas+Neue&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
@@ -24,18 +24,10 @@ body{
   color:#fff;
   font-family:var(--font-c);
   overflow-x:hidden;
-  cursor:none;
 }
 img{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
 ::selection{background:var(--red);color:#fff}
-
-/* ---------- 自定义光标 ---------- */
-.cursor-dot,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;border-radius:50%;transform:translate(-50%,-50%)}
-.cursor-dot{width:8px;height:8px;background:var(--red)}
-.cursor-ring{width:36px;height:36px;border:1.5px solid rgba(217,31,38,.65);transition:width .25s,height .25s,border-color .25s,background .25s}
-.cursor-ring.hovering{width:64px;height:64px;background:rgba(217,31,38,.12);border-color:var(--red)}
-@media (hover:none){.cursor-dot,.cursor-ring{display:none}body{cursor:auto}}
 
 /* ---------- 顶部导航 ---------- */
 .nav{
@@ -66,7 +58,7 @@ a{color:inherit;text-decoration:none}
 .nav-icon{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.25);display:grid;place-items:center;transition:.3s;background:transparent}
 .nav-icon svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2}
 .nav-icon:hover{border-color:var(--red);background:var(--red);transform:translateY(-2px)}
-.nav-burger{width:44px;height:44px;border-radius:50%;background:#fff;border:none;display:grid;place-items:center;gap:0;cursor:none;transition:.3s}
+.nav-burger{width:44px;height:44px;border-radius:50%;background:#fff;border:none;display:grid;place-items:center;gap:0;cursor:pointer;transition:.3s}
 .nav-burger span{display:block;width:16px;height:2px;background:#111;margin:2px 0;transition:.3s}
 .nav-burger:hover{background:var(--red)}
 .nav-burger:hover span{background:#fff}
@@ -220,7 +212,7 @@ a{color:inherit;text-decoration:none}
 .stats-bg .rc-slide img{width:100%;height:100%;object-fit:cover;display:block}
 .stats-bg::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(100deg,rgba(7,5,5,.9) 0%,rgba(7,5,5,.6) 45%,rgba(7,5,5,.38) 100%),linear-gradient(0deg,var(--ink) 0%,transparent 24%),linear-gradient(180deg,rgba(7,5,5,.75) 0%,transparent 26%)}
 .rc-dots{position:absolute;left:0;right:0;bottom:26px;z-index:3;display:flex;justify-content:center;gap:8px}
-.rc-dots i{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.35);transition:.35s;cursor:none}
+.rc-dots i{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.35);transition:.35s;cursor:pointer}
 .rc-dots i.on{background:var(--red);box-shadow:0 0 10px var(--red);transform:scale(1.3)}
 @media(max-width:900px){.stats-inner{grid-template-columns:1fr}.stats-quote{justify-self:start}}
 @media(max-width:1200px){.stats-inner{gap:28px}}
@@ -228,7 +220,7 @@ a{color:inherit;text-decoration:none}
 /* ---------- 白底编辑区 ---------- */
 .paper{background:var(--paper);color:#111;border-radius:26px 26px 0 0;margin-top:-24px;position:relative;z-index:8;padding:80px 4vw 60px;overflow:hidden}
 .paper-nav-btns{display:flex;justify-content:space-between;max-width:1240px;margin:0 auto 30px}
-.round-btn{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;transition:.3s;cursor:none;border:none}
+.round-btn{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;transition:.3s;cursor:pointer;border:none}
 .round-btn svg{width:18px;height:18px;stroke-width:2.4;fill:none}
 .round-btn.red{background:var(--red);box-shadow:0 14px 36px -10px var(--red)}
 .round-btn.red svg{stroke:#fff}
@@ -327,7 +319,7 @@ a{color:inherit;text-decoration:none}
 .ticket-cell small{text-align:left;margin:0 0 4px;font-size:8px;letter-spacing:2px;color:#888;display:block}
 .ticket-cell strong{font-family:var(--font-d);font-size:16px;letter-spacing:1px}
 .ticket-cell.map{background:#1c1c1f url('https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=dark%20city%20street%20map%20top%20view%20with%20red%20location%20pin%20glowing%20minimal%20navigation%20ui&image_size=square') center/cover;min-height:88px;position:relative;overflow:hidden}
-.ticket-btn{width:100%;margin-top:8px;background:var(--red);border:none;color:#fff;border-radius:12px;padding:15px;font-family:var(--font-c);font-size:13px;letter-spacing:4px;font-weight:600;display:flex;align-items:center;justify-content:space-between;padding-left:22px;padding-right:18px;cursor:none;transition:.3s}
+.ticket-btn{width:100%;margin-top:8px;background:var(--red);border:none;color:#fff;border-radius:12px;padding:15px;font-family:var(--font-c);font-size:13px;letter-spacing:4px;font-weight:600;display:flex;align-items:center;justify-content:space-between;padding-left:22px;padding-right:18px;cursor:pointer;transition:.3s}
 .ticket-btn:hover{background:var(--red-deep);letter-spacing:6px}
 .ticket-btn svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2}
 @media(max-width:1000px){.booking{grid-template-columns:1fr}.part.right{text-align:left}.part.right h5{justify-content:flex-start}.part.right h5::before{order:0}.ticket{margin:0 auto}}
@@ -347,8 +339,8 @@ a{color:inherit;text-decoration:none}
 .socials a svg{width:15px;height:15px;fill:#fff}
 .socials a:hover{background:var(--red);border-color:var(--red);transform:translateY(-4px)}
 .newsletter{display:flex;margin-top:20px;border:1px solid rgba(255,255,255,.2);border-radius:999px;overflow:hidden}
-.newsletter input{flex:1;background:transparent;border:none;outline:none;color:#fff;padding:13px 20px;font-family:var(--font-c);font-size:12px;letter-spacing:2px}
-.newsletter button{background:var(--red);border:none;color:#fff;padding:0 24px;font-family:var(--font-c);font-size:12px;letter-spacing:2px;cursor:none;transition:.3s}
+.newsletter input{flex:1;background:transparent;border:none;color:#fff;padding:13px 20px;font-family:var(--font-c);font-size:12px;letter-spacing:2px}
+.newsletter button{background:var(--red);border:none;color:#fff;padding:0 24px;font-family:var(--font-c);font-size:12px;letter-spacing:2px;cursor:pointer;transition:.3s}
 .newsletter button:hover{background:var(--red-deep)}
 .footer-bottom{display:flex;justify-content:space-between;align-items:center;padding:26px 0;font-size:10px;letter-spacing:2px;color:#666}
 .footer-bottom .links{display:flex;gap:26px}
@@ -364,17 +356,23 @@ a{color:inherit;text-decoration:none}
 .reveal-l.in{opacity:1;transform:translateX(0)}
 .reveal-r{opacity:0;transform:translateX(50px);transition:opacity .9s,transform .9s cubic-bezier(.2,.8,.2,1)}
 .reveal-r.in{opacity:1;transform:translateX(0)}
+/* ---------- 键盘焦点 ---------- */
+:focus-visible{outline:2px solid #f3f0ea;outline-offset:3px;border-radius:4px}
+.paper :focus-visible{outline-color:#d91f26}
+
+/* ---------- 减少动效 ---------- */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+  .ticker-flow,.filmtrack,.gc-track{animation:none!important}
+}
 </style>
   <link rel="stylesheet" href="assets/fx.css">
 </head>
 <body>
 
-<div class="cursor-dot"></div>
-<div class="cursor-ring"></div>
-
 <!-- ================= 顶部导航 ================= -->
 <nav class="nav" id="nav">
-  <a class="nav-logo" href="#top">篮训<span class="plus">✚</span>BOT<small>INS ROBOT LAB</small></a>
+  <a class="nav-logo" href="#top">INS 篮球机器人训练营<small>INS BASKETBOT</small></a>
   <div class="nav-links">
     <a href="#top">健康体态</a>
     <a href="coaches.html">明星教练</a>
@@ -402,7 +400,7 @@ a{color:inherit;text-decoration:none}
       <span class="pill">实战对抗</span>
       <span class="pill">数据复盘</span>
     </div>
-    <div class="hero-release">开营时间 [ 2026.05 ]</div>
+    <div class="hero-release">2027.05 开营</div>
 
     <div class="hero-roman"><i></i><i></i><i></i></div>
 
@@ -413,7 +411,7 @@ a{color:inherit;text-decoration:none}
       <div><img class="cast-ava" loading="lazy" alt="赵衡" src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=stylized%20sports%20poster%20illustration%20portrait%20of%20chinese%20male%20data%20analyst%20with%20laptop%20floating%20holographic%20basketball%20stats%20charts%20dark%20background%20dramatic%20red%20rim%20light%20high%20contrast%20digital%20art&image_size=square">赵衡 KEN<small>数据分析师</small></div>
     </div>
 
-    <h1 class="hero-title" id="heroTitle"><span id="tA">灌篮</span><span class="stroke" id="tB">机器</span></h1>
+    <h1 class="hero-title" id="heroTitle"><span id="tA">INS 篮球</span><span class="stroke" id="tB">机器人训练营</span></h1>
 
     <div class="hero-bot" id="heroBot">
       <img src="assets/hero-robot.png" alt="篮球机器人教练">
@@ -422,7 +420,7 @@ a{color:inherit;text-decoration:none}
     <div class="hero-year">[ 第三季 ]</div>
 
     <div class="hero-story">
-      <h5>篮训BOT 计划</h5>
+      <h5>INS 篮球机器人训练营 计划</h5>
       <p><b>PART A.</b>&nbsp;&nbsp;当机器人站上球场,人类教练与AI共同执教的篮球训练营正式开营——第三季全面升级对抗算法。</p>
     </div>
 
@@ -432,7 +430,7 @@ a{color:inherit;text-decoration:none}
 
     <div class="hero-num">
       <span class="n">01</span>
-      <span class="badge">篮训<br>BOT</span>
+      <span class="badge">INS<br>BASKETBOT</span>
     </div>
 
     <a class="hero-scroll" href="#program"><svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
@@ -457,7 +455,7 @@ a{color:inherit;text-decoration:none}
   <div class="stats-inner">
     <div class="reveal-l">
       <div class="stats-label">出品方 PRODUCTION</div>
-      <div class="studio-box"><b>星核</b>实验室</div>
+      <div class="studio-box"><b>圣龙科技</b>工作室</div>
       <div class="stats-rate">
         <span class="num2">02</span>
         <span class="stars">
@@ -474,7 +472,7 @@ a{color:inherit;text-decoration:none}
       <div class="badges">
         <div class="badge-c badge-w"><small>体验课</small><strong><span class="count" data-to="90">0</span>′</strong></div>
         <div class="badge-c badge-r"><small>特训课程</small><strong><span class="count" data-to="36">0</span>+</strong></div>
-        <div class="badge-c badge-o"><small>开营</small><strong>5月</strong></div>
+        <div class="badge-c badge-o"><small>开营</small><strong>5月3日</strong></div>
       </div>
     </div>
 
@@ -496,10 +494,10 @@ a{color:inherit;text-decoration:none}
   </div>
 
   <div class="paper-head">
-    <h2 class="paper-title reveal">倾力打造<span class="by">BY</span><span class="ghost">星核团队</span></h2>
+    <h2 class="paper-title reveal">倾力打造<span class="by">BY</span><span class="ghost">圣龙科技工作室</span></h2>
     <div class="paper-meta reveal-r">
       <h5>开营信息 RELEASE</h5>
-      <p><b>PART B.</b>&nbsp;&nbsp;第三季训练营定于 <b>2026年5月3日</b> 在上海星核球馆开营。此前曾计划于9月6日启动,后调整至11月8日,最终提档至5月,成为年度最受期待的篮球科技盛事。</p>
+      <p><b>PART B.</b>&nbsp;&nbsp;第三季训练营定于 <b>2027.05.03</b> 在圣龙科技工作室训练点（详细地址报名后通知）开营，2027.02.01 开放报名，成为年度最受期待的篮球科技盛事。</p>
     </div>
   </div>
 
@@ -556,7 +554,7 @@ a{color:inherit;text-decoration:none}
   <div class="booking" id="booking">
     <div class="part reveal-l">
       <h5>关于计划 X-MEN</h5>
-      <p><b>PART C.</b>&nbsp;&nbsp;篮训BOT,代号「红衣教官」,首次亮相便因“嘴炮式纠错”走红全网,如今已是训练营的灵魂人物。</p>
+      <p><b>PART C.</b>&nbsp;&nbsp;INS 篮球机器人训练营,代号「红衣教官」,首次亮相便因“嘴炮式纠错”走红全网,如今已是训练营的灵魂人物。</p>
       <div class="avatars">
         <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=portrait%20of%20chinese%20male%20basketball%20coach%2040s%20confident%20studio%20red%20backdrop%20editorial%20photography&image_size=square" alt="教练王锐">
         <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=portrait%20of%20young%20chinese%20female%20fitness%20coach%20ponytail%20studio%20black%20backdrop%20editorial%20photography&image_size=square" alt="训练师林悦">
@@ -573,13 +571,13 @@ a{color:inherit;text-decoration:none}
       <div class="ticket" data-tilt>
         <div class="ticket-logo">III</div>
         <small>训练营 CAMP</small>
-        <h3>灌篮机器 III</h3>
+        <h3>INS 篮球机器人训练营 III</h3>
         <div class="ticket-row">
           <div class="ticket-cell map"></div>
-          <div class="ticket-cell"><small>球馆 ARENA</small><strong>星核<br>中心球馆</strong></div>
+          <div class="ticket-cell"><small>球馆 ARENA</small><strong>圣龙科技工作室<br>训练点</strong></div>
         </div>
         <div class="ticket-row">
-          <div class="ticket-cell"><small>日期 DATE</small><strong>5月 29</strong></div>
+          <div class="ticket-cell"><small>日期 DATE</small><strong>2027.05.29 结营赛</strong></div>
           <div class="ticket-cell"><small>时间 TIME</small><strong>21:30</strong></div>
         </div>
         <button class="ticket-btn magnetic">预约体验课<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
@@ -588,7 +586,7 @@ a{color:inherit;text-decoration:none}
 
     <div class="part right reveal-r">
       <h5>首训直播 PREMIERE</h5>
-      <p><b>PART D.</b>&nbsp;&nbsp;第三季首训原定于9月6日直播,后改档至11月8日,最终官宣提档至 <b>5月3日</b> 全平台同步开播。</p>
+      <p><b>PART D.</b>&nbsp;&nbsp;第三季首训定于 <b>2027.05.03</b> 全平台同步开播。</p>
     </div>
   </div>
 </section>
@@ -598,7 +596,7 @@ a{color:inherit;text-decoration:none}
   <div class="footer-inner">
     <div class="footer-top">
       <div>
-        <div class="footer-logo">篮训<span class="plus">✚</span>BOT</div>
+        <div class="footer-logo">INS BASKETBOT</div>
         <p class="footer-desc">INS风篮球机器人训练营官网。AI 执教、人机对抗、数据驱动——让每一次投篮都被精确计算。</p>
         <div class="socials">
           <a href="#" aria-label="微信"><svg viewBox="0 0 24 24"><path d="M8.7 4C4.9 4 2 6.6 2 9.8c0 1.8 1 3.4 2.5 4.5l-.6 2.2 2.5-1.3c.7.2 1.4.3 2.2.3h.4A5.9 5.9 0 0 1 13 8.6C12.6 6 10.9 4 8.7 4zm6 4.6c-3.3 0-6 2.3-6 5.1s2.7 5.1 6 5.1c.6 0 1.2-.1 1.8-.3l2.2 1.2-.5-1.9c1.5-.9 2.5-2.4 2.5-4 0-2.9-2.7-5.2-6-5.2z"/></svg></a>
@@ -631,27 +629,20 @@ a{color:inherit;text-decoration:none}
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 篮训BOT · 星核实验室 保留所有权利</span>
+      <span>© 2026 INS 篮球机器人训练营 · 圣龙科技工作室 保留所有权利</span>
       <div class="links">
         <a href="#top">隐私政策</a>
         <a href="#top">服务条款</a>
-        <a href="#top">沪ICP备2026号</a>
+        <a href="#top">沪ICP备2027号</a>
       </div>
     </div>
   </div>
-  <div class="footer-watermark">灌篮机器</div>
+  <div class="footer-watermark">INS 篮球机器人训练营</div>
 </footer>
 
 <script>
-/* ---------- 自定义光标 ---------- */
-const dot=document.querySelector('.cursor-dot'),ring=document.querySelector('.cursor-ring');
-let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
-addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
-(function loop(){rx+=(mx-rx)*.14;ry+=(my-ry)*.14;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(loop);})();
-document.querySelectorAll('a,button,.pill,.wf-card,.badge-c,.avatars img').forEach(el=>{
-  el.addEventListener('mouseenter',()=>ring.classList.add('hovering'));
-  el.addEventListener('mouseleave',()=>ring.classList.remove('hovering'));
-});
+/* ---------- 减少动效判断 ---------- */
+const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ---------- 导航滚动态 ---------- */
 const nav=document.getElementById('nav');
@@ -661,18 +652,20 @@ addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40),{passi
 const heroBot=document.getElementById('heroBot'),disc=document.getElementById('disc'),
       tA=document.getElementById('tA'),tB=document.getElementById('tB');
 const hero=document.querySelector('.hero');
-hero.addEventListener('mousemove',e=>{
-  const cx=(e.clientX/innerWidth-.5),cy=(e.clientY/innerHeight-.5);
-  heroBot.style.transform=`translateX(calc(-50% + ${cx*26}px)) translateY(${cy*14}px) rotate(${cx*2}deg)`;
-  disc.style.transform=`translateX(calc(-50% + ${cx*-30}px)) translateY(${cy*-18}px)`;
-  tA.style.transform=`translateX(${cx*-16}px)`;tB.style.transform=`translateX(${cx*-22}px)`;
-  tA.style.display='inline-block';tB.style.display='inline-block';
-});
-hero.addEventListener('mouseleave',()=>{
-  heroBot.style.transform='translateX(-50%)';
-  disc.style.transform='translateX(-50%)';
-  tA.style.transform='';tB.style.transform='';
-});
+if(!REDUCE){
+  hero.addEventListener('mousemove',e=>{
+    const cx=(e.clientX/innerWidth-.5),cy=(e.clientY/innerHeight-.5);
+    heroBot.style.transform=`translateX(calc(-50% + ${cx*26}px)) translateY(${cy*14}px) rotate(${cx*2}deg)`;
+    disc.style.transform=`translateX(calc(-50% + ${cx*-30}px)) translateY(${cy*-18}px)`;
+    tA.style.transform=`translateX(${cx*-16}px)`;tB.style.transform=`translateX(${cx*-22}px)`;
+    tA.style.display='inline-block';tB.style.display='inline-block';
+  });
+  hero.addEventListener('mouseleave',()=>{
+    heroBot.style.transform='translateX(-50%)';
+    disc.style.transform='translateX(-50%)';
+    tA.style.transform='';tB.style.transform='';
+  });
+}
 
 /* ---------- 滚动显现 ---------- */
 const io=new IntersectionObserver(es=>es.forEach(e=>{
@@ -690,17 +683,19 @@ const cio=new IntersectionObserver(es=>es.forEach(e=>{
 document.querySelectorAll('.count').forEach(el=>cio.observe(el));
 
 /* ---------- 3D 倾斜卡片 ---------- */
-document.querySelectorAll('[data-tilt]').forEach(card=>{
-  card.addEventListener('mousemove',e=>{
-    const r=card.getBoundingClientRect();
-    const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
-    card.style.transform=`perspective(800px) rotateY(${x*16}deg) rotateX(${-y*16}deg) translateZ(10px)`;
+if(!REDUCE){
+  document.querySelectorAll('[data-tilt]').forEach(card=>{
+    card.addEventListener('mousemove',e=>{
+      const r=card.getBoundingClientRect();
+      const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+      card.style.transform=`perspective(800px) rotateY(${x*16}deg) rotateX(${-y*16}deg) translateZ(10px)`;
+    });
+    card.addEventListener('mouseleave',()=>card.style.transform='perspective(800px) rotateY(0) rotateX(0)');
   });
-  card.addEventListener('mouseleave',()=>card.style.transform='perspective(800px) rotateY(0) rotateX(0)');
-});
+}
 
 /* ---------- 瀑布流卡片 3D 倾斜(仅桌面) ---------- */
-if(matchMedia('(hover:hover)').matches){
+if(!REDUCE && matchMedia('(hover:hover)').matches){
   document.querySelectorAll('.wf-card').forEach(card=>{
     card.addEventListener('mousemove',e=>{
       const r=card.getBoundingClientRect();
@@ -712,17 +707,19 @@ if(matchMedia('(hover:hover)').matches){
 }
 
 /* ---------- 磁吸按钮 ---------- */
-document.querySelectorAll('.magnetic').forEach(btn=>{
-  btn.addEventListener('mousemove',e=>{
-    const r=btn.getBoundingClientRect();
-    btn.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.28}px,${(e.clientY-r.top-r.height/2)*.28}px)`;
+if(!REDUCE){
+  document.querySelectorAll('.magnetic').forEach(btn=>{
+    btn.addEventListener('mousemove',e=>{
+      const r=btn.getBoundingClientRect();
+      btn.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.28}px,${(e.clientY-r.top-r.height/2)*.28}px)`;
+    });
+    btn.addEventListener('mouseleave',()=>btn.style.transform='translate(0,0)');
   });
-  btn.addEventListener('mouseleave',()=>btn.style.transform='translate(0,0)');
-});
+}
 
 /* ---------- 胶片条内容复制以实现无缝滚动 ---------- */
 const track=document.getElementById('filmtrack');
-track.innerHTML+=track.innerHTML;
+if(!REDUCE){track.innerHTML+=track.innerHTML;}
 
 /* ---------- 二屏机器人自动轮播:4.5s 交叉淡入淡出,圆点可点击 ---------- */
 const rc=document.getElementById('robotCarousel');
@@ -734,8 +731,8 @@ if(rc){
     rcIdx=(n+slides.length)%slides.length;
     slides[rcIdx].classList.add('on');dots[rcIdx].classList.add('on');};
   const rcAuto=()=>{clearInterval(rcTimer);rcTimer=setInterval(()=>rcGo(rcIdx+1),4500);};
-  dots.forEach((d,i)=>d.addEventListener('click',()=>{rcGo(i);rcAuto();}));
-  rcAuto();
+  dots.forEach((d,i)=>d.addEventListener('click',()=>{rcGo(i); if(!REDUCE)rcAuto();}));
+  if(!REDUCE) rcAuto();
 }
 
 /* ---------- 训练营实录:横向轮播(首尾克隆无缝循环) ---------- */
@@ -780,9 +777,9 @@ if(gc){
 
   const goTo=(i)=>{ if(isAnim) return; idx=i; track.style.transform=`translateX(${-(idx+1)*slideW}px)`; dots.forEach((d,k)=>d.classList.toggle('on', k===idx)); };
 
-  dots.forEach((d,i)=>d.addEventListener('click',()=>{goTo(i); gcAuto();}));
-  prev.addEventListener('click',()=>{go(-1); gcAuto();});
-  next.addEventListener('click',()=>{go(1); gcAuto();});
+  dots.forEach((d,i)=>d.addEventListener('click',()=>{goTo(i); if(!REDUCE)gcAuto();}));
+  prev.addEventListener('click',()=>{go(-1); if(!REDUCE)gcAuto();});
+  next.addEventListener('click',()=>{go(1); if(!REDUCE)gcAuto();});
 
   // 触摸滑动
   let touchX=null;
@@ -791,7 +788,7 @@ if(gc){
     if(touchX!=null){
       const dx=e.changedTouches[0].clientX-touchX;
       if(Math.abs(dx)>50) go(dx<0?1:-1);
-      touchX=null; gcAuto();
+      touchX=null; if(!REDUCE)gcAuto();
     }
   });
 
@@ -802,12 +799,12 @@ if(gc){
     if(dragStart!=null){
       const dx=e.clientX-dragStart;
       if(Math.abs(dx)>60) go(dx<0?1:-1);
-      dragStart=null; gcAuto();
+      dragStart=null; if(!REDUCE)gcAuto();
     }
   });
 
   const gcAuto=()=>{clearInterval(timer); timer=setInterval(()=>go(1),4500);};
-  gcAuto();
+  if(!REDUCE) gcAuto();
 
   // 响应式重算
   window.addEventListener('resize',()=>{
@@ -819,7 +816,7 @@ if(gc){
 
   // hover 暂停
   gc.addEventListener('mouseenter',()=>clearInterval(timer));
-  gc.addEventListener('mouseleave',gcAuto);
+  gc.addEventListener('mouseleave',()=>{ if(!REDUCE) gcAuto(); });
 }
 </script>
   <script src="assets/fx.js" defer></script>

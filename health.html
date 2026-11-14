@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#eef1f6">
-<title>健康监测台 · 篮训BOT</title>
+<title>健康监测台 · INS 篮球机器人训练营</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+SC:wght@400;500;700;900&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --red:#df2029;--red-dark:#97141a;
+  --red:#d91f26;--red-deep:#a01218;
   --bg:#eef1f6;--card:#fff;--ink:#10131a;--muted:#6f7482;--faint:#9aa0ad;--line:#e7eaf1;
   --dark:#14161c;--green:#16a34a;--teal:#14c8b0;--blue:#5b6cff;--violet:#8f7bff;
   --shadow:0 18px 40px -20px rgba(15,23,42,.12);
@@ -18,22 +18,16 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:linear-gradient(180deg,#f4f6fb 0%,#e9edf4 100%);color:var(--ink);font-family:var(--font-c);overflow-x:hidden;cursor:none;min-height:100vh}
-button,a{font:inherit;color:inherit;text-decoration:none}button{cursor:none;border:0;background:none}img{display:block;max-width:100%}
+body{background:linear-gradient(180deg,#f4f6fb 0%,#e9edf4 100%);color:var(--ink);font-family:var(--font-c);overflow-x:hidden;min-height:100vh}
+button,a{font:inherit;color:inherit;text-decoration:none}button{cursor:pointer;border:0;background:none}img{display:block;max-width:100%}
 ::selection{background:var(--red);color:#fff}
-
-/* Custom cursor (shared site language) */
-.cursor-dot,.cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;border-radius:50%;transform:translate(-50%,-50%)}
-.cursor-dot{width:8px;height:8px;background:var(--red)}
-.cursor-ring{width:36px;height:36px;border:1.5px solid rgba(223,32,41,.72);transition:width .25s,height .25s,border-color .25s,background .25s}
-.cursor-ring.hovering{width:64px;height:64px;background:rgba(223,32,41,.12);border-color:var(--red)}
 
 /* B-side topbar (light, independent from site nav) */
 .topbar{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:12px 4vw;background:rgba(255,255,255,.75);backdrop-filter:blur(14px) saturate(1.3);-webkit-backdrop-filter:blur(14px) saturate(1.3);border-bottom:1px solid var(--line)}
 .tb-left{display:flex;align-items:center;gap:20px;min-width:0}
 .tb-back{display:inline-flex;align-items:center;gap:9px;padding:10px 20px;border:1px solid #dfe3ec;border-radius:999px;background:#fff;color:var(--ink);font-size:11px;letter-spacing:2px;box-shadow:0 6px 18px -12px rgba(15,23,42,.25);transition:.3s}
 .tb-back svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;transition:transform .3s}
-.tb-back:hover{border-color:var(--red);color:var(--red);transform:translateY(-2px);box-shadow:0 14px 30px -14px rgba(223,32,41,.45)}
+.tb-back:hover{border-color:var(--red);color:var(--red);transform:translateY(-2px);box-shadow:0 14px 30px -14px rgba(217,31,38,.45)}
 .tb-back:hover svg{transform:translateX(-3px)}
 .tb-brand{display:flex;flex-direction:column;line-height:1.4;white-space:nowrap}
 .tb-brand b{font-size:12px;letter-spacing:2px;font-weight:600}
@@ -54,7 +48,7 @@ button,a{font:inherit;color:inherit;text-decoration:none}button{cursor:none;bord
 
 /* Head + tabs */
 .dash-head{display:flex;align-items:flex-end;justify-content:space-between;gap:22px;flex-wrap:wrap;padding:6px 4px 26px}
-.eyebrow{display:flex;align-items:center;gap:9px;font-size:10px;letter-spacing:3px;color:var(--muted)}.eyebrow::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--red);box-shadow:0 0 12px rgba(223,32,41,.55)}
+.eyebrow{display:flex;align-items:center;gap:9px;font-size:10px;letter-spacing:3px;color:var(--muted)}.eyebrow::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--red);box-shadow:0 0 12px rgba(217,31,38,.55)}
 .dash-title{margin-top:12px;font-family:var(--font-d);font-size:clamp(48px,6vw,80px);line-height:.85;letter-spacing:2px}
 .dash-sub{margin-top:10px;font-size:11px;letter-spacing:3px;color:var(--faint)}
 .tabs{display:flex;gap:4px;background:#e3e7ef;border-radius:999px;padding:4px}
@@ -100,7 +94,7 @@ button,a{font:inherit;color:inherit;text-decoration:none}button{cursor:none;bord
 .bcode i{display:block;border-radius:2px 2px 0 0;background:#2c303c;transition:background .3s,box-shadow .3s}
 .bcode i:nth-child(3n){background:#3a3f4e}
 .bcode i.hot{background:linear-gradient(180deg,#ff5a61,var(--red))}
-.bcode i:hover{background:#ff5a61;box-shadow:0 0 12px rgba(223,32,41,.7)}
+.bcode i:hover{background:#ff5a61;box-shadow:0 0 12px rgba(217,31,38,.7)}
 .chip-num{position:absolute;left:14px;bottom:10px;z-index:2;color:#fff;font-family:var(--font-d);font-size:24px;letter-spacing:1px}
 .chip-num small{font-family:var(--font-c);font-size:9px;letter-spacing:1.5px;color:rgba(255,255,255,.55);margin-left:4px}
 
@@ -131,9 +125,9 @@ button,a{font:inherit;color:inherit;text-decoration:none}button{cursor:none;bord
 .board-num span{font-size:10px;letter-spacing:2px;color:var(--faint)}
 .board-bars{display:grid;grid-template-columns:repeat(12,1fr);gap:8px;align-items:end;height:170px;margin-top:20px}
 .bbar{position:relative;border-radius:8px 8px 4px 4px;background:#e8ebf2;transition:background .3s,box-shadow .3s,transform .3s}
-.bbar:hover{background:#cfd4e0;box-shadow:0 0 0 3px rgba(223,32,41,.14);transform:scaleY(1.02);transform-origin:bottom}
+.bbar:hover{background:#cfd4e0;box-shadow:0 0 0 3px rgba(217,31,38,.14);transform:scaleY(1.02);transform-origin:bottom}
 .bbar.hot{background:linear-gradient(180deg,#ff5a61,var(--red))}
-.bbar.hot:hover{box-shadow:0 0 20px rgba(223,32,41,.55)}
+.bbar.hot:hover{box-shadow:0 0 20px rgba(217,31,38,.55)}
 .bbar::after{content:attr(data-v);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%) translateY(4px);padding:5px 10px;border-radius:8px;background:var(--dark);color:#fff;font-size:10px;letter-spacing:1px;white-space:nowrap;opacity:0;transition:.25s;pointer-events:none;z-index:3}
 .bbar:hover::after{opacity:1;transform:translateX(-50%) translateY(0)}
 .periods{display:flex;gap:4px;margin-top:18px;background:#f1f3f8;border-radius:999px;padding:5px}
@@ -167,8 +161,8 @@ button,a{font:inherit;color:inherit;text-decoration:none}button{cursor:none;bord
 .rec-row{display:grid;grid-template-columns:76px 1fr 44px;align-items:center;gap:12px;font-size:11px;letter-spacing:1px}
 .rec-row label{color:var(--muted)}
 .rec-row>span{height:10px;background:var(--dark);border-radius:999px;overflow:hidden}
-.rec-row i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--red-dark),#ff454e);transition:filter .3s,box-shadow .3s}
-.rec-row:hover i{filter:brightness(1.2);box-shadow:0 0 14px rgba(223,32,41,.7)}
+.rec-row i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--red-deep),#ff454e);transition:filter .3s,box-shadow .3s}
+.rec-row:hover i{filter:brightness(1.2);box-shadow:0 0 14px rgba(217,31,38,.7)}
 .rec-row b{font-size:12px;text-align:right}
 .rec-note{margin-top:22px;padding:13px 15px;border-radius:14px;background:#f5f6fa;font-size:11px;line-height:1.9;letter-spacing:1px;color:var(--muted)}
 .rec-note strong{color:var(--ink)}
@@ -176,7 +170,7 @@ button,a{font:inherit;color:inherit;text-decoration:none}button{cursor:none;bord
 .cal-ring{position:relative;width:160px;height:160px}
 .cal-ring svg{width:100%;height:100%}
 .ring-track{fill:none;stroke:#edf0f5;stroke-width:11}
-.ring-fill{fill:none;stroke-width:11;stroke-linecap:round;transform:rotate(-90deg);transform-origin:center;filter:drop-shadow(0 0 6px rgba(223,32,41,.4))}
+.ring-fill{fill:none;stroke-width:11;stroke-linecap:round;transform:rotate(-90deg);transform-origin:center;filter:drop-shadow(0 0 6px rgba(217,31,38,.4))}
 .ring-center{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
 .ring-center b{font-family:var(--font-d);font-size:44px;line-height:.85;letter-spacing:1px}
 .ring-center span{display:block;margin-top:7px;font-size:9px;letter-spacing:2px;color:var(--faint)}
@@ -185,11 +179,11 @@ button,a{font:inherit;color:inherit;text-decoration:none}button{cursor:none;bord
 .macro-row label{color:var(--muted)}
 .macro-row>span{height:8px;background:#eef0f5;border-radius:999px;overflow:hidden}
 .macro-row i{display:block;height:100%;border-radius:999px;transition:filter .3s,box-shadow .3s}
-.macro-row.m-carb i{background:linear-gradient(90deg,var(--red-dark),#ff454e)}
+.macro-row.m-carb i{background:linear-gradient(90deg,var(--red-deep),#ff454e)}
 .macro-row.m-protein i{background:linear-gradient(90deg,#14161c,#3c4150)}
 .macro-row.m-fat i{background:linear-gradient(90deg,#9aa0ad,#c6cad4)}
 .macro-row:hover i{filter:brightness(1.2);box-shadow:0 0 12px rgba(15,23,42,.25)}
-.macro-row.m-carb:hover i{box-shadow:0 0 14px rgba(223,32,41,.7)}
+.macro-row.m-carb:hover i{box-shadow:0 0 14px rgba(217,31,38,.7)}
 .macro-row b{font-size:11px;text-align:right}
 .diet-note{font-size:10px;line-height:1.8;letter-spacing:1px;color:var(--faint)}
 .diet-note strong{color:var(--ink)}
@@ -197,7 +191,7 @@ button,a{font:inherit;color:inherit;text-decoration:none}button{cursor:none;bord
 /* Back pill + toast */
 .back-pill{position:fixed;left:22px;bottom:22px;z-index:200;display:inline-flex;align-items:center;gap:10px;padding:13px 21px;border:1px solid #dfe3ec;border-radius:999px;background:rgba(255,255,255,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);color:var(--ink);font-size:11px;letter-spacing:2px;box-shadow:0 14px 34px -18px rgba(15,23,42,.35);transition:.3s}
 .back-pill svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;transition:.3s}
-.back-pill:hover{border-color:var(--red);background:var(--red);color:#fff;transform:translateY(-4px);box-shadow:0 18px 40px -12px rgba(223,32,41,.55)}
+.back-pill:hover{border-color:var(--red);background:var(--red);color:#fff;transform:translateY(-4px);box-shadow:0 18px 40px -12px rgba(217,31,38,.55)}
 .toast{position:fixed;z-index:1100;left:50%;bottom:25px;transform:translate(-50%,100px);display:flex;align-items:center;gap:9px;padding:12px 18px;border:1px solid rgba(255,255,255,.16);border-radius:999px;background:#19191b;color:#fff;font-size:11px;letter-spacing:1.3px;box-shadow:0 16px 35px -16px #000;transition:.35s}
 .toast.show{transform:translate(-50%,0)}
 .toast i{width:8px;height:8px;border-radius:50%;background:#64e582;box-shadow:0 0 9px #64e582}
@@ -210,7 +204,6 @@ button,a{font:inherit;color:inherit;text-decoration:none}button{cursor:none;bord
 }
 @media(max-width:630px){
   body{cursor:auto}
-  .cursor-dot,.cursor-ring{display:none}
   .topbar{padding:10px 14px;gap:12px}
   .tb-brand{display:none}
   .tb-back{padding:9px 16px}
@@ -227,17 +220,23 @@ button,a{font:inherit;color:inherit;text-decoration:none}button{cursor:none;bord
   .macros{width:100%}
   .back-pill{left:12px;bottom:12px;padding:11px 17px}
 }
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
+/* ---------- 键盘焦点 ---------- */
+:focus-visible{outline:2px solid #d91f26;outline-offset:3px;border-radius:4px}
+
+/* ---------- 减少动效 ---------- */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+  .ticker-flow,.filmtrack,.gc-track{animation:none!important}
+}
 </style>
   <link rel="stylesheet" href="assets/fx.css">
 </head>
 <body>
-<div class="cursor-dot"></div><div class="cursor-ring"></div>
 
 <header class="topbar">
   <div class="tb-left">
     <a class="tb-back interactive" href="profile.html"><svg viewBox="0 0 24 24"><path d="M19 12H5m6-6-6 6 6 6"/></svg>返回个人中心</a>
-    <div class="tb-brand"><b>篮训BOT · 健康监测台</b><span>HEALTH CONSOLE</span></div>
+    <div class="tb-brand"><b>INS 篮球机器人训练营 · 健康监测台</b><span>HEALTH CONSOLE</span></div>
     <a class="tb-nav interactive" href="monitor.html">详情监测</a>
     <a class="tb-nav interactive" href="camera.html">实时采集</a>
   </div>
@@ -255,7 +254,7 @@ button,a{font:inherit;color:inherit;text-decoration:none}button{cursor:none;bord
         <div>
           <div class="eyebrow">COACH CONSOLE · B-SIDE ANALYTICS</div>
           <h1 class="dash-title">健康监测台</h1>
-          <p class="dash-sub">HEALTH COMMAND · 2026 WEEK 43 · DATA SYNCED 07:30</p>
+          <p class="dash-sub">HEALTH COMMAND · 2027 WEEK 43 · DATA SYNCED 07:30</p>
         </div>
         <div class="tabs" role="tablist">
           <button class="active" role="tab">概览</button>
@@ -272,7 +271,7 @@ button,a{font:inherit;color:inherit;text-decoration:none}button{cursor:none;bord
           <div class="chip">
             <span class="chip-bubble">82.5 分</span>
             <svg viewBox="0 0 220 110" preserveAspectRatio="none" aria-hidden="true">
-              <defs><linearGradient id="lgA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(223,32,41,.42)"/><stop offset="1" stop-color="rgba(223,32,41,0)"/></linearGradient></defs>
+              <defs><linearGradient id="lgA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(217,31,38,.42)"/><stop offset="1" stop-color="rgba(217,31,38,0)"/></linearGradient></defs>
               <path d="M0 84 L28 76 L56 81 L84 58 L112 65 L140 44 L168 49 L196 27 L220 21 L220 110 L0 110 Z" fill="url(#lgA)"/>
               <path class="chip-line" d="M0 84 L28 76 L56 81 L84 58 L112 65 L140 44 L168 49 L196 27 L220 21" fill="none" stroke="#ff454e" stroke-width="2.5" stroke-linecap="round"/>
               <circle cx="196" cy="27" r="4" fill="#ff454e"/>
@@ -293,7 +292,7 @@ button,a{font:inherit;color:inherit;text-decoration:none}button{cursor:none;bord
         </article>
 
         <article class="kcard reveal">
-          <div class="k-top"><span class="k-dot" style="--c:#df2029"></span><span class="k-label">恢复指数 / RECOVERY</span></div>
+          <div class="k-top"><span class="k-dot" style="--c:#d91f26"></span><span class="k-label">恢复指数 / RECOVERY</span></div>
           <div class="k-num">78.0<small>PTS</small></div>
           <div class="k-meta"><span class="delta">↑ 3.1%</span><span class="k-time">1小时前</span></div>
           <div class="chip">
@@ -435,7 +434,7 @@ button,a{font:inherit;color:inherit;text-decoration:none}button{cursor:none;bord
           <div class="diet-body">
             <div class="cal-ring" role="img" aria-label="今日热量 2150 / 2600 千卡">
               <svg viewBox="0 0 196 196">
-                <defs><linearGradient id="calGrad" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#97141a"/><stop offset="1" stop-color="#ff454e"/></linearGradient></defs>
+                <defs><linearGradient id="calGrad" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#a01218"/><stop offset="1" stop-color="#ff454e"/></linearGradient></defs>
                 <circle class="ring-track" cx="98" cy="98" r="84"/>
                 <circle class="ring-fill" cx="98" cy="98" r="84" stroke="url(#calGrad)" stroke-dasharray="436.4 527.8"/>
               </svg>
@@ -460,15 +459,9 @@ button,a{font:inherit;color:inherit;text-decoration:none}button{cursor:none;bord
 <div class="toast" id="toast"><i></i><span id="toastText">已更新</span></div>
 
 <script>
+const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
-
-const cursorDot = $('.cursor-dot');
-const cursorRing = $('.cursor-ring');
-let pointerX = innerWidth / 2, pointerY = innerHeight / 2, ringX = pointerX, ringY = pointerY;
-addEventListener('mousemove', event => { pointerX = event.clientX; pointerY = event.clientY; cursorDot.style.left = pointerX + 'px'; cursorDot.style.top = pointerY + 'px'; });
-(function followPointer(){ ringX += (pointerX - ringX) * .14; ringY += (pointerY - ringY) * .14; cursorRing.style.left = ringX + 'px'; cursorRing.style.top = ringY + 'px'; requestAnimationFrame(followPointer); })();
-$$('a,button,.interactive').forEach(element => { element.addEventListener('mouseenter', () => cursorRing.classList.add('hovering')); element.addEventListener('mouseleave', () => cursorRing.classList.remove('hovering')); });
 
 const toast = $('#toast');
 let toastTimeout;

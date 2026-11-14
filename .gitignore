@@ -2,3 +2,4 @@ OpenHoopVision/
 dataset-nexsports/
 __pycache__/
 *.pyc
+.trae-html-share-packages/
