@@ -307,9 +307,9 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--red);outline-offset
           </div>
           <ul class="clauses">
             <li class="clause"><span class="c-idx">2.1</span><span class="c-txt">本体：轮式底盘、机械臂与控制柜，整机质量 57 kg<span class="ref" data-tip="R2 整机质量 57 kg">依据 R2</span></span></li>
-            <li class="clause"><span class="c-idx">2.2</span><span class="c-txt">移动方式为预设路线或人工遥控，限速 3 km/h<span class="ref" data-tip="R3 轮式底盘，无自主越障；R4 移动限速 3 km/h">依据 R3、R4</span></span></li>
-            <li class="clause"><span class="c-idx">2.3</span><span class="c-txt">投篮模块：弹跳高度 0.6 m，出球速度 4.5 m/s<span class="ref" data-tip="R8 投篮模块：弹跳 0.6 m，出球 4.5 m/s">依据 R8</span></span></li>
-            <li class="clause"><span class="c-idx">2.4</span><span class="c-txt">视觉节点仅输出骨骼关键点，不采集人脸图像<span class="ref" data-tip="R12 视觉与数据：仅输出骨骼关键点，不采集人脸与原始视频">依据 R12</span></span></li>
+            <li class="clause"><span class="c-idx">2.2</span><span class="c-txt">水平移动为轮式底盘，限速 3 km/h<span class="ref" data-tip="R3 轮式底盘；R4 移动限速 3 km/h">依据 R3、R4</span></span></li>
+            <li class="clause"><span class="c-idx">2.3</span><span class="c-txt">投篮模块弹跳行程 0.6 m、出球速度 4.5 m/s<span class="ref" data-tip="R8 弹跳行程 0.6 m，出球 4.5 m/s">依据 R8</span></span></li>
+            <li class="clause"><span class="c-idx">2.4</span><span class="c-txt">视觉节点采集场内影像，输出骨骼关键点与结构化事件<span class="ref" data-tip="R12 场内影像采集，输出关键点与事件">依据 R12</span></span></li>
             <li class="clause"><span class="c-idx">2.5</span><span class="c-txt">充电设备独立成区，距训练区不小于 5 m<span class="ref" data-tip="R11 充电区独立，距训练区 ≥5 m，专人值守">依据 R11</span></span></li>
             <li class="clause"><span class="c-idx">2.6</span><span class="c-txt">场地设施：隔离栏、缓冲区、地面与照明，见第四章。</span></li>
           </ul>
@@ -326,15 +326,16 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--red);outline-offset
           <div class="risk">
             <div class="risk-row head"><span>危险源</span><span>等级</span><span>参数依据</span><span>管控要点</span></div>
             <div class="risk-row"><span>机械夹点</span><span class="lv h">高</span><span class="r-ref">R5 关节扭矩 80 N·m</span><span>手臂包络半径内为禁区，禁止伸手</span></div>
-            <div class="risk-row"><span>运动冲击</span><span class="lv h">高</span><span class="r-ref">R2 57 kg · R4 3 km/h</span><span>保持净距，禁止迎面拦截与推挡</span></div>
+            <div class="risk-row"><span>运动冲击</span><span class="lv h">高</span><span class="r-ref">R2 · R4 · R8</span><span>保持净距；投篮模块下方 1 m 禁站</span></div>
             <div class="risk-row"><span>跌倒碰撞</span><span class="lv m">中</span><span class="r-ref">R10 净距 1.5 / 2.5 m</span><span>缓冲区不得堆放器材与线缆</span></div>
             <div class="risk-row"><span>电气</span><span class="lv m">中</span><span class="r-ref">R6 电池 2.3 kWh</span><span>充电区独立，充电时专人值守</span></div>
             <div class="risk-row"><span>电池</span><span class="lv h">高</span><span class="r-ref">R6 2.3 kWh · R11 ≥5 m</span><span>鼓包、异味立即隔离并上报</span></div>
-            <div class="risk-row"><span>摄像头隐私</span><span class="lv l">低</span><span class="r-ref">R12 仅关键点</span><span>不采集人脸，不保存原始视频</span></div>
+            <div class="risk-row"><span>摄像头隐私</span><span class="lv l">低</span><span class="r-ref">R12 影像与关键点</span><span>不做人脸识别，不用于身份核验</span></div>
           </div>
           <ul class="clauses">
             <li class="clause"><span class="c-idx">3.1</span><span class="c-txt">机械夹点为最高等级，任何情况下不得伸手进入。</span></li>
             <li class="clause"><span class="c-idx">3.2</span><span class="c-txt">57 kg 机体以 3 km/h 移动仍具冲击动能<span class="ref" data-tip="R2 整机质量 57 kg；R4 移动限速 3 km/h">依据 R2、R4</span></span></li>
+            <li class="clause"><span class="c-idx">3.3</span><span class="c-txt">垂直弹跳与水平移动叠加时，投篮模块正下方 1 m 禁站<span class="ref" data-tip="R8 弹跳行程 0.6 m，下方 1 m 为禁站区">依据 R8</span></span></li>
           </ul>
         </section>
 
@@ -474,12 +475,13 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--red);outline-offset
             </div>
           </div>
           <ul class="clauses">
-            <li class="clause"><span class="c-idx">11.1</span><span class="c-txt">采集范围：骨骼关键点坐标与投篮轨迹<span class="ref" data-tip="R12 仅输出骨骼关键点">依据 R12</span></span></li>
-            <li class="clause"><span class="c-idx">11.2</span><span class="c-txt">不采集人脸图像，不保存原始视频<span class="ref" data-tip="R12 不采集人脸图像与原始视频">依据 R12</span></span></li>
-            <li class="clause"><span class="c-idx">11.3</span><span class="c-txt">用途仅限动作分析与训练报告，不得对外提供<span class="ref" data-tip="R12 视觉节点数据用途限定">依据 R12</span></span></li>
-            <li class="clause"><span class="c-idx">11.4</span><span class="c-txt">数据留存期限<span class="todo">待补：留存期限</span>，到期删除。</span></li>
-            <li class="clause"><span class="c-idx">11.5</span><span class="c-txt">未成年人数据须经监护人授权后方可采集<span class="ref" data-tip="R12 数据采集范围与用途">依据 R12</span></span></li>
-            <li class="clause"><span class="c-idx">11.6</span><span class="c-txt">家长可申请查询、更正、删除本人及子女数据。</span></li>
+            <li class="clause"><span class="c-idx">11.1</span><span class="c-txt">采集范围：场内影像，含球员、球、篮筐、记分牌<span class="ref" data-tip="R12 场内影像采集">依据 R12</span></span></li>
+            <li class="clause"><span class="c-idx">11.2</span><span class="c-txt">输出为骨骼关键点与结构化事件<span class="ref" data-tip="R12 关键点与事件输出">依据 R12</span></span></li>
+            <li class="clause"><span class="c-idx">11.3</span><span class="c-txt">不进行人脸识别，不用于身份核验<span class="ref" data-tip="R12 不做人脸识别">依据 R12</span></span></li>
+            <li class="clause"><span class="c-idx">11.4</span><span class="c-txt">用途仅限动作分析与训练报告，不得对外提供<span class="ref" data-tip="R12 视觉节点数据用途限定">依据 R12</span></span></li>
+            <li class="clause"><span class="c-idx">11.5</span><span class="c-txt">原始影像留存期限<span class="todo">待补：留存期限</span>，到期删除。</span></li>
+            <li class="clause"><span class="c-idx">11.6</span><span class="c-txt">未成年人须取得监护人单独同意，并制定专门处理规则。</span></li>
+            <li class="clause"><span class="c-idx">11.7</span><span class="c-txt">家长可申请查询、更正、删除本人及子女数据。</span></li>
           </ul>
         </section>
 
@@ -493,8 +495,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--red);outline-offset
           </div>
           <ul class="clauses">
             <li class="clause"><span class="c-idx">12.1</span><span class="c-txt">本设备为训练辅助器材，不替代医疗诊断与治疗。</span></li>
-            <li class="clause"><span class="c-idx">12.2</span><span class="c-txt">学员须如实告知伤病史，隐瞒后果由本人承担。</span></li>
-            <li class="clause"><span class="c-idx">12.3</span><span class="c-txt">未按本说明使用造成的损害，由使用方承担。</span></li>
+            <li class="clause"><span class="c-idx">12.2</span><span class="c-txt">学员须如实告知伤病史；监护人未尽监护职责的，依法承担相应责任。</span></li>
+            <li class="clause"><span class="c-idx">12.3</span><span class="c-txt">因使用方未按本说明使用造成损害的，按其过错程度依法承担相应责任；本工作室依法履行安全保障义务，不因本条款免除。</span></li>
             <li class="clause"><span class="c-idx">12.4</span><span class="c-txt">应急电话<span class="todo">待补：急救电话与联系人</span>。</span></li>
             <li class="clause"><span class="c-idx">12.5</span><span class="c-txt">保险与赔付流程<span class="todo">待补：保险信息</span>。</span></li>
           </ul>
@@ -531,7 +533,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--red);outline-offset
             <tbody>
               <tr><td>R1</td><td>机型代号</td><td>INS-O3；训练辅助器材样机</td></tr>
               <tr><td>R2</td><td>整机质量</td><td>57 kg</td></tr>
-              <tr><td>R3</td><td>移动方式</td><td>轮式底盘；遥控或预设路线；无自主越障</td></tr>
+              <tr><td>R3</td><td>移动方式</td><td>轮式底盘（水平移动）＋上肢弹跳投篮机构（行程 0.6 m，仅垂直方向）</td></tr>
               <tr><td>R4</td><td>移动限速</td><td>3 km/h</td></tr>
               <tr><td>R5</td><td>关节最大扭矩</td><td>80 N·m</td></tr>
               <tr><td>R6</td><td>电池容量</td><td>2.3 kWh 锂电池组</td></tr>
@@ -540,7 +542,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--red);outline-offset
               <tr><td>R9</td><td>单次连续运行</td><td>≤45 min</td></tr>
               <tr><td>R10</td><td>安全净距</td><td>训练 1.5 m；对抗 2.5 m</td></tr>
               <tr><td>R11</td><td>充电布置</td><td>独立充电区；距训练区 ≥5 m；充电时专人值守</td></tr>
-              <tr><td>R12</td><td>视觉与数据</td><td>仅输出骨骼关键点；不采集人脸；不保存原始视频</td></tr>
+              <tr><td>R12</td><td>视觉与数据</td><td>场内影像采集；关键点与事件输出；不做人脸识别；留存期限【待补】</td></tr>
             </tbody>
           </table>
         </section>
@@ -556,7 +558,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--red);outline-offset
             <li><i>05</i>电池存放温度与湿度范围<em>第八章</em></li>
             <li><i>06</i>检修记录留存期限<em>第九章</em></li>
             <li><i>07</i>课间休息时长<em>第十章</em></li>
-            <li><i>08</i>数据留存期限<em>第十一章</em></li>
+            <li><i>08</i>原始影像留存期限<em>第十一章</em></li>
             <li><i>09</i>应急电话与联系人<em>第十二章</em></li>
             <li><i>10</i>保险与赔付流程<em>第十二章</em></li>
             <li><i>11</i>生效日期<em>第十三章</em></li>
