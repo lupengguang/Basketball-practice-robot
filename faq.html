@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b0b0c">
+<meta name="description" content="INS 篮球机器人训练营第三季常见问题：报名与开课、课程与训练、设备与安全、数据与隐私。">
+<title>常见问题 · INS 篮球机器人训练营</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+SC:wght@400;500;700;900&family=Oswald:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#d91f26;--red-deep:#a01218;--ink:#0b0b0c;--panel:#121214;--panel-2:#17171a;
+  --paper:#f1eee8;--fog:#a29f9a;--line:rgba(255,255,255,.12);
+  --font-d:'Bebas Neue','Noto Sans SC',sans-serif;--font-c:'Oswald','Noto Sans SC',sans-serif;
+  --font-m:'JetBrains Mono','Noto Sans SC',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(900px 460px at 78% 0%,rgba(217,31,38,.14),transparent 64%),var(--ink);color:#fff;font-family:var(--font-c);overflow-x:hidden;min-height:100vh}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+img{display:block;max-width:100%}
+::selection{background:var(--red);color:#fff}
+a:focus-visible,summary:focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:6px}
+
+/* ---------- 导航（与站内一致） ---------- */
+.nav{position:fixed;top:18px;left:50%;transform:translateX(-50%);width:min(1240px,94vw);height:64px;z-index:900;display:flex;align-items:center;justify-content:space-between;padding:0 26px;border-radius:18px;background:rgba(14,14,16,.82);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border:1px solid rgba(255,255,255,.09)}
+.nav-logo{font-family:var(--font-d);font-size:26px;letter-spacing:2px;display:flex;align-items:center;gap:2px}
+.nav-logo small{font-family:var(--font-c);font-size:10px;letter-spacing:4px;color:#858287;margin-left:10px;font-weight:400}
+.nav-links{display:flex;align-items:center;gap:4px;font-size:12px;letter-spacing:2px;font-weight:500}
+.nav-links a{position:relative;padding:10px 14px;color:#c9c6c0;border-radius:999px;transition:color .35s,letter-spacing .35s,background .35s,transform .35s}
+.nav-links a::after{content:"";position:absolute;left:50%;bottom:4px;width:0;height:2px;border-radius:2px;background:var(--red);box-shadow:0 0 10px var(--red);transition:width .35s cubic-bezier(.2,.8,.2,1),left .35s cubic-bezier(.2,.8,.2,1)}
+.nav-links a:hover{color:#fff;letter-spacing:3.5px;background:rgba(217,31,38,.14);transform:translateY(-2px)}
+.nav-links a:hover::after{width:60%;left:20%}
+.nav-links a.on{color:#fff;background:rgba(217,31,38,.16)}
+.nav-icons{display:flex;align-items:center;gap:12px}
+.nav-icon{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.25);display:grid;place-items:center;transition:.3s}
+.nav-icon svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2}
+.nav-icon:hover{border-color:var(--red);background:var(--red);transform:translateY(-2px)}
+@media(max-width:900px){.nav-links{display:none}}
+@media(max-width:1080px){.nav{padding:0 16px}.nav-logo small{display:none}.nav-links{gap:2px;letter-spacing:1px}.nav-links a{padding:10px 9px}}
+
+/* ---------- Hero ---------- */
+.shell{width:min(1080px,100%);margin:0 auto}
+.hero{padding:164px 4vw 26px}
+.eyebrow{display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:3.4px;color:#c7c2bc}
+.eyebrow::before{content:"";width:11px;height:11px;border-radius:50%;background:var(--red);box-shadow:0 0 15px var(--red)}
+.hero h1{margin-top:18px;font-family:var(--font-d);font-size:clamp(60px,9vw,116px);line-height:.84;letter-spacing:.02em}
+.hero h1 em{font-style:normal;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.85)}
+.hero-sub{margin-top:16px;font-size:13px;letter-spacing:2px;color:var(--fog);line-height:2}
+.hero-rule{margin-top:26px;height:1px;background:linear-gradient(90deg,rgba(217,31,38,.8),rgba(255,255,255,.14) 42%,transparent)}
+
+/* ---------- 分组 ---------- */
+.faq-wrap{padding:16px 4vw 90px}
+.group{margin-top:46px}
+.group-head{display:flex;align-items:flex-end;gap:16px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.g-no{font-family:var(--font-m);font-size:11px;letter-spacing:2px;color:var(--red)}
+.g-title{font-size:18px;letter-spacing:3px;font-weight:600}
+.g-en{margin-left:auto;font-family:var(--font-m);font-size:9px;letter-spacing:2.6px;color:#6f6c68;text-transform:uppercase}
+.faq-list{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+
+/* 折叠项 */
+.faq{position:relative;background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.02));border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:border-color .4s,background .4s,transform .4s cubic-bezier(.2,.8,.2,1),box-shadow .4s}
+.faq::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(180deg,#ff454e,var(--red));transform:scaleY(0);transform-origin:top;transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+.faq:hover{border-color:rgba(217,31,38,.55);background:rgba(217,31,38,.06);transform:translateX(3px);box-shadow:0 18px 38px -24px rgba(217,31,38,.7)}
+.faq:hover::before{transform:scaleY(1)}
+.faq[open]:hover{background:rgba(217,31,38,.07)}
+.faq summary{display:flex;align-items:flex-start;gap:14px;padding:18px 20px;cursor:pointer;list-style:none}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::marker{content:""}
+.f-q-no{flex:0 0 auto;font-family:var(--font-m);font-size:10.5px;letter-spacing:1px;color:#6f6c68;padding-top:4px;transition:color .35s}
+.faq:hover .f-q-no,.faq[open] .f-q-no{color:var(--red)}
+.f-q{flex:1;font-size:14.5px;line-height:1.7;letter-spacing:.8px;font-weight:500;transition:letter-spacing .35s,transform .35s}
+.faq:hover .f-q{letter-spacing:1.1px}
+.f-sign{position:relative;flex:0 0 auto;width:26px;height:26px;margin-top:1px;border:1px solid var(--line);border-radius:50%;transition:border-color .35s,background .35s,transform .45s cubic-bezier(.2,.8,.2,1)}
+.f-sign::before,.f-sign::after{content:"";position:absolute;top:50%;left:50%;background:#cfcac4;border-radius:2px;transform:translate(-50%,-50%);transition:transform .4s cubic-bezier(.2,.8,.2,1),background .35s,opacity .3s}
+.f-sign::before{width:10px;height:1.5px}
+.f-sign::after{width:1.5px;height:10px}
+.faq[open] .f-sign::after{transform:translate(-50%,-50%) rotate(90deg);opacity:0}
+.faq[open] .f-sign::before{background:var(--red)}
+.faq:hover .f-sign{border-color:var(--red);background:rgba(217,31,38,.14);transform:rotate(90deg)}
+.faq:hover .f-sign::before,.faq:hover .f-sign::after{background:#fff}
+.faq[open]:hover .f-sign::after{opacity:0}
+.f-a{padding:0 20px 20px 52px;font-size:13px;line-height:1.95;letter-spacing:.5px;color:#b8b4ae;max-width:820px;animation:none}
+.f-a b{color:var(--paper);font-weight:600}
+.f-a a{color:#e6c9c9;border-bottom:1px solid rgba(217,31,38,.5);transition:color .3s,border-color .3s}
+.f-a a:hover{color:#fff;border-color:#fff}
+
+/* 组尾联系 */
+.g-contact{display:flex;align-items:center;gap:10px;margin-top:14px;padding:12px 16px;border:1px dashed rgba(255,255,255,.16);border-radius:10px;font-size:11.5px;letter-spacing:1.4px;color:#8f8b86;transition:border-color .35s,color .35s,background .35s}
+.g-contact::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--red);box-shadow:0 0 8px var(--red);opacity:.75}
+.g-contact:hover{border-color:rgba(217,31,38,.6);color:#cfcac4;background:rgba(217,31,38,.06)}
+
+/* ---------- 页尾 ---------- */
+.end{margin-top:52px;padding-top:22px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.end p{font-family:var(--font-m);font-size:10.5px;letter-spacing:2px;color:#6f6c68}
+.end-links{display:flex;gap:8px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:999px;border:1px solid rgba(255,255,255,.18);font-size:11px;letter-spacing:2px;color:#e5e1db;transition:.35s}
+.pill svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2}
+.pill:hover{border-color:var(--red);background:var(--red);transform:translateY(-3px);box-shadow:0 16px 30px -16px rgba(217,31,38,.8)}
+.pill.solid{background:var(--red);border-color:var(--red)}
+.pill.solid:hover{background:#fff;border-color:#fff;color:var(--ink)}
+
+/* 减少动效 / 无悬停设备 */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
+}
+@media (hover:none){
+  .faq:hover{transform:none}
+}
+@media(max-width:600px){
+  .hero{padding:126px 5vw 20px}
+  .faq-wrap{padding:10px 5vw 70px}
+  .g-en{display:none}
+  .faq summary{padding:15px 14px;gap:10px}
+  .f-q{font-size:13.5px}
+  .f-a{padding:0 14px 16px 40px;font-size:12.5px}
+  .end{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-logo" href="index.html">INS BASKETBOT<small>INS 篮球机器人训练营</small></a>
+  <div class="nav-links">
+    <a href="index.html#top">健康体态</a>
+    <a href="coaches.html">明星教练</a>
+    <a href="training.html">训练体系</a>
+    <a href="profile.html">个人中心</a>
+    <a href="datalab.html">数据监测</a>
+    <a href="opensource.html">开源介绍</a>
+  </div>
+  <div class="nav-icons">
+    <a class="nav-icon" href="index.html#gallery" aria-label="搜索"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></a>
+    <a class="nav-icon" href="login.html" aria-label="用户"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="shell">
+    <div class="eyebrow">FAQ · 第三季</div>
+    <h1>常见<em>问题</em></h1>
+    <p class="hero-sub">报名、课程、设备、数据，四组问题逐条说明。</p>
+    <div class="hero-rule"></div>
+  </div>
+</header>
+
+<main class="faq-wrap">
+  <div class="shell">
+
+    <section class="group">
+      <div class="group-head">
+        <span class="g-no">01</span>
+        <h2 class="g-title">报名与开课</h2>
+        <span class="g-en">ENROLLMENT</span>
+      </div>
+      <div class="faq-list">
+
+        <details class="faq" open>
+          <summary>
+            <span class="f-q-no">Q1.1</span>
+            <span class="f-q">什么时候报名、什么时候开营？</span>
+            <span class="f-sign" aria-hidden="true"></span>
+          </summary>
+          <div class="f-a">报名 <b>2027.02.01</b> 开放，<b>2027.05.03</b> 开营，结营赛定于 <b>2027.05.29 21:30</b>。</div>
+        </details>
+
+        <details class="faq" open>
+          <summary>
+            <span class="f-q-no">Q1.2</span>
+            <span class="f-q">第三季一共多少课程？</span>
+            <span class="f-sign" aria-hidden="true"></span>
+          </summary>
+          <div class="f-a">课程 <b>36+</b> 节，覆盖基本功、过人、投篮三个模块，按周依次推进。</div>
+        </details>
+
+        <details class="faq" open>
+          <summary>
+            <span class="f-q-no">Q1.3</span>
+            <span class="f-q">报名有年龄、名额和费用限制吗？</span>
+            <span class="f-sign" aria-hidden="true"></span>
+          </summary>
+          <div class="f-a">有，年龄、名额与费用均以报名页公示为准，现场不加位、不议价。</div>
+        </details>
+
+      </div>
+      <p class="g-contact">未解决？联系【待补：联系方式】</p>
+    </section>
+
+    <section class="group">
+      <div class="group-head">
+        <span class="g-no">02</span>
+        <h2 class="g-title">课程与训练</h2>
+        <span class="g-en">TRAINING</span>
+      </div>
+      <div class="faq-list">
+
+        <details class="faq" open>
+          <summary>
+            <span class="f-q-no">Q2.1</span>
+            <span class="f-q">三个模块各多长时间？</span>
+            <span class="f-sign" aria-hidden="true"></span>
+          </summary>
+          <div class="f-a">基本功 <b>4 周</b>、过人 <b>6 周</b>、投篮 <b>8 周</b>，按顺序进阶，不跳模块。</div>
+        </details>
+
+        <details class="faq" open>
+          <summary>
+            <span class="f-q-no">Q2.2</span>
+            <span class="f-q">体验课多长时间、练什么？</span>
+            <span class="f-sign" aria-hidden="true"></span>
+          </summary>
+          <div class="f-a">体验课 <b>90 分钟</b>，由红衣教官带练，含人机对抗与当场数据讲评。</div>
+        </details>
+
+        <details class="faq" open>
+          <summary>
+            <span class="f-q-no">Q2.3</span>
+            <span class="f-q">同场多少台设备、怎么对抗？</span>
+            <span class="f-sign" aria-hidden="true"></span>
+          </summary>
+          <div class="f-a">同场 <b>12 台</b> INS-O3，学员分组进行 <b>1V1</b> 对抗，轮次由教练编排。</div>
+        </details>
+
+      </div>
+      <p class="g-contact">未解决？联系【待补：联系方式】</p>
+    </section>
+
+    <section class="group">
+      <div class="group-head">
+        <span class="g-no">03</span>
+        <h2 class="g-title">设备与安全</h2>
+        <span class="g-en">EQUIPMENT</span>
+      </div>
+      <div class="faq-list">
+
+        <details class="faq" open>
+          <summary>
+            <span class="f-q-no">Q3.1</span>
+            <span class="f-q">机器人速度多快？人要保持多远？</span>
+            <span class="f-sign" aria-hidden="true"></span>
+          </summary>
+          <div class="f-a">训练限速 <b>3 km/h</b>；单人净距 <b>1.5 m</b>，对抗净距 <b>2.5 m</b>。</div>
+        </details>
+
+        <details class="faq" open>
+          <summary>
+            <span class="f-q-no">Q3.2</span>
+            <span class="f-q">急停在哪里？由谁操作？</span>
+            <span class="f-sign" aria-hidden="true"></span>
+          </summary>
+          <div class="f-a">机身急停 <b>2 处</b>，另有教练无线急停，训练全程教练在场。</div>
+        </details>
+
+        <details class="faq" open>
+          <summary>
+            <span class="f-q-no">Q3.3</span>
+            <span class="f-q">孩子会被机械臂夹到吗？</span>
+            <span class="f-sign" aria-hidden="true"></span>
+          </summary>
+          <div class="f-a">规则上已设禁区：臂展包络内学员不得伸手，分级与处置见<a href="safety.html">《设备安全说明》</a>。</div>
+        </details>
+
+      </div>
+      <p class="g-contact">未解决？联系【待补：联系方式】</p>
+    </section>
+
+    <section class="group">
+      <div class="group-head">
+        <span class="g-no">04</span>
+        <h2 class="g-title">数据与隐私</h2>
+        <span class="g-en">DATA &amp; PRIVACY</span>
+      </div>
+      <div class="faq-list">
+
+        <details class="faq" open>
+          <summary>
+            <span class="f-q-no">Q4.1</span>
+            <span class="f-q">训练数据怎么采集？</span>
+            <span class="f-sign" aria-hidden="true"></span>
+          </summary>
+          <div class="f-a">场边视觉节点（Jetson AGX Orin 64GB）采集动作，仅输出骨骼关键点。</div>
+        </details>
+
+        <details class="faq" open>
+          <summary>
+            <span class="f-q-no">Q4.2</span>
+            <span class="f-q">练完能看到什么？</span>
+            <span class="f-sign" aria-hidden="true"></span>
+          </summary>
+          <div class="f-a">云端赛后复盘，输出投篮与动作数据报告，教练据此调整下阶段训练。</div>
+        </details>
+
+        <details class="faq" open>
+          <summary>
+            <span class="f-q-no">Q4.3</span>
+            <span class="f-q">会保存孩子的视频吗？</span>
+            <span class="f-sign" aria-hidden="true"></span>
+          </summary>
+          <div class="f-a">不采集人脸、不保存原始视频，采集范围与用途按<a href="safety.html">《设备安全说明》</a>执行。</div>
+        </details>
+
+      </div>
+      <p class="g-contact">未解决？联系【待补：联系方式】</p>
+    </section>
+
+    <div class="end">
+      <p>最后更新：2027.【待补】</p>
+      <div class="end-links">
+        <a class="pill" href="safety.html"><svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/></svg>设备安全说明</a>
+        <a class="pill solid" href="index.html"><svg viewBox="0 0 24 24"><path d="M19 12H5m6-6-6 6 6 6"/></svg>返回官网首页</a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+</body>
+</html>

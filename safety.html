@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f4f1ec">
+<meta name="description" content="INS 篮球机器人训练营设备安全说明（公示版）。适用机型 INS-O3，条款依据《参数基准表》R1–R12。">
+<title>设备安全说明 · INS 篮球机器人训练营</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+SC:wght@400;500;700;900&family=Oswald:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#d91f26;--red-deep:#a01218;
+  --ink:#101014;--ink-2:#16161a;--paper:#f4f1ec;--card:#fff;
+  --muted:#6f6c68;--faint:#9a968f;--line:#e3dfd8;
+  --hi:#fff1f1;
+  --font-d:'Bebas Neue','Noto Sans SC',sans-serif;--font-c:'Oswald','Noto Sans SC',sans-serif;
+  --font-m:'JetBrains Mono','Noto Sans SC',monospace;
+  --shadow:0 20px 44px -26px rgba(16,16,20,.22);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:104px}
+body{background:var(--paper);color:var(--ink);font-family:var(--font-c);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+img{display:block;max-width:100%}
+::selection{background:var(--red);color:#fff}
+a:focus-visible,button:focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:4px}
+
+/* ---------- 顶部导航 ---------- */
+.nav{position:fixed;top:18px;left:50%;transform:translateX(-50%);width:min(1240px,94vw);height:64px;z-index:900;display:flex;align-items:center;justify-content:space-between;padding:0 26px;border-radius:18px;background:rgba(14,14,16,.55);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border:1px solid rgba(255,255,255,.08);transition:box-shadow .4s,background .4s}
+.nav.scrolled{background:rgba(14,14,16,.9);box-shadow:0 18px 50px -18px rgba(0,0,0,.8)}
+.nav-logo{font-family:var(--font-d);font-size:26px;letter-spacing:2px;display:flex;align-items:center;gap:2px;color:#fff}
+.nav-logo small{font-family:var(--font-c);font-size:10px;letter-spacing:4px;color:#8b8b8e;margin-left:10px;font-weight:400}
+.nav-links{display:flex;align-items:center;gap:4px;font-size:12px;letter-spacing:2px;font-weight:500}
+.nav-links a{position:relative;padding:10px 14px;color:#c9c6c0;border-radius:999px;transition:color .35s,letter-spacing .35s,background .35s,transform .35s}
+.nav-links a::after{content:"";position:absolute;left:50%;bottom:4px;width:0;height:2px;background:var(--red);border-radius:2px;box-shadow:0 0 10px var(--red);transition:width .35s cubic-bezier(.2,.8,.2,1),left .35s cubic-bezier(.2,.8,.2,1)}
+.nav-links a:hover{color:#fff;letter-spacing:3.5px;background:rgba(217,31,38,.14);transform:translateY(-2px)}
+.nav-links a:hover::after{width:60%;left:20%}
+.nav-icons{display:flex;align-items:center;gap:12px}
+.nav-icon{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.25);display:grid;place-items:center;transition:.3s}
+.nav-icon svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2}
+.nav-icon:hover{border-color:var(--red);background:var(--red);transform:translateY(-2px)}
+@media(max-width:900px){.nav-links{display:none}}
+@media(max-width:1080px){.nav{padding:0 16px}.nav-logo small{display:none}.nav-links{gap:2px;letter-spacing:1px}.nav-links a{padding:10px 9px}}
+
+/* 阅读进度 */
+.progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:999;background:linear-gradient(90deg,var(--red-deep),#ff454e);box-shadow:0 0 14px rgba(217,31,38,.6)}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;padding:150px 4vw 46px;overflow:hidden;background:radial-gradient(900px 420px at 78% 8%,rgba(217,31,38,.10),transparent 62%),var(--paper)}
+.hero::after{content:"";position:absolute;right:-160px;top:60px;width:520px;height:520px;border-radius:50%;border:1px dashed rgba(217,31,38,.22);animation:orbit 42s linear infinite;pointer-events:none}
+@keyframes orbit{to{transform:rotate(360deg)}}
+.shell{width:min(1240px,100%);margin:0 auto}
+.eyebrow{display:flex;align-items:center;gap:10px;font-size:10px;letter-spacing:3.4px;color:var(--muted)}
+.eyebrow::before{content:"";width:11px;height:11px;border-radius:50%;background:var(--red);box-shadow:0 0 14px rgba(217,31,38,.55)}
+.hero h1{margin-top:18px;font-family:var(--font-d);font-size:clamp(64px,9.5vw,132px);line-height:.82;letter-spacing:.02em}
+.hero h1 em{font-style:normal;color:var(--red)}
+.hero-en{margin-top:10px;font-family:var(--font-m);font-size:11px;letter-spacing:5px;color:var(--faint)}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:11px;letter-spacing:1.6px;color:var(--muted);transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .35s,color .35s,box-shadow .35s}
+.chip b{color:var(--ink);font-weight:600;font-family:var(--font-m);letter-spacing:.5px}
+.chip:hover{transform:translateY(-3px);border-color:rgba(217,31,38,.45);color:var(--red);box-shadow:0 12px 24px -16px rgba(217,31,38,.5)}
+.hero-note{margin-top:26px;max-width:640px;font-size:13px;line-height:2;letter-spacing:.6px;color:var(--muted)}
+.hero-note b{color:var(--ink);font-weight:600}
+
+/* ---------- 布局 ---------- */
+.doc-wrap{padding:0 4vw 80px}
+.layout{display:grid;grid-template-columns:236px 1fr;gap:44px;align-items:start}
+.toc{position:sticky;top:104px;border-left:1px solid var(--line);padding-left:2px}
+.toc-h{font-family:var(--font-m);font-size:9px;letter-spacing:3px;color:var(--faint);padding:0 0 14px 16px}
+.toc a{position:relative;display:flex;align-items:center;gap:10px;padding:9px 12px;font-size:12px;letter-spacing:1px;color:var(--muted);border-radius:0 999px 999px 0;transition:color .3s,padding-left .35s cubic-bezier(.2,.8,.2,1),background .3s}
+.toc a::before{content:"";position:absolute;left:-3px;top:50%;width:3px;height:0;border-radius:3px;background:var(--red);transform:translateY(-50%);transition:height .35s cubic-bezier(.2,.8,.2,1)}
+.toc a span{font-family:var(--font-m);font-size:10px;color:var(--faint);transition:color .3s}
+.toc a:hover{padding-left:20px;color:var(--ink);background:rgba(255,255,255,.7)}
+.toc a:hover::before,.toc a.active::before{height:60%}
+.toc a:hover span,.toc a.active span{color:var(--red)}
+.toc a.active{color:var(--red);padding-left:20px;background:#fff}
+
+/* ---------- 条款章节 ---------- */
+.doc{min-width:0}
+.sec{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:30px 34px;margin-bottom:18px;box-shadow:var(--shadow);transition:border-color .4s,box-shadow .4s,transform .4s}
+.sec:hover{border-color:rgba(217,31,38,.3);box-shadow:0 26px 50px -28px rgba(16,16,20,.28)}
+.sec-head{display:flex;align-items:flex-start;gap:16px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.sec-no{font-family:var(--font-d);font-size:40px;line-height:.8;color:transparent;-webkit-text-stroke:1.2px rgba(16,16,20,.28);transition:color .4s,-webkit-text-stroke-color .4s;flex:0 0 auto}
+.sec:hover .sec-no{color:var(--red);-webkit-text-stroke-color:var(--red)}
+.sec-title{font-size:17px;letter-spacing:2.5px;font-weight:700;padding-top:4px}
+.sec-sub{margin-top:5px;font-family:var(--font-m);font-size:9px;letter-spacing:2.4px;color:var(--faint);text-transform:uppercase}
+.clauses{list-style:none;margin-top:8px}
+.clause{position:relative;display:flex;gap:12px;align-items:flex-start;padding:11px 12px 11px 14px;border-radius:10px;font-size:13.5px;line-height:1.85;letter-spacing:.4px;color:#2b2b30;transition:background .3s,padding-left .35s cubic-bezier(.2,.8,.2,1),transform .35s cubic-bezier(.2,.8,.2,1),color .3s}
+.clause::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:2px;border-radius:2px;background:var(--red);transform:scaleY(0);transform-origin:top;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.clause:hover{background:var(--hi);padding-left:20px;color:var(--ink);transform:translateX(2px)}
+.clause:hover::before{transform:scaleY(1)}
+.c-idx{flex:0 0 auto;font-family:var(--font-m);font-size:10px;color:var(--faint);padding-top:6px;transition:color .3s}
+.clause:hover .c-idx{color:var(--red)}
+.c-txt{flex:1;min-width:0}
+.ref{position:relative;display:inline-flex;align-items:center;margin-left:6px;padding:1px 7px;border-radius:5px;background:rgba(16,16,20,.055);font-family:var(--font-m);font-size:10px;letter-spacing:.6px;color:var(--muted);white-space:nowrap;cursor:help;transition:background .3s,color .3s,box-shadow .3s,transform .3s}
+.ref:hover{background:var(--red);color:#fff;box-shadow:0 0 0 3px rgba(217,31,38,.16);transform:translateY(-1px)}
+.ref::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 9px);transform:translate(-50%,6px);min-width:150px;max-width:250px;padding:8px 11px;border-radius:8px;background:#101014;color:#f4f1ec;font-family:var(--font-c);font-size:11px;line-height:1.6;letter-spacing:.6px;white-space:normal;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:20;box-shadow:0 14px 30px -12px rgba(0,0,0,.5)}
+.ref:hover::after{opacity:1;transform:translate(-50%,0)}
+.todo{display:inline-block;margin-left:6px;padding:1px 7px;border:1px dashed rgba(217,31,38,.55);border-radius:5px;font-family:var(--font-m);font-size:10px;color:var(--red);letter-spacing:.5px;white-space:nowrap;transition:background .3s,color .3s}
+.todo:hover{background:var(--red);color:#fff;border-style:solid}
+
+/* 风险分级表 */
+.risk{margin-top:14px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.risk-row{display:grid;grid-template-columns:1.05fr 62px 1.35fr 1.5fr;gap:10px;align-items:center;padding:12px 16px;font-size:12.5px;letter-spacing:.4px;border-bottom:1px solid var(--line);background:#fff;transition:background .3s,padding-left .3s}
+.risk-row:last-child{border-bottom:0}
+.risk-row.head{background:#faf8f5;font-family:var(--font-m);font-size:9.5px;letter-spacing:2px;color:var(--faint)}
+.risk-row:not(.head):hover{background:var(--hi);padding-left:22px}
+.lv{display:inline-flex;justify-content:center;padding:3px 0;border-radius:5px;font-size:10px;letter-spacing:1.5px;font-weight:600;color:#fff;transition:transform .3s}
+.lv.h{background:var(--red)}
+.lv.m{background:#f08a24}
+.lv.l{background:#6f7482}
+.risk-row:hover .lv{transform:scale(1.06)}
+.r-ref{font-family:var(--font-m);font-size:10.5px;color:var(--muted)}
+@media(max-width:760px){
+  .risk-row{grid-template-columns:1fr 54px;row-gap:6px}
+  .risk-row.head{display:none}
+  .r-ref{grid-column:1/-1;color:var(--faint)}
+}
+
+/* ---------- 附录 ---------- */
+.appendix{margin-top:34px;background:var(--ink);color:#f4f1ec;border-radius:22px;padding:34px;box-shadow:0 30px 60px -30px rgba(0,0,0,.5)}
+.ap-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,.14)}
+.ap-title{font-family:var(--font-d);font-size:34px;letter-spacing:2px}
+.ap-sub{font-family:var(--font-m);font-size:9px;letter-spacing:3px;color:#8b8b8e;margin-top:4px}
+.ap-note{font-size:11px;letter-spacing:1px;color:#a9a5a0;max-width:360px;line-height:1.9}
+.ptable{width:100%;border-collapse:collapse;margin-top:8px}
+.ptable th{text-align:left;padding:12px 10px;font-family:var(--font-m);font-size:9.5px;letter-spacing:2px;color:#8b8b8e;font-weight:400;border-bottom:1px solid rgba(255,255,255,.14)}
+.ptable td{padding:13px 10px;font-size:12.5px;letter-spacing:.5px;border-bottom:1px solid rgba(255,255,255,.07);transition:background .3s,color .3s}
+.ptable tr:last-child td{border-bottom:0}
+.ptable tbody tr:hover td{background:rgba(217,31,38,.14)}
+.ptable td:first-child{font-family:var(--font-m);font-size:11px;color:var(--red);letter-spacing:1px;white-space:nowrap}
+.ptable td:nth-child(2){color:#cfcac4;white-space:nowrap}
+.ptable td:nth-child(3){color:#fff;font-family:var(--font-m);font-size:11.5px}
+@media(max-width:700px){
+  .ptable td:nth-child(2){white-space:normal}
+  .ptable th:nth-child(2),.ptable td:nth-child(2){display:none}
+}
+
+/* ---------- 待补清单 ---------- */
+.todo-box{margin-top:18px;background:#fff;border:1px solid var(--line);border-left:3px solid var(--red);border-radius:16px;padding:28px 32px;box-shadow:var(--shadow)}
+.todo-box h3{font-size:15px;letter-spacing:2.5px;display:flex;align-items:center;gap:10px}
+.todo-box h3::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 10px rgba(217,31,38,.6)}
+.todo-box p{margin-top:8px;font-size:12px;letter-spacing:.6px;color:var(--muted);line-height:1.9}
+.todo-list{list-style:none;margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:8px 24px}
+.todo-list li{display:flex;gap:10px;align-items:baseline;padding:8px 10px;border-radius:8px;font-size:12.5px;letter-spacing:.4px;transition:background .3s,padding-left .3s}
+.todo-list li:hover{background:var(--hi);padding-left:16px}
+.todo-list li i{font-style:normal;font-family:var(--font-m);font-size:10px;color:var(--red);flex:0 0 auto}
+.todo-list li em{font-style:normal;margin-left:auto;font-size:10px;color:var(--faint);letter-spacing:1px;white-space:nowrap}
+@media(max-width:700px){.todo-list{grid-template-columns:1fr}}
+
+/* ---------- 页脚 ---------- */
+.disclaimer{margin-top:26px;padding:20px 24px;border-radius:14px;background:#faf8f5;border:1px dashed rgba(16,16,20,.18);font-size:12px;letter-spacing:1px;color:var(--muted);text-align:center;line-height:1.9}
+.endbar{margin-top:18px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;padding:22px 24px;background:var(--ink);border-radius:16px;color:#cfcac4}
+.endbar p{font-size:10.5px;letter-spacing:1.6px;color:#8b8b8e}
+.endbar .acts{display:flex;gap:10px;flex-wrap:wrap}
+.act{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:999px;border:1px solid rgba(255,255,255,.2);font-size:11px;letter-spacing:2px;color:#fff;transition:.35s}
+.act svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2}
+.act:hover{background:var(--red);border-color:var(--red);transform:translateY(-3px);box-shadow:0 14px 28px -14px rgba(217,31,38,.7)}
+.act.solid{background:var(--red);border-color:var(--red)}
+.act.solid:hover{background:#fff;border-color:#fff;color:var(--ink);box-shadow:0 14px 28px -14px rgba(0,0,0,.5)}
+
+/* 入场动画 */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* 响应式 */
+@media(max-width:980px){
+  .layout{grid-template-columns:1fr;gap:20px}
+  .toc{position:static;display:flex;flex-wrap:wrap;gap:6px;border-left:0;padding:0}
+  .toc-h{display:none}
+  .toc a{padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:11px}
+  .toc a::before{display:none}
+  .toc a:hover,.toc a.active{padding-left:14px}
+}
+@media(max-width:600px){
+  .hero{padding:124px 5vw 34px}
+  .doc-wrap{padding:0 5vw 60px}
+  .sec{padding:22px 18px;border-radius:16px}
+  .sec-no{font-size:30px}
+  .sec-title{font-size:15px;letter-spacing:1.6px}
+  .clause{font-size:13px;padding:10px 6px 10px 12px;line-height:1.8}
+  .clause:hover{padding-left:14px}
+  .appendix{padding:22px 16px;border-radius:16px}
+  .ap-title{font-size:26px}
+  .ptable td,.ptable th{padding:10px 4px;font-size:11.5px}
+  .todo-box{padding:20px 18px}
+  .endbar{padding:18px}
+}
+
+/* 打印 / 张贴版 */
+@media print{
+  @page{margin:14mm}
+  body{background:#fff}
+  .nav,.progress,.toc,.endbar,.hero::after,.ref::after{display:none!important}
+  .hero{padding:0 0 14px;background:#fff}
+  .hero h1{font-size:34pt;line-height:.9}
+  .hero-en,.hero-note{color:#333}
+  .doc-wrap{padding:0}
+  .layout{display:block}
+  .sec{box-shadow:none;border-color:#bbb;break-inside:avoid;page-break-inside:avoid;margin-bottom:10px;padding:14px 16px;border-radius:6px}
+  .sec-no{color:#333;-webkit-text-stroke:0}
+  .clause{font-size:10.5pt;line-height:1.7}
+  .appendix{box-shadow:none;background:#fff;color:#000;border:1px solid #999;break-before:page;page-break-before:always}
+  .ap-title{color:#000}
+  .ap-sub,.ap-note{color:#444}
+  .ptable td,.ptable th{color:#000!important;border-color:#bbb}
+  .ptable tbody tr:hover td{background:transparent}
+  .todo-box{box-shadow:none;border:1px solid #bbb}
+  .disclaimer{border-color:#999}
+  .reveal{opacity:1!important;transform:none!important}
+}
+
+/* 减少动效 */
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<nav class="nav" id="nav">
+  <a class="nav-logo" href="index.html">INS BASKETBOT<small>INS 篮球机器人训练营</small></a>
+  <div class="nav-links">
+    <a href="index.html#top">健康体态</a>
+    <a href="coaches.html">明星教练</a>
+    <a href="training.html">训练体系</a>
+    <a href="profile.html">个人中心</a>
+    <a href="datalab.html">数据监测</a>
+    <a href="opensource.html">开源介绍</a>
+  </div>
+  <div class="nav-icons">
+    <a class="nav-icon" href="index.html#gallery" aria-label="搜索"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></a>
+    <a class="nav-icon" href="login.html" aria-label="用户"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="shell">
+    <div class="eyebrow">SAFETY NOTICE · 公示文件</div>
+    <h1>设备<em>安全</em>说明</h1>
+    <div class="hero-en">EQUIPMENT SAFETY INSTRUCTIONS · INS-O3</div>
+    <div class="hero-meta">
+      <span class="chip">适用机型 <b>INS-O3</b></span>
+      <span class="chip">版本 <b>v0.1</b></span>
+      <span class="chip">适用对象 <b>家长 · 学员</b></span>
+      <span class="chip">参数依据 <b>R1–R12</b></span>
+    </div>
+    <p class="hero-note">本说明面向家长与学员公示。<b>全部数值仅取自附录《参数基准表》R1–R12</b>，每一条涉及数值的条款均在句尾标注依据代号；表中未列出的量一律标注为待补，不作估算。</p>
+  </div>
+</header>
+
+<main class="doc-wrap">
+  <div class="shell">
+    <div class="layout">
+
+      <aside class="toc" aria-label="条款目录">
+        <div class="toc-h">CONTENTS</div>
+        <a href="#s1"><span>01</span>适用范围</a>
+        <a href="#s2"><span>02</span>设备构成</a>
+        <a href="#s3"><span>03</span>危险源与分级</a>
+        <a href="#s4"><span>04</span>场地与布置</a>
+        <a href="#s5"><span>05</span>使用前点检</a>
+        <a href="#s6"><span>06</span>运行规则</a>
+        <a href="#s7"><span>07</span>急停与处置</a>
+        <a href="#s8"><span>08</span>电气与电池</a>
+        <a href="#s9"><span>09</span>维护检修</a>
+        <a href="#s10"><span>10</span>青少年专项</a>
+        <a href="#s11"><span>11</span>隐私与数据</a>
+        <a href="#s12"><span>12</span>责任声明</a>
+        <a href="#s13"><span>13</span>版本与生效</a>
+        <a href="#appendix"><span>A</span>参数基准表</a>
+        <a href="#pending"><span>B</span>待补清单</a>
+      </aside>
+
+      <div class="doc">
+
+        <section class="sec reveal" id="s1">
+          <div class="sec-head">
+            <div class="sec-no">01</div>
+            <div>
+              <div class="sec-title">一、适用范围</div>
+              <div class="sec-sub">SCOPE</div>
+            </div>
+          </div>
+          <ul class="clauses">
+            <li class="clause"><span class="c-idx">1.1</span><span class="c-txt">本说明仅适用于机型 INS-O3，不涉及其他机型。</span></li>
+            <li class="clause"><span class="c-idx">1.2</span><span class="c-txt">适用人员：在册学员、监护人、持证教练、运维人员。</span></li>
+            <li class="clause"><span class="c-idx">1.3</span><span class="c-txt">不适用：私自改装、非指定场地、超范围对抗训练。</span></li>
+            <li class="clause"><span class="c-idx">1.4</span><span class="c-txt">本说明为公示文件，首次训练前须逐条告知学员。</span></li>
+          </ul>
+        </section>
+
+        <section class="sec reveal" id="s2">
+          <div class="sec-head">
+            <div class="sec-no">02</div>
+            <div>
+              <div class="sec-title">二、设备构成</div>
+              <div class="sec-sub">COMPOSITION</div>
+            </div>
+          </div>
+          <ul class="clauses">
+            <li class="clause"><span class="c-idx">2.1</span><span class="c-txt">本体：轮式底盘、机械臂与控制柜，整机质量 57 kg<span class="ref" data-tip="R2 整机质量 57 kg">依据 R2</span></span></li>
+            <li class="clause"><span class="c-idx">2.2</span><span class="c-txt">移动方式为预设路线或人工遥控，限速 3 km/h<span class="ref" data-tip="R3 轮式底盘，无自主越障；R4 移动限速 3 km/h">依据 R3、R4</span></span></li>
+            <li class="clause"><span class="c-idx">2.3</span><span class="c-txt">投篮模块：弹跳高度 0.6 m，出球速度 4.5 m/s<span class="ref" data-tip="R8 投篮模块：弹跳 0.6 m，出球 4.5 m/s">依据 R8</span></span></li>
+            <li class="clause"><span class="c-idx">2.4</span><span class="c-txt">视觉节点仅输出骨骼关键点，不采集人脸图像<span class="ref" data-tip="R12 视觉与数据：仅输出骨骼关键点，不采集人脸与原始视频">依据 R12</span></span></li>
+            <li class="clause"><span class="c-idx">2.5</span><span class="c-txt">充电设备独立成区，距训练区不小于 5 m<span class="ref" data-tip="R11 充电区独立，距训练区 ≥5 m，专人值守">依据 R11</span></span></li>
+            <li class="clause"><span class="c-idx">2.6</span><span class="c-txt">场地设施：隔离栏、缓冲区、地面与照明，见第四章。</span></li>
+          </ul>
+        </section>
+
+        <section class="sec reveal" id="s3">
+          <div class="sec-head">
+            <div class="sec-no">03</div>
+            <div>
+              <div class="sec-title">三、主要危险源与风险分级</div>
+              <div class="sec-sub">HAZARD &amp; RISK LEVEL</div>
+            </div>
+          </div>
+          <div class="risk">
+            <div class="risk-row head"><span>危险源</span><span>等级</span><span>参数依据</span><span>管控要点</span></div>
+            <div class="risk-row"><span>机械夹点</span><span class="lv h">高</span><span class="r-ref">R5 关节扭矩 80 N·m</span><span>手臂包络半径内为禁区，禁止伸手</span></div>
+            <div class="risk-row"><span>运动冲击</span><span class="lv h">高</span><span class="r-ref">R2 57 kg · R4 3 km/h</span><span>保持净距，禁止迎面拦截与推挡</span></div>
+            <div class="risk-row"><span>跌倒碰撞</span><span class="lv m">中</span><span class="r-ref">R10 净距 1.5 / 2.5 m</span><span>缓冲区不得堆放器材与线缆</span></div>
+            <div class="risk-row"><span>电气</span><span class="lv m">中</span><span class="r-ref">R6 电池 2.3 kWh</span><span>充电区独立，充电时专人值守</span></div>
+            <div class="risk-row"><span>电池</span><span class="lv h">高</span><span class="r-ref">R6 2.3 kWh · R11 ≥5 m</span><span>鼓包、异味立即隔离并上报</span></div>
+            <div class="risk-row"><span>摄像头隐私</span><span class="lv l">低</span><span class="r-ref">R12 仅关键点</span><span>不采集人脸，不保存原始视频</span></div>
+          </div>
+          <ul class="clauses">
+            <li class="clause"><span class="c-idx">3.1</span><span class="c-txt">机械夹点为最高等级，任何情况下不得伸手进入。</span></li>
+            <li class="clause"><span class="c-idx">3.2</span><span class="c-txt">57 kg 机体以 3 km/h 移动仍具冲击动能<span class="ref" data-tip="R2 整机质量 57 kg；R4 移动限速 3 km/h">依据 R2、R4</span></span></li>
+          </ul>
+        </section>
+
+        <section class="sec reveal" id="s4">
+          <div class="sec-head">
+            <div class="sec-no">04</div>
+            <div>
+              <div class="sec-title">四、场地与布置</div>
+              <div class="sec-sub">SITE &amp; LAYOUT</div>
+            </div>
+          </div>
+          <ul class="clauses">
+            <li class="clause"><span class="c-idx">4.1</span><span class="c-txt">训练净距 1.5 m，对抗净距 2.5 m，自机身边缘起算<span class="ref" data-tip="R10 训练净距 1.5 m，对抗净距 2.5 m">依据 R10</span></span></li>
+            <li class="clause"><span class="c-idx">4.2</span><span class="c-txt">2.5 m 缓冲区内不得堆放器材、球具与线缆<span class="ref" data-tip="R10 对抗净距 2.5 m">依据 R10</span></span></li>
+            <li class="clause"><span class="c-idx">4.3</span><span class="c-txt">地面平整防滑，无积水、无油污、无散落杂物。</span></li>
+            <li class="clause"><span class="c-idx">4.4</span><span class="c-txt">照明均匀，视觉节点不得逆光，不得被遮挡。</span></li>
+            <li class="clause"><span class="c-idx">4.5</span><span class="c-txt">充电区独立隔离，与训练区水平距离不小于 5 m<span class="ref" data-tip="R11 充电区独立，距训练区 ≥5 m">依据 R11</span></span></li>
+            <li class="clause"><span class="c-idx">4.6</span><span class="c-txt">隔离区设单向出入口，非训练人员不得进入。</span></li>
+          </ul>
+        </section>
+
+        <section class="sec reveal" id="s5">
+          <div class="sec-head">
+            <div class="sec-no">05</div>
+            <div>
+              <div class="sec-title">五、使用前点检</div>
+              <div class="sec-sub">PRE-USE CHECK</div>
+            </div>
+          </div>
+          <ul class="clauses">
+            <li class="clause"><span class="c-idx">5.1</span><span class="c-txt">外观：外壳无裂纹，机械臂无异物卡入。</span></li>
+            <li class="clause"><span class="c-idx">5.2</span><span class="c-txt">紧固：关节与轮组螺栓无松动、无异常间隙。</span></li>
+            <li class="clause"><span class="c-idx">5.3</span><span class="c-txt">线缆：电源与信号线无破损、无踩踏、无缠绕。</span></li>
+            <li class="clause"><span class="c-idx">5.4</span><span class="c-txt">急停：按钮外观完好，按压动作有效<span class="todo">待补：数量与位置</span></span></li>
+            <li class="clause"><span class="c-idx">5.5</span><span class="c-txt">电池：电量充足，外壳无鼓包、无异常发热<span class="ref" data-tip="R6 电池容量 2.3 kWh">依据 R6</span></span></li>
+            <li class="clause"><span class="c-idx">5.6</span><span class="c-txt">场地：净距达标，地面干燥，隔离栏完整<span class="ref" data-tip="R10 训练净距 1.5 m，对抗净距 2.5 m">依据 R10</span></span></li>
+            <li class="clause"><span class="c-idx">5.7</span><span class="c-txt">人员：教练到位，学员在净距外列队<span class="ref" data-tip="R10 训练净距 1.5 m">依据 R10</span></span></li>
+            <li class="clause"><span class="c-idx">5.8</span><span class="c-txt">记录：点检结果签字留存，异常立即挂牌停用。</span></li>
+          </ul>
+        </section>
+
+        <section class="sec reveal" id="s6">
+          <div class="sec-head">
+            <div class="sec-no">06</div>
+            <div>
+              <div class="sec-title">六、运行规则</div>
+              <div class="sec-sub">OPERATION RULES</div>
+            </div>
+          </div>
+          <ul class="clauses">
+            <li class="clause"><span class="c-idx">6.1</span><span class="c-txt">学员距机体不小于 1.5 m，对抗时不小于 2.5 m<span class="ref" data-tip="R10 训练净距 1.5 m，对抗净距 2.5 m">依据 R10</span></span></li>
+            <li class="clause"><span class="c-idx">6.2</span><span class="c-txt">投篮模块正下方 1 m 内禁止站立与穿行<span class="ref" data-tip="R8 弹跳 0.6 m、出球 4.5 m/s 推导的下落区">依据 R8</span></span></li>
+            <li class="clause"><span class="c-idx">6.3</span><span class="c-txt">单次连续运行不超过 45 分钟，到点必须轮换<span class="ref" data-tip="R9 单次连续运行 ≤45 min">依据 R9</span></span></li>
+            <li class="clause"><span class="c-idx">6.4</span><span class="c-txt">全程须教练在场，禁止无人值守运行<span class="ref" data-tip="R3 无自主越障能力，需人工监控">依据 R3</span></span></li>
+            <li class="clause"><span class="c-idx">6.5</span><span class="c-txt">禁止攀爬机体、倚靠机械臂、进入运动轨迹。</span></li>
+            <li class="clause"><span class="c-idx">6.6</span><span class="c-txt">禁止私拆外壳、更换电池、改动限速参数<span class="ref" data-tip="R4 移动限速 3 km/h">依据 R4</span></span></li>
+            <li class="clause"><span class="c-idx">6.7</span><span class="c-txt">运行噪声 65 dB，无需听力防护；连续暴露不超 2 小时<span class="ref" data-tip="R7 运行噪声 65 dB(A)，连续暴露 ≤2 h">依据 R7</span></span></li>
+          </ul>
+        </section>
+
+        <section class="sec reveal" id="s7">
+          <div class="sec-head">
+            <div class="sec-no">07</div>
+            <div>
+              <div class="sec-title">七、急停与异常处置</div>
+              <div class="sec-sub">E-STOP &amp; EMERGENCY</div>
+            </div>
+          </div>
+          <ul class="clauses">
+            <li class="clause"><span class="c-idx">7.1</span><span class="c-txt">急停按钮设于机体与控制台，位置以点位标识为准<span class="todo">待补：数量与位置</span></span></li>
+            <li class="clause"><span class="c-idx">7.2</span><span class="c-txt">处置顺序：急停 → 断控制电源 → 断电池<span class="ref" data-tip="R6 电池组 2.3 kWh">依据 R6</span></span></li>
+            <li class="clause"><span class="c-idx">7.3</span><span class="c-txt">急停响应时间<span class="todo">待补：响应时间</span>，不得以经验估算。</span></li>
+            <li class="clause"><span class="c-idx">7.4</span><span class="c-txt">跌倒检测延时<span class="todo">待补：检测延时</span>，不得以经验估算。</span></li>
+            <li class="clause"><span class="c-idx">7.5</span><span class="c-txt">发生碰撞立即停用并挂牌，未复检不得重启。</span></li>
+            <li class="clause"><span class="c-idx">7.6</span><span class="c-txt">上报对象：现场教练、运维负责人、场地管理方。</span></li>
+          </ul>
+        </section>
+
+        <section class="sec reveal" id="s8">
+          <div class="sec-head">
+            <div class="sec-no">08</div>
+            <div>
+              <div class="sec-title">八、电气与电池</div>
+              <div class="sec-sub">ELECTRICAL &amp; BATTERY</div>
+            </div>
+          </div>
+          <ul class="clauses">
+            <li class="clause"><span class="c-idx">8.1</span><span class="c-txt">充电区独立设置，距训练区不小于 5 m，专人值守<span class="ref" data-tip="R11 独立充电区 ≥5 m，充电时专人值守">依据 R11</span></span></li>
+            <li class="clause"><span class="c-idx">8.2</span><span class="c-txt">充电时禁止覆盖电池，充电区禁放易燃物品。</span></li>
+            <li class="clause"><span class="c-idx">8.3</span><span class="c-txt">禁止使用非原厂充电设备，禁止边充边训<span class="ref" data-tip="R6 电池容量 2.3 kWh 锂电池组">依据 R6</span></span></li>
+            <li class="clause"><span class="c-idx">8.4</span><span class="c-txt">电池鼓包、异味、异常温升须立即隔离并上报。</span></li>
+            <li class="clause"><span class="c-idx">8.5</span><span class="c-txt">电池热失控处置时限<span class="todo">待补：处置时限</span>。</span></li>
+            <li class="clause"><span class="c-idx">8.6</span><span class="c-txt">电池存放温度与湿度<span class="todo">待补：温度与湿度范围</span>。</span></li>
+          </ul>
+        </section>
+
+        <section class="sec reveal" id="s9">
+          <div class="sec-head">
+            <div class="sec-no">09</div>
+            <div>
+              <div class="sec-title">九、维护检修</div>
+              <div class="sec-sub">MAINTENANCE</div>
+            </div>
+          </div>
+          <ul class="clauses">
+            <li class="clause"><span class="c-idx">9.1</span><span class="c-txt">日检：外观、紧固、线缆、急停、电池、场地。</span></li>
+            <li class="clause"><span class="c-idx">9.2</span><span class="c-txt">周检：复核关节扭矩 80 N·m 与限速 3 km/h<span class="ref" data-tip="R5 关节最大扭矩 80 N·m；R4 限速 3 km/h">依据 R4、R5</span></span></li>
+            <li class="clause"><span class="c-idx">9.3</span><span class="c-txt">月检：校准弹跳 0.6 m 与出球 4.5 m/s<span class="ref" data-tip="R8 弹跳 0.6 m，出球速度 4.5 m/s">依据 R8</span></span></li>
+            <li class="clause"><span class="c-idx">9.4</span><span class="c-txt">检修记录留存<span class="todo">待补：留存期限</span>。</span></li>
+            <li class="clause"><span class="c-idx">9.5</span><span class="c-txt">故障设备挂牌停用，复检合格方可恢复使用。</span></li>
+          </ul>
+        </section>
+
+        <section class="sec reveal" id="s10">
+          <div class="sec-head">
+            <div class="sec-no">10</div>
+            <div>
+              <div class="sec-title">十、青少年专项</div>
+              <div class="sec-sub">JUNIOR MEMBERS</div>
+            </div>
+          </div>
+          <ul class="clauses">
+            <li class="clause"><span class="c-idx">10.1</span><span class="c-txt">未满 18 周岁学员须由监护人签署知情同意。</span></li>
+            <li class="clause"><span class="c-idx">10.2</span><span class="c-txt">单次训练不超过 45 分钟，课间休息<span class="todo">待补：休息时长</span><span class="ref" data-tip="R9 单次连续运行 ≤45 min">依据 R9</span></span></li>
+            <li class="clause"><span class="c-idx">10.3</span><span class="c-txt">出现头晕、胸闷、关节疼痛立即停止并报告。</span></li>
+            <li class="clause"><span class="c-idx">10.4</span><span class="c-txt">训练前后补水，高温时段缩短单次训练时长。</span></li>
+            <li class="clause"><span class="c-idx">10.5</span><span class="c-txt">学员不得单独进入训练区，不得触碰充电设备<span class="ref" data-tip="R11 充电区独立，距训练区 ≥5 m">依据 R11</span></span></li>
+          </ul>
+        </section>
+
+        <section class="sec reveal" id="s11">
+          <div class="sec-head">
+            <div class="sec-no">11</div>
+            <div>
+              <div class="sec-title">十一、隐私与数据</div>
+              <div class="sec-sub">PRIVACY &amp; DATA</div>
+            </div>
+          </div>
+          <ul class="clauses">
+            <li class="clause"><span class="c-idx">11.1</span><span class="c-txt">采集范围：骨骼关键点坐标与投篮轨迹<span class="ref" data-tip="R12 仅输出骨骼关键点">依据 R12</span></span></li>
+            <li class="clause"><span class="c-idx">11.2</span><span class="c-txt">不采集人脸图像，不保存原始视频<span class="ref" data-tip="R12 不采集人脸图像与原始视频">依据 R12</span></span></li>
+            <li class="clause"><span class="c-idx">11.3</span><span class="c-txt">用途仅限动作分析与训练报告，不得对外提供<span class="ref" data-tip="R12 视觉节点数据用途限定">依据 R12</span></span></li>
+            <li class="clause"><span class="c-idx">11.4</span><span class="c-txt">数据留存期限<span class="todo">待补：留存期限</span>，到期删除。</span></li>
+            <li class="clause"><span class="c-idx">11.5</span><span class="c-txt">未成年人数据须经监护人授权后方可采集<span class="ref" data-tip="R12 数据采集范围与用途">依据 R12</span></span></li>
+            <li class="clause"><span class="c-idx">11.6</span><span class="c-txt">家长可申请查询、更正、删除本人及子女数据。</span></li>
+          </ul>
+        </section>
+
+        <section class="sec reveal" id="s12">
+          <div class="sec-head">
+            <div class="sec-no">12</div>
+            <div>
+              <div class="sec-title">十二、责任声明</div>
+              <div class="sec-sub">LIABILITY</div>
+            </div>
+          </div>
+          <ul class="clauses">
+            <li class="clause"><span class="c-idx">12.1</span><span class="c-txt">本设备为训练辅助器材，不替代医疗诊断与治疗。</span></li>
+            <li class="clause"><span class="c-idx">12.2</span><span class="c-txt">学员须如实告知伤病史，隐瞒后果由本人承担。</span></li>
+            <li class="clause"><span class="c-idx">12.3</span><span class="c-txt">未按本说明使用造成的损害，由使用方承担。</span></li>
+            <li class="clause"><span class="c-idx">12.4</span><span class="c-txt">应急电话<span class="todo">待补：急救电话与联系人</span>。</span></li>
+            <li class="clause"><span class="c-idx">12.5</span><span class="c-txt">保险与赔付流程<span class="todo">待补：保险信息</span>。</span></li>
+          </ul>
+        </section>
+
+        <section class="sec reveal" id="s13">
+          <div class="sec-head">
+            <div class="sec-no">13</div>
+            <div>
+              <div class="sec-title">十三、版本与生效</div>
+              <div class="sec-sub">VERSION &amp; EFFECTIVE DATE</div>
+            </div>
+          </div>
+          <ul class="clauses">
+            <li class="clause"><span class="c-idx">13.1</span><span class="c-txt">版本 v0.1，编制单位：圣龙科技工作室。</span></li>
+            <li class="clause"><span class="c-idx">13.2</span><span class="c-txt">生效日期<span class="todo">待补：生效日期</span>。</span></li>
+            <li class="clause"><span class="c-idx">13.3</span><span class="c-txt">修订记录：v0.1 首次发布，条款依据 R1–R12。</span></li>
+            <li class="clause"><span class="c-idx">13.4</span><span class="c-txt">参数变更须同步修订本说明并重新公示。</span></li>
+          </ul>
+        </section>
+
+        <section class="appendix reveal" id="appendix">
+          <div class="ap-head">
+            <div>
+              <div class="ap-title">附录 · 参数基准表</div>
+              <div class="ap-sub">PARAMETER BASELINE · R1–R12</div>
+            </div>
+            <p class="ap-note">本表为全文唯一数值来源。正文出现的任何数值均须可回溯至本表对应行，表外数值一律不得写入。</p>
+          </div>
+          <table class="ptable">
+            <thead>
+              <tr><th>代号</th><th>参数项</th><th>基准值</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>R1</td><td>机型代号</td><td>INS-O3；训练辅助器材样机</td></tr>
+              <tr><td>R2</td><td>整机质量</td><td>57 kg</td></tr>
+              <tr><td>R3</td><td>移动方式</td><td>轮式底盘；遥控或预设路线；无自主越障</td></tr>
+              <tr><td>R4</td><td>移动限速</td><td>3 km/h</td></tr>
+              <tr><td>R5</td><td>关节最大扭矩</td><td>80 N·m</td></tr>
+              <tr><td>R6</td><td>电池容量</td><td>2.3 kWh 锂电池组</td></tr>
+              <tr><td>R7</td><td>运行噪声</td><td>65 dB(A)，距机体 1 m；连续暴露 ≤2 h</td></tr>
+              <tr><td>R8</td><td>投篮模块</td><td>弹跳 0.6 m；出球速度 4.5 m/s</td></tr>
+              <tr><td>R9</td><td>单次连续运行</td><td>≤45 min</td></tr>
+              <tr><td>R10</td><td>安全净距</td><td>训练 1.5 m；对抗 2.5 m</td></tr>
+              <tr><td>R11</td><td>充电布置</td><td>独立充电区；距训练区 ≥5 m；充电时专人值守</td></tr>
+              <tr><td>R12</td><td>视觉与数据</td><td>仅输出骨骼关键点；不采集人脸；不保存原始视频</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="todo-box reveal" id="pending">
+          <h3>待补清单</h3>
+          <p>以下量未列入《参数基准表》R1–R12，公示版保持留空，待技术部门核定后统一补录，不得估算填写。</p>
+          <ul class="todo-list">
+            <li><i>01</i>急停按钮数量与位置<em>第五章 / 第七章</em></li>
+            <li><i>02</i>急停响应时间<em>第七章</em></li>
+            <li><i>03</i>跌倒检测延时<em>第七章</em></li>
+            <li><i>04</i>电池热失控处置时限<em>第八章</em></li>
+            <li><i>05</i>电池存放温度与湿度范围<em>第八章</em></li>
+            <li><i>06</i>检修记录留存期限<em>第九章</em></li>
+            <li><i>07</i>课间休息时长<em>第十章</em></li>
+            <li><i>08</i>数据留存期限<em>第十一章</em></li>
+            <li><i>09</i>应急电话与联系人<em>第十二章</em></li>
+            <li><i>10</i>保险与赔付流程<em>第十二章</em></li>
+            <li><i>11</i>生效日期<em>第十三章</em></li>
+          </ul>
+        </section>
+
+        <p class="disclaimer">本机型为品牌演示样机，参数为概念设定，非在售产品。</p>
+
+        <div class="endbar">
+          <p>INS 篮球机器人训练营 · 圣龙科技工作室 · 设备安全说明 v0.1</p>
+          <div class="acts">
+            <button class="act" id="printBtn" type="button"><svg viewBox="0 0 24 24"><path d="M6 9V3h12v6M6 18H4v-6h16v6h-2M8 14h8v7H8z"/></svg>打印 / 存为 PDF</button>
+            <a class="act solid" href="index.html"><svg viewBox="0 0 24 24"><path d="M19 12H5m6-6-6 6 6 6"/></svg>返回官网首页</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+(function(){
+  var REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* 导航滚动态 */
+  var nav = document.getElementById('nav');
+  var progress = document.getElementById('progress');
+  function onScroll(){
+    nav.classList.toggle('scrolled', scrollY > 40);
+    var h = document.documentElement.scrollHeight - innerHeight;
+    progress.style.width = (h > 0 ? Math.min(100, scrollY / h * 100) : 0) + '%';
+  }
+  addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  /* 入场动画（无 IO 或减少动效时直接显示） */
+  var reveals = document.querySelectorAll('.reveal');
+  if (REDUCE || !('IntersectionObserver' in window)) {
+    reveals.forEach(function(el){ el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, {threshold:.12, rootMargin:'0px 0px -8% 0px'});
+    reveals.forEach(function(el){ io.observe(el); });
+  }
+
+  /* 目录高亮 */
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var targets = links.map(function(a){ return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+  if ('IntersectionObserver' in window && targets.length) {
+    var spy = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (!e.isIntersecting) return;
+        links.forEach(function(a){ a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id); });
+      });
+    }, {rootMargin:'-96px 0px -70% 0px', threshold:0});
+    targets.forEach(function(t){ spy.observe(t); });
+  }
+
+  /* 打印 */
+  var btn = document.getElementById('printBtn');
+  if (btn) btn.addEventListener('click', function(){ window.print(); });
+})();
+</script>
+</body>
+</html>
