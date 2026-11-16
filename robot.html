@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0b0b0c">
-<meta name="description" content="INS-O3 篮球训练辅助机器人介绍：轮式底盘、上肢弹跳投篮机构、视觉节点、核心参数与安全边界。">
-<title>机器人介绍 · INS 篮球机器人训练营</title>
+<meta name="description" content="红衣教官01 篮球训练辅助器材介绍：轮式底盘、上肢弹跳投篮机构、视觉节点、核心参数与安全边界。">
+<title>红衣教官01 介绍 · INS 篮球机器人训练营</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@400;500;700;900&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -50,7 +50,7 @@ img{display:block;max-width:100%}
 /* 首屏 */
 .hero{position:relative;min-height:100svh;display:flex;align-items:center;padding:140px max(4vw,calc((100vw - 1240px)/2)) 80px;overflow:hidden;background:radial-gradient(800px 600px at 78% 45%,rgba(217,31,38,.18),transparent 64%),var(--ink)}
 .hero::before{content:"";position:absolute;width:min(62vw,820px);aspect-ratio:1;right:-8vw;top:50%;transform:translateY(-50%);border:1px solid rgba(255,255,255,.07);border-radius:50%;box-shadow:0 0 0 80px rgba(255,255,255,.015),0 0 0 160px rgba(255,255,255,.01);pointer-events:none}
-.hero::after{content:"INS-O3";position:absolute;right:-.02em;bottom:-.18em;font-family:var(--font-d);font-size:clamp(180px,28vw,460px);line-height:1;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.055);pointer-events:none}
+.hero::after{content:"01";position:absolute;right:-.02em;bottom:-.18em;font-family:var(--font-d);font-size:clamp(180px,28vw,460px);line-height:1;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.055);pointer-events:none}
 .hero-copy{position:relative;z-index:3;width:min(590px,52vw)}
 .kicker{display:flex;align-items:center;gap:12px;font-size:11px;letter-spacing:5px;color:var(--grey);margin-bottom:24px}
 .kicker::before{content:"";width:40px;height:1px;background:var(--red)}
@@ -184,10 +184,10 @@ img{display:block;max-width:100%}
 
 <header class="hero">
   <div class="hero-copy">
-    <div class="kicker">机器人介绍 · MEET INS-O3</div>
-    <h1><span>篮球机器人</span><em>INS-O3</em></h1>
+    <div class="kicker">机器人介绍 · MEET 红衣教官01</div>
+    <h1><span>红衣教官</span><em>01</em></h1>
     <div class="model">TRAINING ASSISTANT PROTOTYPE</div>
-    <p class="hero-desc"><b>INS-O3 是篮球训练辅助器材样机。</b>由轮式底盘、上肢弹跳投篮机构、机械臂、控制柜与视觉节点组成，服务于动作分析、投篮训练和人机对抗。</p>
+    <p class="hero-desc"><b>红衣教官01 是篮球训练辅助器材样机。</b>由轮式底盘、上肢弹跳投篮机构、机械臂、控制柜与视觉节点组成，服务于动作分析、投篮训练和人机对抗。</p>
     <div class="badges">
       <span class="badge">训练辅助器材样机</span>
       <span class="badge">轮式水平移动</span>
@@ -200,7 +200,7 @@ img{display:block;max-width:100%}
   </div>
   <div class="hero-visual" aria-hidden="true">
     <img src="assets/hero-robot.png" alt="">
-    <div class="visual-tag"><b>INS BASKETBOT</b>CONCEPT VISUAL / INS-O3</div>
+    <div class="visual-tag"><b>INS BASKETBOT</b>CONCEPT VISUAL / 01</div>
   </div>
 </header>
 
@@ -245,17 +245,17 @@ img{display:block;max-width:100%}
 
   <section class="section">
     <div class="sec-head reveal"><span class="sec-num">03</span><h2 class="sec-title">训练协同方式</h2><span class="sec-line"></span></div>
-    <p class="sec-desc reveal">机器人提供训练执行与数据输出，教练负责训练组织、现场监护和复盘指导。</p>
+    <p class="sec-desc reveal">01 号机提供训练执行与数据输出，教练负责训练组织、现场监护和复盘指导。</p>
     <div class="flow reveal">
       <article class="step"><div class="step-no">01</div><h3>采集</h3><p>记录训练所需的场内影像，覆盖球员、球、篮筐与记分牌。</p></article>
       <article class="step"><div class="step-no">02</div><h3>分析</h3><p>生成骨骼关键点与结构化事件，为动作分析提供数据。</p></article>
       <article class="step"><div class="step-no">03</div><h3>陪练</h3><p>在教练组织下开展投篮训练或人机对抗，遵守场地安全净距。</p></article>
       <article class="step"><div class="step-no">04</div><h3>复盘</h3><p>结合输出数据与训练报告，由教练进行总结和后续指导。</p></article>
     </div>
-    <div class="gallery reveal" aria-label="机器人概念视觉">
-      <figure class="shot"><img src="assets/robot-slide-1.jpg" alt="机器人扣篮动作概念视觉" loading="lazy"><span>扣篮动作 · 概念视觉</span></figure>
-      <figure class="shot"><img src="assets/robot-slide-2.jpg" alt="机器人上篮动作概念视觉" loading="lazy"><span>上篮动作 · 概念视觉</span></figure>
-      <figure class="shot"><img src="assets/robot-slide-3.jpg" alt="机器人双手扣篮动作概念视觉" loading="lazy"><span>双手扣篮 · 概念视觉</span></figure>
+    <div class="gallery reveal" aria-label="红衣教官01 概念视觉">
+      <figure class="shot"><img src="assets/robot-slide-1.jpg" alt="红衣教官01 扣篮动作概念视觉" loading="lazy"><span>扣篮动作 · 概念视觉</span></figure>
+      <figure class="shot"><img src="assets/robot-slide-2.jpg" alt="01 号机上篮动作概念视觉" loading="lazy"><span>上篮动作 · 概念视觉</span></figure>
+      <figure class="shot"><img src="assets/robot-slide-3.jpg" alt="01 号机双手扣篮动作概念视觉" loading="lazy"><span>双手扣篮 · 概念视觉</span></figure>
     </div>
   </section>
 
