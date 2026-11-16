@@ -91,16 +91,39 @@ img{display:block;max-width:100%}
 .spec-name{margin-top:18px;font-size:12px;letter-spacing:2px;color:#9a978f}
 
 /* 系统 */
-.systems{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.system{position:relative;overflow:hidden;min-height:340px;padding:34px 30px;border:1px solid rgba(255,255,255,.13);border-radius:18px;background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(255,255,255,.025));transition:transform .4s,border-color .4s,box-shadow .4s}
-.system::after{content:attr(data-index);position:absolute;right:16px;bottom:-18px;font-family:var(--font-d);font-size:120px;color:rgba(255,255,255,.035);pointer-events:none}
-.system:hover{transform:translateY(-7px);border-color:rgba(217,31,38,.65);box-shadow:0 34px 70px -32px rgba(217,31,38,.5)}
-.system-icon{width:52px;height:52px;display:grid;place-items:center;border-radius:14px;background:var(--red);margin-bottom:30px}
+.systems{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;perspective:1200px}
+.system{--mx:50%;--my:40%;--rx:0deg;--ry:0deg;position:relative;overflow:hidden;display:block;color:inherit;text-decoration:none;min-height:340px;padding:34px 30px 60px;border:1px solid rgba(255,255,255,.13);border-radius:18px;background-image:linear-gradient(115deg,transparent 32%,rgba(255,255,255,.09) 48%,transparent 64%),linear-gradient(145deg,rgba(255,255,255,.07),rgba(255,255,255,.025));background-size:240% 240%,100% 100%;background-position:118% 50%,0 0;background-repeat:no-repeat;transform:perspective(1000px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(0);transform-style:preserve-3d;transition:transform .55s cubic-bezier(.2,.8,.2,1),border-color .4s,box-shadow .4s,background-position .9s cubic-bezier(.2,.8,.2,1)}
+.system::before{content:"";position:absolute;inset:-1px;z-index:0;pointer-events:none;border-radius:inherit;opacity:0;background:radial-gradient(360px circle at var(--mx) var(--my),rgba(217,31,38,.36),rgba(217,31,38,.09) 44%,transparent 70%);transition:opacity .45s}
+.system:hover::before{opacity:1}
+.system::after{content:attr(data-index);position:absolute;right:16px;bottom:-18px;z-index:0;font-family:var(--font-d);font-size:120px;line-height:1;color:rgba(255,255,255,.035);pointer-events:none;transition:transform .7s cubic-bezier(.2,.8,.2,1),color .5s}
+.system:hover::after{transform:translate(-10px,-16px) scale(1.05);color:rgba(217,31,38,.12)}
+.system:hover{border-color:rgba(217,31,38,.7);box-shadow:0 40px 80px -34px rgba(217,31,38,.6),inset 0 0 0 1px rgba(217,31,38,.18);background-position:-46% 50%,0 0;transform:perspective(1000px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(-8px)}
+.system.reveal.reveal-ready{transform:perspective(1000px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(32px)}
+.system.reveal.reveal-ready.in{transform:perspective(1000px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(0)}
+.system.reveal.reveal-ready.in{transition:transform .55s cubic-bezier(.2,.8,.2,1),border-color .4s,box-shadow .4s,background-position .9s cubic-bezier(.2,.8,.2,1)}
+.system.reveal.reveal-ready.in:hover{transform:perspective(1000px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(-8px)}
+.system.reveal.reveal-ready.in.tilting{transition:transform .1s linear,border-color .4s,box-shadow .4s,background-position .9s cubic-bezier(.2,.8,.2,1)}
+.system-icon{position:relative;z-index:2;width:52px;height:52px;display:grid;place-items:center;border-radius:14px;background:var(--red);margin-bottom:30px;transition:transform .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s}
+.system:hover .system-icon{transform:translateY(-5px) rotate(-8deg) scale(1.06);box-shadow:0 20px 40px -14px var(--red)}
+.system-icon::after{content:"";position:absolute;inset:-9px;border:1px solid rgba(217,31,38,.45);border-radius:20px;opacity:0;transform:scale(.82);transition:opacity .4s,transform .5s cubic-bezier(.2,.8,.2,1)}
+.system:hover .system-icon::after{opacity:1;transform:scale(1);animation:sys-ring 2.4s cubic-bezier(.2,.8,.2,1) .2s infinite}
+@keyframes sys-ring{0%{opacity:.75;transform:scale(1)}70%,100%{opacity:0;transform:scale(1.22)}}
+.system:hover h3{color:var(--red);letter-spacing:3px;transform:translateX(3px)}
+.system-go{position:absolute;right:26px;bottom:26px;z-index:2;display:inline-flex;gap:6px;align-items:center;font-family:var(--font-m);font-size:9px;letter-spacing:2px;color:#fff;opacity:0;transform:translateX(-6px);transition:opacity .35s,transform .35s}
+.system-go::before{content:"";width:0;height:1px;background:var(--red);transition:width .45s cubic-bezier(.2,.8,.2,1)}
+.system:hover .system-go,.system:focus-visible .system-go{opacity:1;transform:translateX(0)}
+.system:hover .system-go::before{width:16px}
+.system-go svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;transition:transform .35s}
+.system:hover .system-go svg{transform:translateX(3px)}
+.system:focus-visible{outline:2px solid var(--red);outline-offset:4px}
 .system-icon svg{width:25px;height:25px;fill:none;stroke:#fff;stroke-width:1.8}
-.system-en{font-family:var(--font-m);font-size:9px;letter-spacing:3px;color:var(--red)}
-.system h3{margin-top:8px;font-family:var(--font-d);font-size:32px;letter-spacing:2px}
-.system p{margin-top:18px;font-size:12.5px;line-height:2;color:#b7b4ae;letter-spacing:.6px}
-.system-fact{position:absolute;left:30px;bottom:28px;font-family:var(--font-m);font-size:10px;letter-spacing:1px;color:#d8d5cf}
+.system-en{position:relative;z-index:2;font-family:var(--font-m);font-size:9px;letter-spacing:3px;color:var(--red);transition:letter-spacing .45s}
+.system:hover .system-en{letter-spacing:4px}
+.system h3{position:relative;z-index:2;margin-top:8px;font-family:var(--font-d);font-size:32px;letter-spacing:2px;transition:color .35s,letter-spacing .45s,transform .45s cubic-bezier(.2,.8,.2,1)}
+.system p{position:relative;z-index:2;margin-top:18px;font-size:12.5px;line-height:2;color:#b7b4ae;letter-spacing:.6px;transition:color .45s,transform .45s cubic-bezier(.2,.8,.2,1)}
+.system:hover p{color:#e7e3dc;transform:translateY(-2px)}
+.system-fact{position:absolute;left:30px;bottom:28px;z-index:2;font-family:var(--font-m);font-size:10px;letter-spacing:1px;color:#d8d5cf;transition:color .4s,letter-spacing .45s,transform .45s cubic-bezier(.2,.8,.2,1)}
+.system:hover .system-fact{color:#fff;letter-spacing:1.6px;transform:translateY(-4px)}
 
 /* 协同流程 */
 .flow{display:grid;grid-template-columns:repeat(4,1fr);margin-top:44px;border:1px solid rgba(255,255,255,.13);border-radius:18px;overflow:hidden}
@@ -159,6 +182,8 @@ img{display:block;max-width:100%}
   html{scroll-behavior:auto}
   *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
   .reveal.reveal-ready{opacity:1;transform:none}
+  .system,.system.reveal.reveal-ready,.system.reveal.reveal-ready.in,.system:hover{transform:none!important}
+  .system::before{display:none}
 }
 </style>
 </head>
@@ -207,7 +232,7 @@ img{display:block;max-width:100%}
 <main>
   <section class="section" id="specs">
     <div class="sec-head reveal"><span class="sec-num">01</span><h2 class="sec-title">核心参数</h2><span class="sec-line"></span></div>
-    <p class="sec-desc reveal">以下参数与《设备安全说明》附录 R1–R12 保持一致，用于说明品牌演示样机的概念设定。</p>
+    <p class="sec-desc reveal">以下参数与《设备安全说明》附录 R1–R13 保持一致，用于说明品牌演示样机的概念设定。</p>
     <div class="specs reveal">
       <article class="spec"><span class="spec-ref">R2</span><div class="spec-value">57 <small>kg</small></div><div class="spec-name">整机质量</div></article>
       <article class="spec"><span class="spec-ref">R4</span><div class="spec-value">3 <small>km/h</small></div><div class="spec-name">移动限速</div></article>
@@ -218,28 +243,31 @@ img{display:block;max-width:100%}
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" id="systems">
     <div class="sec-head reveal"><span class="sec-num">02</span><h2 class="sec-title">组成系统</h2><span class="sec-line"></span></div>
-    <p class="sec-desc reveal">移动、投篮与视觉各司其职，共同构成训练营的人机协同训练基础。</p>
+    <p class="sec-desc reveal">红衣教官01 由三套子系统组成：轮式底盘负责场地移动，弹跳机构负责投篮输出，视觉节点负责动作采集，三者共用一条帧级时间线。</p>
     <div class="systems">
-      <article class="system reveal" data-index="A">
+      <a class="system reveal" href="system-chassis.html" data-index="A">
         <div class="system-icon"><svg viewBox="0 0 24 24"><path d="M5 17h14M7 17l2-8h6l2 8"/><circle cx="7" cy="19" r="2"/><circle cx="17" cy="19" r="2"/></svg></div>
         <div class="system-en">WHEELED CHASSIS</div><h3>轮式移动系统</h3>
-        <p>轮式底盘负责场地内的水平移动，移动限速为 3 km/h。训练运行期间须由教练在场监控。</p>
-        <div class="system-fact">水平移动 / 轮式底盘</div>
-      </article>
-      <article class="system reveal" data-index="B">
+        <p>红衣教官01 以轮式底盘承担场地内水平移动，整机 57 kg、负载 20 kg，硬件上限 8 km/h，训练运行限速 3 km/h；2.3 kWh 电池支持 8 小时续航，单次连续运行不超过 45 分钟，全程由教练监控。</p>
+        <div class="system-fact">水平移动 / 57 kg · 20 kg 负载</div>
+        <span class="system-go">查看详情 <svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
+      </a>
+      <a class="system reveal" href="system-shooting.html" data-index="B">
         <div class="system-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c3 3 3 13 0 16M7 6c4 2 6 8 5 13"/></svg></div>
         <div class="system-en">SHOOTING MODULE</div><h3>弹跳投篮机构</h3>
-        <p>上肢投篮机构仅沿垂直方向运动，弹跳行程 0.6 m，出球速度 4.5 m/s，与底盘水平移动分工明确。</p>
-        <div class="system-fact">垂直弹跳 / 投篮输出</div>
-      </article>
-      <article class="system reveal" data-index="C">
+        <p>上肢弹跳机构仅沿垂直方向运动，弹程 0.6 m、出球速度 4.5 m/s、出手角度 48°–52°，关节峰值扭矩 80 N·m；与底盘水平移动分工明确，弹跳时投篮模块正下方 1 m 内为禁站区。</p>
+        <div class="system-fact">垂直弹跳 / 0.6 m · 4.5 m/s</div>
+        <span class="system-go">查看详情 <svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
+      </a>
+      <a class="system reveal" href="system-vision.html" data-index="C">
         <div class="system-icon"><svg viewBox="0 0 24 24"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></div>
         <div class="system-en">VISION NODE</div><h3>视觉分析节点</h3>
-        <p>采集球员、篮球、篮筐与记分牌等场内影像，输出骨骼关键点与结构化事件，用于动作分析与训练报告。</p>
-        <div class="system-fact">影像输入 / 结构化输出</div>
-      </article>
+        <p>8 路摄像头覆盖全场，采集球员、篮球、篮筐与记分牌影像，端侧 Jetson AGX Orin 64GB 实时处理，输出骨骼关键点与结构化事件，用于动作分析与训练报告。</p>
+        <div class="system-fact">影像输入 / 8 路 · 帧级对齐</div>
+        <span class="system-go">查看详情 <svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
+      </a>
     </div>
   </section>
 
@@ -295,6 +323,38 @@ if(REDUCE||!('IntersectionObserver' in window)){
   }),{threshold:.12});
   reveals.forEach(el=>{el.classList.add('reveal-ready');io.observe(el)});
 }
+
+/* 组成系统卡片：指针跟随光斑 + 3D 倾斜 */
+const finePointer=matchMedia('(hover:hover) and (pointer:fine)').matches;
+document.querySelectorAll('.system').forEach(card=>{
+  let raf=0;
+  const reset=()=>{
+    cancelAnimationFrame(raf);
+    card.classList.remove('tilting');
+    requestAnimationFrame(()=>{
+      card.style.setProperty('--rx','0deg');
+      card.style.setProperty('--ry','0deg');
+      card.style.setProperty('--mx','50%');
+      card.style.setProperty('--my','40%');
+    });
+  };
+  card.addEventListener('pointermove',e=>{
+    if(REDUCE||!finePointer)return;
+    const r=card.getBoundingClientRect();
+    const px=(e.clientX-r.left)/r.width;
+    const py=(e.clientY-r.top)/r.height;
+    if(!card.classList.contains('tilting'))card.classList.add('tilting');
+    cancelAnimationFrame(raf);
+    raf=requestAnimationFrame(()=>{
+      card.style.setProperty('--mx',(px*100).toFixed(1)+'%');
+      card.style.setProperty('--my',(py*100).toFixed(1)+'%');
+      card.style.setProperty('--ry',((px-.5)*7).toFixed(2)+'deg');
+      card.style.setProperty('--rx',((.5-py)*5).toFixed(2)+'deg');
+    });
+  },{passive:true});
+  card.addEventListener('pointerleave',reset);
+  card.addEventListener('blur',reset);
+});
 </script>
 </body>
 </html>

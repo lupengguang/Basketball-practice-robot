@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b0b0c">
+<title>弹跳投篮机构 · 红衣教官01 · INS 篮球机器人训练营</title>
+<meta name="description" content="红衣教官01 弹跳投篮机构：仅沿垂直方向运动，弹程 0.6 m、出球速度 4.5 m/s、出手角度 48°–52°，关节峰值扭矩 80 N·m。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+SC:wght@400;500;700;900&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/system-detail.css">
+<link rel="stylesheet" href="assets/fx.css">
+</head>
+<body>
+<nav class="nav" id="nav"><a class="nav-logo" href="index.html">INS BASKETBOT<small>INS 篮球机器人训练营</small></a><div class="nav-links"><a href="index.html#top">健康体态</a><a href="coaches.html">明星教练</a><a href="training.html">训练体系</a><a href="profile.html">个人中心</a><a href="datalab.html">数据监测</a><a href="opensource.html">开源介绍</a><a href="robot.html" class="active">机器人介绍</a></div><div class="nav-icons"><a class="nav-icon" href="robot.html" aria-label="返回机器人介绍"><svg viewBox="0 0 24 24"><path d="M19 12H5m6-6-6 6 6 6"/></svg></a><a class="nav-icon" href="login.html" aria-label="用户"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></a></div></nav>
+
+<header class="sd-hero"><div class="sd-inner"><a class="sd-back" href="robot.html#systems"><svg viewBox="0 0 24 24"><path d="M19 12H5m6-6-6 6 6 6"/></svg>返回组成系统</a><div class="sd-kicker reveal">SYSTEM B / SHOOTING MODULE</div><h1 class="sd-title reveal">弹跳投篮机构</h1><div class="sd-en reveal">SHOOTING MODULE</div><p class="sd-lead reveal">上肢弹跳机构仅沿垂直方向运动，负责红衣教官01 的投篮输出。</p><span class="sd-badge reveal"><i></i>投篮模块下方 1 m 内为禁站区</span></div></header>
+
+<main class="page">
+  <section class="reveal"><div class="sd-sec"><span class="sd-no">01</span><h2>关键参数</h2><span class="sd-line"></span></div><div class="params"><div class="param"><b>0.6<small>m</small></b><span>弹性行程</span></div><div class="param"><b>4.5<small>m/s</small></b><span>出球速度</span></div><div class="param"><b>48°–52°</b><span>出手角度</span></div><div class="param"><b>80<small>N·m</small></b><span>关节峰值扭矩</span></div><div class="param"><b>1<small>m</small></b><span>正下方禁站区</span></div><div class="param"><b>4.2<small>kg</small></b><span>投篮模块负载</span></div><div class="param"><b>垂直</b><span>运动方向</span></div><div class="param"><b>仅垂直</b><span>与底盘分工</span></div></div></section>
+
+  <section class="duo reveal">
+    <article class="panel"><h3>工作方式</h3><p>上肢弹跳机构仅沿垂直方向运动，弹程 0.6 m、出球速度 4.5 m/s、出手角度 48°–52°，关节峰值扭矩 80 N·m；与底盘水平移动分工明确，弹跳时投篮模块正下方 1 m 内为禁站区。</p><p>水平位移交给轮式底盘，投篮输出由弹跳机构独立完成，两者互不代偿。</p></article>
+    <article class="panel amber"><h3>安全边界</h3><ul><li>弹跳时投篮模块正下方 1 m 内为禁站区，训练前须清空。</li><li>关节峰值扭矩 80 N·m，手臂包络范围内禁止伸手。</li><li>机构仅做垂直运动，不得横向挤靠或侧向受力。</li></ul><div class="ref">参数依据 <b>R3 · R5 · R8 · R13</b></div></article>
+  </section>
+
+  <div class="navlinks reveal"><a class="key" href="robot.html#systems"><svg viewBox="0 0 24 24"><path d="M19 12H5m6-6-6 6 6 6"/></svg>返回组成系统</a><a href="system-chassis.html">轮式移动系统<svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a><a href="system-vision.html">视觉分析节点<svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a></div>
+</main>
+<script>
+(function(){var nav=document.getElementById('nav');addEventListener('scroll',function(){nav.classList.toggle('scrolled',scrollY>40);},{passive:true});var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});}());
+</script>
+<script src="assets/fx.js" defer></script>
+</body>
+</html>

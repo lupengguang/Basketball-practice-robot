@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b0b0c">
+<title>轮式移动系统 · 红衣教官01 · INS 篮球机器人训练营</title>
+<meta name="description" content="红衣教官01 轮式移动系统：整机 57 kg、负载 20 kg，硬件上限 8 km/h，训练限速 3 km/h，2.3 kWh 电池支持 8 小时续航。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+SC:wght@400;500;700;900&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/system-detail.css">
+<link rel="stylesheet" href="assets/fx.css">
+</head>
+<body>
+<nav class="nav" id="nav"><a class="nav-logo" href="index.html">INS BASKETBOT<small>INS 篮球机器人训练营</small></a><div class="nav-links"><a href="index.html#top">健康体态</a><a href="coaches.html">明星教练</a><a href="training.html">训练体系</a><a href="profile.html">个人中心</a><a href="datalab.html">数据监测</a><a href="opensource.html">开源介绍</a><a href="robot.html" class="active">机器人介绍</a></div><div class="nav-icons"><a class="nav-icon" href="robot.html" aria-label="返回机器人介绍"><svg viewBox="0 0 24 24"><path d="M19 12H5m6-6-6 6 6 6"/></svg></a><a class="nav-icon" href="login.html" aria-label="用户"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></a></div></nav>
+
+<header class="sd-hero"><div class="sd-inner"><a class="sd-back" href="robot.html#systems"><svg viewBox="0 0 24 24"><path d="M19 12H5m6-6-6 6 6 6"/></svg>返回组成系统</a><div class="sd-kicker reveal">SYSTEM A / WHEELED CHASSIS</div><h1 class="sd-title reveal">轮式移动系统</h1><div class="sd-en reveal">WHEELED CHASSIS</div><p class="sd-lead reveal">红衣教官01 以轮式底盘承担场地内水平移动，是训练场上的位移基础。</p><span class="sd-badge reveal"><i></i>训练运行限速 3 km/h</span></div></header>
+
+<main class="page">
+  <section class="reveal"><div class="sd-sec"><span class="sd-no">01</span><h2>关键参数</h2><span class="sd-line"></span></div><div class="params"><div class="param"><b>57<small>kg</small></b><span>整机质量</span></div><div class="param"><b>20<small>kg</small></b><span>整机负载</span></div><div class="param"><b>8<small>km/h</small></b><span>硬件上限</span></div><div class="param"><b>3<small>km/h</small></b><span>训练限速</span></div><div class="param"><b>2.3<small>kWh</small></b><span>电池容量</span></div><div class="param"><b>8<small>h</small></b><span>电池续航</span></div><div class="param"><b>45<small>min</small></b><span>单次连续运行</span></div><div class="param"><b>1.5<small>m</small></b><span>训练安全净距</span></div></div></section>
+
+  <section class="duo reveal">
+    <article class="panel"><h3>工作方式</h3><p>红衣教官01 以轮式底盘承担场地内水平移动，整机 57 kg、负载 20 kg，硬件上限 8 km/h，训练运行限速 3 km/h；2.3 kWh 电池支持 8 小时续航，单次连续运行不超过 45 分钟，全程由教练监控。</p><p>底盘只负责水平位移，投篮动作由上肢弹跳机构独立完成，两者分工明确。</p></article>
+    <article class="panel amber"><h3>安全边界</h3><ul><li>硬件上限 8 km/h 与训练限速 3 km/h 同时生效，训练场景按 3 km/h 执行。</li><li>单次连续运行不超过 45 分钟，超时须停机冷却。</li><li>训练全程由教练在场监控，不得脱离视线运行。</li></ul><div class="ref">参数依据 <b>R2 · R4 · R6 · R9 · R13</b></div></article>
+  </section>
+
+  <div class="navlinks reveal"><a class="key" href="robot.html#systems"><svg viewBox="0 0 24 24"><path d="M19 12H5m6-6-6 6 6 6"/></svg>返回组成系统</a><a href="system-shooting.html">弹跳投篮机构<svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a><a href="system-vision.html">视觉分析节点<svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a></div>
+</main>
+<script>
+(function(){var nav=document.getElementById('nav');addEventListener('scroll',function(){nav.classList.toggle('scrolled',scrollY>40);},{passive:true});var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});}());
+</script>
+<script src="assets/fx.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b0b0c">
+<title>视觉分析节点 · 红衣教官01 · INS 篮球机器人训练营</title>
+<meta name="description" content="红衣教官01 视觉分析节点：8 路摄像头覆盖全场，端侧 Jetson AGX Orin 64GB 实时处理，输出骨骼关键点与结构化事件。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+SC:wght@400;500;700;900&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/system-detail.css">
+<link rel="stylesheet" href="assets/fx.css">
+</head>
+<body>
+<nav class="nav" id="nav"><a class="nav-logo" href="index.html">INS BASKETBOT<small>INS 篮球机器人训练营</small></a><div class="nav-links"><a href="index.html#top">健康体态</a><a href="coaches.html">明星教练</a><a href="training.html">训练体系</a><a href="profile.html">个人中心</a><a href="datalab.html">数据监测</a><a href="opensource.html">开源介绍</a><a href="robot.html" class="active">机器人介绍</a></div><div class="nav-icons"><a class="nav-icon" href="robot.html" aria-label="返回机器人介绍"><svg viewBox="0 0 24 24"><path d="M19 12H5m6-6-6 6 6 6"/></svg></a><a class="nav-icon" href="login.html" aria-label="用户"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></a></div></nav>
+
+<header class="sd-hero"><div class="sd-inner"><a class="sd-back" href="robot.html#systems"><svg viewBox="0 0 24 24"><path d="M19 12H5m6-6-6 6 6 6"/></svg>返回组成系统</a><div class="sd-kicker reveal">SYSTEM C / VISION NODE</div><h1 class="sd-title reveal">视觉分析节点</h1><div class="sd-en reveal">VISION NODE</div><p class="sd-lead reveal">视觉节点负责红衣教官01 的动作采集，把整场影像变成可分析的结构化数据。</p><span class="sd-badge reveal"><i></i>端侧处理 · 帧级对齐</span></div></header>
+
+<main class="page">
+  <section class="reveal"><div class="sd-sec"><span class="sd-no">01</span><h2>关键参数</h2><span class="sd-line"></span></div><div class="params"><div class="param"><b>8<small>路</small></b><span>摄像头覆盖</span></div><div class="param"><b>64<small>GB</small></b><span>端侧算力平台</span></div><div class="param"><b>4<small>类</small></b><span>采集目标</span></div><div class="param"><b>帧级</b><span>时间线对齐</span></div><div class="param"><b>骨骼</b><span>关键点输出</span></div><div class="param"><b>事件</b><span>结构化输出</span></div><div class="param"><b>实时</b><span>处理方式</span></div><div class="param"><b>0<small>项</small></b><span>人脸识别</span></div></div></section>
+
+  <section class="duo reveal">
+    <article class="panel"><h3>工作方式</h3><p>8 路摄像头覆盖全场，采集球员、篮球、篮筐与记分牌影像，端侧 Jetson AGX Orin 64GB 实时处理，输出骨骼关键点与结构化事件，用于动作分析与训练报告。</p><p>三套子系统共用一条帧级时间线，视觉数据可与底盘位移、投篮输出逐帧对齐。</p></article>
+    <article class="panel amber"><h3>安全边界</h3><ul><li>仅输出骨骼关键点与结构化事件，用于动作分析与训练报告。</li><li>不做人脸识别，不用于身份核验。</li><li>影像留存期限【待补】，公示版不作估算。</li></ul><div class="ref">参数依据 <b>R12</b></div></article>
+  </section>
+
+  <div class="navlinks reveal"><a class="key" href="robot.html#systems"><svg viewBox="0 0 24 24"><path d="M19 12H5m6-6-6 6 6 6"/></svg>返回组成系统</a><a href="system-chassis.html">轮式移动系统<svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a><a href="system-shooting.html">弹跳投篮机构<svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a></div>
+</main>
+<script>
+(function(){var nav=document.getElementById('nav');addEventListener('scroll',function(){nav.classList.toggle('scrolled',scrollY>40);},{passive:true});var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});}());
+</script>
+<script src="assets/fx.js" defer></script>
+</body>
+</html>

@@ -106,6 +106,15 @@ a{color:inherit;text-decoration:none}
 .hero-cast small{display:block;font-family:var(--font-c);font-size:10px;letter-spacing:3px;color:var(--grey);margin-top:4px;font-weight:400}
 .cast-ava{width:64px;height:64px;border-radius:50%;object-fit:cover;display:block;margin:0 0 12px;border:1px solid rgba(255,255,255,.16);filter:grayscale(.55) brightness(.85);box-shadow:0 12px 28px -12px rgba(0,0,0,.8);transition:filter .5s,transform .5s cubic-bezier(.34,1.56,.64,1),border-color .5s,box-shadow .5s}
 .hero-cast div:hover .cast-ava{filter:grayscale(0) brightness(1.05);transform:scale(1.12) rotate(-3deg);border-color:var(--red);box-shadow:0 16px 40px -12px var(--red)}
+.cast-link{position:relative;display:block;text-align:left;min-width:clamp(280px,33vw,430px);transition:transform .5s cubic-bezier(.34,1.56,.64,1)}
+.cast-link:hover{transform:translateY(-7px)}
+.cast-link:hover .cast-ava{filter:grayscale(0) brightness(1.05);transform:scale(1.12) rotate(-3deg);border-color:var(--red);box-shadow:0 16px 40px -12px var(--red)}
+.cast-link small{transition:color .35s,letter-spacing .35s}
+.cast-link:hover small{color:var(--red);letter-spacing:4px}
+.cast-link .cast-cta{position:absolute;right:0;bottom:0;display:inline-flex;gap:6px;align-items:center;padding:5px 11px;border-radius:999px;background:var(--red);color:#fff;font-family:var(--font-c);font-size:9px;font-weight:400;letter-spacing:2px;white-space:nowrap;opacity:0;transform:translateX(10px);transition:opacity .35s,transform .35s .06s}
+.cast-link .cast-cta svg{width:11px;height:11px;fill:none;stroke:#fff;stroke-width:2.2}
+.cast-link:hover .cast-cta,.cast-link:focus-visible .cast-cta{opacity:1;transform:translateX(0)}
+.cast-link:focus-visible{outline:2px solid var(--red);outline-offset:8px;border-radius:6px}
 .hero-title{
   position:absolute;left:50%;bottom:4%;transform:translateX(-50%);
   z-index:2;width:100%;text-align:center;pointer-events:none;
@@ -146,7 +155,8 @@ a{color:inherit;text-decoration:none}
 @keyframes bob{50%{transform:translateY(4px)}}
 @media(max-width:900px){
   .hero-cast{grid-template-columns:1fr 1fr;gap:14px}
-  .hero-cast div{min-width:0}
+  .hero-cast div,.hero-cast .cast-link{min-width:0}
+  .cast-link .cast-cta{display:none}
   .hero-title{font-size:26vw;white-space:normal}
   .hero-story{display:none}
 }
@@ -413,8 +423,8 @@ a{color:inherit;text-decoration:none}
     <div class="hero-roman"><i></i><i></i><i></i></div>
 
     <div class="hero-cast" id="trainers">
-      <div><img class="cast-ava" loading="lazy" alt="王宇欣" src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=stylized%20sports%20poster%20illustration%20portrait%20of%20chinese%20male%20basketball%20head%20coach%20in%20his%2040s%20former%20pro%20point%20guard%20arms%20crossed%20whistle%20around%20neck%20dark%20background%20dramatic%20red%20rim%20light%20high%20contrast%20digital%20art&image_size=square">王宇欣 WANG YUXIN<small>总教练</small></div>
-      <div><img class="cast-ava" loading="lazy" alt="陆鹏光" src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=stylized%20sports%20poster%20illustration%20portrait%20of%20young%20chinese%20male%20robotics%20engineer%20glasses%20holding%20tablet%20glowing%20circuit%20hologram%20dark%20background%20dramatic%20red%20rim%20light%20high%20contrast%20digital%20art&image_size=square">陆鹏光 LU PENGUANG<small>机器人研发总工程师</small></div>
+      <div><img class="cast-ava" loading="lazy" alt="王宇欣" src="assets/头像１.jpg">王宇欣 WANG YUXIN<small>总教练</small></div>
+      <a class="cast-link" href="lu-penguang.html" aria-label="查看陆鹏光的个人档案"><img class="cast-ava" loading="lazy" alt="陆鹏光" src="assets/头像２.jpg">陆鹏光 LU PENGUANG<small>机器人研发总工程师</small><span class="cast-cta">查看档案<svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a>
     </div>
 
     <h1 class="hero-title" id="heroTitle"><span id="tA">INS 篮球</span><span class="stroke" id="tB">机器人训练营</span></h1>
