@@ -204,7 +204,6 @@ a{color:inherit;text-decoration:none}
 .stats-quote a{display:inline-block;margin-top:14px;font-size:11px;letter-spacing:3px;color:var(--grey)}
 .stats-quote a:hover{color:var(--red)}
 .stats-quote .sq-by{display:block;margin-top:12px;font-size:11px;letter-spacing:2px;color:#c9c6c0}
-.stats-quote .sq-tbd{display:block;margin-top:6px;font-size:9.5px;letter-spacing:1.5px;color:var(--grey);opacity:.75}
 .stats-dots{display:flex;gap:10px;justify-content:flex-end;margin-top:40px}
 .stats-dots i{width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,.3);display:grid;place-items:center}
 .stats-dots i::before{content:"";width:6px;height:6px;border-radius:50%;background:#555}
@@ -304,8 +303,9 @@ a{color:inherit;text-decoration:none}
 .part.right h5{justify-content:flex-end}
 .part.right h5::before{order:2}
 .avatars{display:flex;margin-top:26px}
+.avatars a{display:block}
 .avatars img{width:52px;height:52px;border-radius:50%;object-fit:cover;border:3px solid var(--paper);margin-left:-14px;transition:transform .3s}
-.avatars img:first-child{margin-left:0}
+.avatars img:first-child,.avatars a:first-child img{margin-left:0}
 .avatars img:hover{transform:translateY(-8px) scale(1.1);z-index:2;position:relative}
 .arrows{display:flex;align-items:center;gap:8px;margin-top:20px;color:#111}
 .arrows svg{width:34px;height:12px;stroke:#111;fill:none;stroke-width:2}
@@ -425,7 +425,7 @@ a{color:inherit;text-decoration:none}
     <div class="hero-roman"><i></i><i></i><i></i></div>
 
     <div class="hero-cast" id="trainers">
-      <div><img class="cast-ava" loading="lazy" alt="王宇欣" src="assets/头像１.jpg">王宇欣 WANG YUXIN<small>总教练</small></div>
+      <a class="cast-link" href="wang-yuxin.html" aria-label="查看王宇欣的个人档案"><img class="cast-ava" loading="lazy" alt="王宇欣" src="assets/头像１.jpg">王宇欣 WANG YUXIN<small>总教练</small><span class="cast-cta">查看档案<svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a>
       <a class="cast-link" href="lu-penguang.html" aria-label="查看陆鹏光的个人档案"><img class="cast-ava" loading="lazy" alt="陆鹏光" src="assets/头像２.jpg">陆鹏光 LU PENGUANG<small>机器人研发总工程师</small><span class="cast-cta">查看档案<svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span></a>
     </div>
 
@@ -498,8 +498,7 @@ a{color:inherit;text-decoration:none}
       <div class="stats-quote">
         <p>“王宇欣教练说，他带过不少孩子，第一次见到学员主动要求加练，是因为机器把每一次出手都算得清清楚楚。”</p>
         <span class="sq-by">— 王宇欣 · 总教练</span>
-        <a href="#gallery">阅读教练手记 ↗</a>
-        <span class="sq-tbd">【待补：手记页】</span>
+        <a href="wang-yuxin.html#note">阅读教练手记 ↗</a>
       </div>
       <div class="stats-dots"><i></i><i class="on"></i><i></i></div>
     </div>
@@ -576,8 +575,8 @@ a{color:inherit;text-decoration:none}
       <h5>关于计划 X-MEN</h5>
       <p><b>PART C.</b>&nbsp;&nbsp;INS 篮球机器人训练营,代号「红衣教官」,首台为红衣教官01,首次亮相便因“嘴炮式纠错”走红全网,如今已是训练营的灵魂人物。</p>
       <div class="avatars">
-        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=portrait%20of%20chinese%20male%20basketball%20coach%2040s%20confident%20studio%20red%20backdrop%20editorial%20photography&image_size=square" alt="总教练王宇欣">
-        <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=portrait%20of%20chinese%20male%20robotics%20engineer%20buzz%20cut%20studio%20red%20backdrop%20editorial%20photography&image_size=square" alt="机器人研发总工程师陆鹏光">
+        <a href="wang-yuxin.html" aria-label="查看王宇欣的个人档案"><img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=portrait%20of%20chinese%20male%20basketball%20coach%2040s%20confident%20studio%20red%20backdrop%20editorial%20photography&image_size=square" alt="总教练王宇欣"></a>
+        <a href="lu-penguang.html" aria-label="查看陆鹏光的个人档案"><img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=portrait%20of%20chinese%20male%20robotics%20engineer%20buzz%20cut%20studio%20red%20backdrop%20editorial%20photography&image_size=square" alt="机器人研发总工程师陆鹏光"></a>
       </div>
       <div class="arrows">
         <svg viewBox="0 0 34 12"><path d="M8 1L2 6l6 5M2 6h32"/></svg>
