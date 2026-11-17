@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>课程介绍 · INS 篮球机器人训练营</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Bebas+Neue&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/training-detail.css">
+<style>
+:root{--accent:#d91f26;--accent-glow:rgba(217,31,38,.45)}
+
+/* 课程介绍:内容卡 */
+.c-sec{padding-bottom:6px}
+.c-no{font-style:normal;font-size:.42em;letter-spacing:2px;color:var(--accent);margin-right:14px;vertical-align:middle;opacity:.9}
+.c-card{
+  position:relative;margin-top:26px;padding:30px 34px;border-radius:22px;overflow:hidden;
+  border:1px solid rgba(255,255,255,.12);
+  background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.02));
+  transition:transform .5s cubic-bezier(.2,.8,.2,1),border-color .45s,box-shadow .5s,background .5s;
+}
+.c-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--accent),transparent 78%);opacity:.55;transition:opacity .45s}
+.c-card::after{content:"";position:absolute;top:-90px;right:-90px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,var(--accent-glow),transparent 70%);opacity:0;transition:opacity .55s;pointer-events:none}
+.c-card:hover{transform:translateY(-4px);border-color:rgba(217,31,38,.5);background:linear-gradient(145deg,rgba(255,255,255,.085),rgba(217,31,38,.04));box-shadow:0 34px 80px -40px rgba(217,31,38,.6)}
+.c-card:hover::before{opacity:1}
+.c-card:hover::after{opacity:.85}
+.c-p{position:relative;font-size:13px;line-height:2.1;letter-spacing:.6px;color:#c8c5bf}
+.c-p+.c-p{margin-top:12px}
+.c-p b{color:#fff;font-weight:600}
+.c-p em{font-style:normal;color:var(--accent)}
+
+/* 定位句 */
+.c-lead{position:relative;font-size:clamp(18px,1.9vw,24px);line-height:1.85;letter-spacing:1.2px;color:#f0ece5;font-weight:500;text-wrap:pretty}
+.c-lead b{color:var(--accent);font-weight:400}
+
+/* 统计组 */
+.c-stats{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:6px}
+.c-stats>div{position:relative;border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:18px 18px 16px;background:rgba(0,0,0,.22);transition:transform .45s cubic-bezier(.2,.8,.2,1),border-color .4s,background .4s,box-shadow .45s}
+.c-stats>div:hover{transform:translateY(-6px);border-color:rgba(217,31,38,.6);background:rgba(217,31,38,.1);box-shadow:0 24px 46px -24px rgba(217,31,38,.7)}
+.c-stats>div span{display:block;font-size:10px;letter-spacing:2.6px;color:var(--grey)}
+.c-stats>div b{display:block;margin-top:8px;font-family:var(--font-d);font-size:clamp(26px,3vw,36px);line-height:1;letter-spacing:1px;color:#fff;transition:color .4s}
+.c-stats>div:hover b{color:var(--accent)}
+.c-stats>div small{display:block;margin-top:7px;font-size:10.5px;letter-spacing:.8px;color:#8b8b8e}
+
+/* 列表 */
+.c-list{position:relative;list-style:none;margin-top:16px;border-top:1px solid rgba(255,255,255,.08)}
+.c-list li{display:grid;grid-template-columns:22px 1fr;gap:12px;align-items:start;padding:13px 8px 13px 4px;border-bottom:1px solid rgba(255,255,255,.07);font-size:12.5px;line-height:1.95;letter-spacing:.6px;color:#c8c5bf;transition:background .35s,padding-left .35s,color .35s}
+.c-list li:last-child{border-bottom:0}
+.c-list li:hover{background:rgba(217,31,38,.1);padding-left:16px;color:#fff}
+.c-list li i{font-style:normal;font-family:var(--font-d);font-size:14px;line-height:1.7;color:var(--accent);letter-spacing:1px}
+.c-list li b{color:#fff;font-weight:600}
+
+/* 分栏 */
+.c-two{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+.c-two>div{border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:20px 22px;background:rgba(0,0,0,.2);transition:transform .45s cubic-bezier(.2,.8,.2,1),border-color .4s,background .4s}
+.c-two>div:hover{transform:translateY(-5px);border-color:rgba(217,31,38,.5);background:rgba(217,31,38,.07)}
+.c-two h5{font-family:var(--font-d);font-size:22px;letter-spacing:2px;color:#fff}
+.c-two h5 em{font-style:normal;color:var(--accent)}
+.c-two p{margin-top:8px;font-size:12px;line-height:1.95;letter-spacing:.5px;color:#b7b4ae}
+
+/* 表格 */
+.c-table-wrap{position:relative;margin-top:20px;border:1px solid rgba(255,255,255,.1);border-radius:14px;background:rgba(0,0,0,.24);overflow-x:auto;overflow-y:hidden}
+.c-table{width:100%;min-width:540px;border-collapse:collapse;font-size:12.5px;letter-spacing:.6px}
+.c-table th{padding:13px 18px;text-align:left;font-size:10px;font-weight:500;letter-spacing:3px;color:var(--grey);background:rgba(255,255,255,.035);border-bottom:1px solid rgba(255,255,255,.12);white-space:nowrap}
+.c-table td{padding:14px 18px;color:#c8c5bf;border-bottom:1px solid rgba(255,255,255,.07);vertical-align:top;line-height:1.85;transition:color .3s,background .3s}
+.c-table tbody tr{transition:background .35s,box-shadow .35s}
+.c-table tbody tr:hover{background:rgba(217,31,38,.1);box-shadow:inset 3px 0 0 var(--accent)}
+.c-table tbody tr:hover td{color:#fff}
+.c-table tbody tr:last-child td{border-bottom:0}
+.c-table td:first-child{color:#fff;white-space:nowrap}
+.c-table .dur{font-family:var(--font-d);font-size:16px;letter-spacing:1px;color:var(--accent);white-space:nowrap}
+.c-table .val{font-size:13px;font-weight:500;letter-spacing:1.2px;color:var(--accent);white-space:nowrap}
+.c-table .tag{display:inline-block;font-size:9.5px;letter-spacing:1.6px;color:#c8c5bf;border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:3px 10px;white-space:nowrap;transition:border-color .35s,background .35s,color .35s}
+.c-table tbody tr:hover .tag{border-color:rgba(217,31,38,.7);background:rgba(217,31,38,.16);color:#fff}
+.c-note{position:relative;margin-top:12px;padding-left:16px;font-size:11px;line-height:1.9;letter-spacing:.8px;color:#8b8b8e}
+.c-note::before{content:"";position:absolute;left:0;top:.75em;width:7px;height:1px;background:var(--accent)}
+
+@media(max-width:900px){
+  .c-card{padding:24px 22px;border-radius:18px}
+  .c-stats{grid-template-columns:repeat(2,1fr)}
+  .c-two{grid-template-columns:1fr}
+}
+@media(max-width:630px){
+  .c-card{padding:20px 18px}
+  .c-table th,.c-table td{padding:11px 13px}
+  .c-no{display:block;margin:0 0 6px}
+}
+</style>
+<link rel="stylesheet" href="assets/fx.css">
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <a class="nav-logo" href="index.html">INS BASKETBOT<small>INS 篮球机器人训练营</small></a>
+  <div class="nav-links">
+    <a href="index.html#top">健康体态</a>
+    <a href="coaches.html">明星教练</a>
+    <a href="training.html" class="active">训练体系</a>
+    <a href="profile.html">个人中心</a>
+    <a href="datalab.html">数据监测</a>
+    <a href="opensource.html">开源介绍</a>
+    <a href="robot.html">机器人介绍</a>
+  </div>
+  <div class="nav-icons">
+    <a class="nav-icon" href="index.html#gallery" aria-label="搜索"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></a>
+    <a class="nav-icon" href="login.html" aria-label="用户"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></a>
+    <button class="nav-burger" aria-label="菜单"><span></span><span></span></button>
+  </div>
+</nav>
+
+<header class="dt-hero">
+  <div class="dt-wrap">
+    <div class="dt-kicker reveal">训练体系 / 课程介绍</div>
+    <div class="dt-grid">
+      <div class="reveal">
+        <div class="dt-num">04</div>
+        <h1 class="dt-title">课程介绍</h1>
+        <div class="dt-en">COURSE STRUCTURE · 90 MIN</div>
+        <p class="dt-quote">“一节课 90 分钟，从热身到收尾，每一段都有固定安排。”</p>
+        <div class="dt-meta">
+          <span>单节课<b>90 分钟</b></span>
+          <span>每班<b>6 人</b></span>
+          <span>教练学员比<b>1:3</b></span>
+        </div>
+      </div>
+      <aside class="dt-coach reveal">
+        <div class="dt-coach-label">阅读顺序</div>
+        <p>本页按<b>定位 → 单节课结构 → 班型配比 → 准入分班 → 评分维度 → 晋级结业 → 单节课产出 → 执行安全</b>的顺序，说明一节课怎么上、怎么分层、怎么记录。四项评分指标仅用于课内复盘与个人数据报告，<b>不作为对外宣传口径</b>。</p>
+      </aside>
+    </div>
+  </div>
+</header>
+
+<!-- 01 课程定位 -->
+<section class="dt-sec c-sec">
+  <div class="dt-sec-head reveal">
+    <h2><i class="c-no">01</i>课程<em>定位</em></h2>
+    <div class="en">POSITIONING</div>
+  </div>
+  <div class="c-card reveal">
+    <p class="c-lead">按能力分层的篮球技术课，先练<b>动作模式</b>，再加<b>对抗强度</b>，用数据决定是否进下一阶段。</p>
+  </div>
+</section>
+
+<!-- 02 单节课结构 -->
+<section class="dt-sec c-sec">
+  <div class="dt-sec-head reveal">
+    <h2><i class="c-no">02</i>单节课<em>结构</em></h2>
+    <div class="en">90 MIN / 6 BLOCKS</div>
+  </div>
+  <div class="c-card reveal">
+    <div class="c-table-wrap">
+      <table class="c-table">
+        <colgroup>
+          <col style="width:22%">
+          <col style="width:10%">
+          <col>
+          <col style="width:12%">
+        </colgroup>
+        <thead>
+          <tr><th>时段</th><th>时长</th><th>内容</th><th>形式</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>0–12 分钟</td>
+            <td class="dur">12′</td>
+            <td>RAMP 热身：提升体温、激活、动态拉伸、专项启动</td>
+            <td><span class="tag">集体</span></td>
+          </tr>
+          <tr>
+            <td>12–30 分钟</td>
+            <td class="dur">18′</td>
+            <td>技术分解：当周动作要点，教练示范＋分组练习</td>
+            <td><span class="tag">分组</span></td>
+          </tr>
+          <tr>
+            <td>30–55 分钟</td>
+            <td class="dur">25′</td>
+            <td>人机对抗：2 人 1 机轮换，3 组，每组 8 分钟</td>
+            <td><span class="tag">轮转</span></td>
+          </tr>
+          <tr>
+            <td>55–70 分钟</td>
+            <td class="dur">15′</td>
+            <td>数据复盘：当堂 4 项指标讲评，对照上周</td>
+            <td><span class="tag">集体</span></td>
+          </tr>
+          <tr>
+            <td>70–82 分钟</td>
+            <td class="dur">12′</td>
+            <td>体能与冷身：核心稳定、下肢力量、静态拉伸</td>
+            <td><span class="tag">集体</span></td>
+          </tr>
+          <tr>
+            <td>82–90 分钟</td>
+            <td class="dur">8′</td>
+            <td>收尾：装备清点、伤病反馈、下次课预告</td>
+            <td><span class="tag">集体</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="c-note">设备单次连续运行不超过 45 分钟，人与设备均按组轮换。</p>
+  </div>
+</section>
+
+<!-- 03 班型与配比 -->
+<section class="dt-sec c-sec">
+  <div class="dt-sec-head reveal">
+    <h2><i class="c-no">03</i>班型与<em>配比</em></h2>
+    <div class="en">CLASS SETUP</div>
+  </div>
+  <div class="c-card reveal">
+    <div class="c-stats">
+      <div><span>每班人数</span><b>6 人</b></div>
+      <div><span>教练配置</span><b>2 名</b><small>技术教练＋体能教练</small></div>
+      <div><span>设备数量</span><b>3 台</b></div>
+      <div><span>人与设备</span><b>2 人 1 机</b></div>
+    </div>
+    <p class="c-p" style="margin-top:18px">每班 <b>6 人</b>，<b>2</b> 名教练（技术教练＋体能教练），<b>3</b> 台设备，<b>2 人 1 机</b>；教练与学员比 <b>1:3</b>。</p>
+  </div>
+</section>
+
+<!-- 04 准入与分班 -->
+<section class="dt-sec c-sec">
+  <div class="dt-sec-head reveal">
+    <h2><i class="c-no">04</i>准入与<em>分班</em></h2>
+    <div class="en">ENTRY / PLACEMENT</div>
+  </div>
+  <div class="c-card reveal">
+    <p class="c-p">零基础直接进<b>基本功模块</b>；有基础者做 3 项测评。</p>
+    <ul class="c-list">
+      <li><i>01</i><span><b>原地运球</b> 30 秒</span></li>
+      <li><i>02</i><span><b>胸前传球</b> 10 次</span></li>
+      <li><i>03</i><span><b>罚球线定点投篮</b> 10 次</span></li>
+    </ul>
+    <div class="c-two">
+      <div>
+        <h5>A 班 <em>三项达标</em></h5>
+        <p>三项测评均达标，进入常规技术课进度。</p>
+      </div>
+      <div>
+        <h5>B 班 <em>任一项未达标</em></h5>
+        <p>任一项未达标，先在基本功模块补 2 周，再回到常规进度。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 评分维度 -->
+<section class="dt-sec c-sec">
+  <div class="dt-sec-head reveal">
+    <h2><i class="c-no">05</i>评分<em>维度</em></h2>
+    <div class="en">4 METRICS</div>
+  </div>
+  <div class="c-card reveal">
+    <div class="c-table-wrap">
+      <table class="c-table">
+        <colgroup>
+          <col style="width:26%">
+          <col style="width:24%">
+          <col>
+        </colgroup>
+        <thead>
+          <tr><th>维度</th><th>达标线</th><th>采集方式</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>出手角度</td><td class="val">48°–52°</td><td>视觉节点逐帧测量</td></tr>
+          <tr><td>出手释放时间</td><td class="val">≤0.4 s</td><td>帧级时间戳</td></tr>
+          <tr><td>重心偏移</td><td class="val">≤5 cm</td><td>骨骼关键点</td></tr>
+          <tr><td>变向完成时间</td><td class="val">≤1.2 s</td><td>事件时间戳</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="c-note">四项每次课采集，不作为对外宣传口径。</p>
+  </div>
+</section>
+
+<!-- 06 晋级与结业 -->
+<section class="dt-sec c-sec">
+  <div class="dt-sec-head reveal">
+    <h2><i class="c-no">06</i>晋级与<em>结业</em></h2>
+    <div class="en">PROGRESSION</div>
+  </div>
+  <div class="c-card reveal">
+    <div class="c-two">
+      <div>
+        <h5>模块末<em>考核</em></h5>
+        <p>4 项中至少 3 项达标即可进下一模块；未达标者补练 1 周后复测。</p>
+      </div>
+      <div>
+        <h5>结业<em>产出</em></h5>
+        <p>个人数据报告（模块内四项指标的趋势对比），不发等级证书类承诺。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 单节课产出 -->
+<section class="dt-sec c-sec">
+  <div class="dt-sec-head reveal">
+    <h2><i class="c-no">07</i>单节课<em>产出</em></h2>
+    <div class="en">OUTPUT</div>
+  </div>
+  <div class="c-card reveal">
+    <ul class="c-list" style="margin-top:4px">
+      <li><i>01</i><span><b>当堂数据卡</b>：4 项指标＋1 条教练点评</span></li>
+      <li><i>02</i><span><b>每周一份周报</b>：含出勤、达标项、待改进项</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- 08 执行与安全 -->
+<section class="dt-sec c-sec">
+  <div class="dt-sec-head reveal">
+    <h2><i class="c-no">08</i>执行与<em>安全</em></h2>
+    <div class="en">SAFETY RULES</div>
+  </div>
+  <div class="c-card reveal">
+    <ul class="c-list" style="margin-top:4px">
+      <li><i>01</i><span>热身未完成<b>不得进入对抗</b>。</span></li>
+      <li><i>02</i><span>单次课程<b>不超过 90 分钟</b>。</span></li>
+      <li><i>03</i><span>每 20 分钟安排<b>饮水</b>。</span></li>
+      <li><i>04</i><span>出现<b>头晕、胸闷、关节疼痛</b>立即停止并记录。</span></li>
+      <li><i>05</i><span>教练须<b>持急救证</b>在场。</span></li>
+      <li><i>06</i><span>未满 18 周岁须<b>监护人知情同意</b>。</span></li>
+    </ul>
+    <p class="c-note">本段数值与《设备安全说明》一致：训练净距 1.5 m／对抗 2.5 m；设备单次连续运行 ≤45 分钟。</p>
+  </div>
+</section>
+
+<section class="dt-switch">
+  <div class="dt-switch-head reveal">继续看模块</div>
+  <div class="dt-switch-grid">
+    <a class="sw-card reveal" href="fundamentals.html">
+      <span class="sw-no">01 / FUNDAMENTALS</span>
+      <h4>基本功<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></h4>
+      <p>入门 · 4 周</p>
+    </a>
+    <a class="sw-card reveal" href="handles.html">
+      <span class="sw-no">02 / HANDLES</span>
+      <h4>过人秘籍<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></h4>
+      <p>进阶 · 6 周</p>
+    </a>
+    <a class="sw-card reveal" href="shooting.html">
+      <span class="sw-no">03 / SHOOTING</span>
+      <h4>投篮标准<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></h4>
+      <p>高阶 · 8 周</p>
+    </a>
+  </div>
+</section>
+
+<div class="back-bar">
+  <a class="back-home" href="training.html"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>返回训练体系</a>
+</div>
+
+<script src="assets/training-detail.js"></script>
+<script src="assets/fx.js" defer></script>
+</body>
+</html>

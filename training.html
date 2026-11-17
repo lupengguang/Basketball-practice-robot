@@ -104,6 +104,56 @@ a{color:inherit;text-decoration:none}
 .gcard:hover .g-arrow{background:var(--red);border-color:var(--red);box-shadow:0 10px 26px -8px var(--red)}
 .gcard:hover .g-arrow svg{transform:translateX(3px)}
 
+/* 课程介绍入口:点击进入课程介绍页 */
+.course-entry{max-width:1240px;margin:0 auto;padding:0 4vw 56px}
+.ce-card{--mx:50%;--my:42%;--rx:0deg;--ry:0deg;position:relative;display:grid;grid-template-columns:1.02fr .98fr;gap:42px;align-items:center;padding:46px 48px;border-radius:26px;overflow:hidden;border:1px solid rgba(255,255,255,.12);background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(255,255,255,.02));transform:perspective(1100px) rotateX(var(--rx)) rotateY(var(--ry));transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,.8,.2,1),border-color .45s,box-shadow .5s,background .6s;will-change:transform}
+.ce-card.tilting{transition:transform .12s linear,border-color .45s,box-shadow .5s,background .6s}
+.ce-card::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0;background:radial-gradient(460px circle at var(--mx) var(--my),rgba(217,31,38,.34),rgba(217,31,38,.08) 46%,transparent 70%);transition:opacity .45s}
+.ce-card::after{content:"";position:absolute;top:0;left:-60%;width:45%;height:100%;z-index:0;pointer-events:none;background:linear-gradient(100deg,transparent,rgba(255,255,255,.1),transparent);transform:skewX(-12deg);transition:left .9s cubic-bezier(.2,.8,.2,1)}
+.ce-card:hover{border-color:rgba(217,31,38,.6);background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(217,31,38,.05));box-shadow:0 46px 100px -40px rgba(217,31,38,.55),inset 0 0 0 1px rgba(255,255,255,.05)}
+.ce-card:hover::before{opacity:1}
+.ce-card:hover::after{left:120%}
+.ce-copy{position:relative;z-index:2;min-width:0}
+.ce-kicker{display:flex;align-items:center;gap:12px;font-size:11px;letter-spacing:4px;color:var(--grey)}
+.ce-kicker b{font-family:var(--font-d);font-size:20px;line-height:1;letter-spacing:2px;font-weight:400;color:transparent;-webkit-text-stroke:1.2px rgba(217,31,38,.9);transition:color .4s,-webkit-text-stroke-color .4s,text-shadow .4s}
+.ce-card:hover .ce-kicker b{color:var(--red);-webkit-text-stroke-color:transparent;text-shadow:0 0 22px rgba(217,31,38,.85)}
+.ce-title{margin-top:14px;font-family:var(--font-d);font-size:clamp(28px,3.1vw,40px);line-height:1.12;letter-spacing:1.6px;text-wrap:balance}
+.ce-title em{font-style:normal;color:var(--red)}
+.ce-desc{margin-top:14px;max-width:580px;font-size:12.5px;line-height:2;letter-spacing:.8px;color:#b7b4ae}
+.ce-stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.ce-stats span{display:inline-flex;align-items:baseline;gap:4px;font-size:10.5px;letter-spacing:1.8px;padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.18);color:#cfcbc4;background:rgba(255,255,255,.03);transition:transform .45s cubic-bezier(.2,.8,.2,1),border-color .4s,color .4s,background .4s}
+.ce-stats span b{font-family:var(--font-d);font-size:16px;letter-spacing:1px;color:#fff;transition:color .4s}
+.ce-card:hover .ce-stats span{border-color:rgba(217,31,38,.55);color:#fff;background:rgba(217,31,38,.1)}
+.ce-card:hover .ce-stats span:nth-child(1){transform:translateY(-4px)}
+.ce-card:hover .ce-stats span:nth-child(2){transform:translateY(-4px);transition-delay:.06s}
+.ce-card:hover .ce-stats span:nth-child(3){transform:translateY(-4px);transition-delay:.12s}
+.ce-card:hover .ce-stats span:nth-child(4){transform:translateY(-4px);transition-delay:.18s}
+.ce-card:hover .ce-stats span b{color:var(--red)}
+.ce-view{display:inline-flex;align-items:center;gap:12px;margin-top:24px;font-size:12px;letter-spacing:3px;color:#fff}
+.ce-view::before{content:"";width:28px;height:1px;background:var(--red);transition:width .45s cubic-bezier(.2,.8,.2,1),box-shadow .4s}
+.ce-card:hover .ce-view::before{width:52px;box-shadow:0 0 12px var(--red)}
+.ce-view svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;transition:transform .4s}
+.ce-card:hover .ce-view svg{transform:translateX(6px)}
+.ce-panel{position:relative;z-index:2;border:1px solid rgba(255,255,255,.12);border-radius:16px;overflow:hidden;background:rgba(0,0,0,.24);transition:border-color .45s,background .45s}
+.ce-card:hover .ce-panel{border-color:rgba(217,31,38,.35);background:rgba(0,0,0,.3)}
+.ce-panel-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 16px;border-bottom:1px solid rgba(255,255,255,.1);font-size:9.5px;letter-spacing:3px;color:var(--grey)}
+.ce-panel-h b{color:var(--red);font-weight:600;letter-spacing:2px}
+.ce-row{display:grid;grid-template-columns:74px 1fr auto;gap:12px;align-items:center;padding:9px 16px;border-bottom:1px solid rgba(255,255,255,.06);transition:background .35s,padding-left .35s}
+.ce-row:last-child{border-bottom:0}
+.ce-row:hover{background:rgba(217,31,38,.1);padding-left:22px}
+.ce-row .t{font-size:10.5px;letter-spacing:1px;color:var(--red)}
+.ce-row .n{font-size:12.5px;letter-spacing:.6px;color:#d8d5cf}
+.ce-row .f{font-size:9.5px;letter-spacing:1.6px;color:#8b8b8e;border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:3px 9px}
+@media(max-width:1000px){
+  .ce-card{grid-template-columns:1fr;gap:26px;padding:34px 30px;transform:none}
+}
+@media(max-width:630px){
+  .ce-card{padding:28px 22px;border-radius:22px}
+  .ce-title{font-size:clamp(26px,7.4vw,36px)}
+  .ce-row{grid-template-columns:66px 1fr}
+  .ce-row .f{display:none}
+}
+
 /* 底部 CTA */
 .cta{max-width:1240px;margin:0 auto 110px;padding:0 4vw}
 .cta-box{position:relative;border-radius:26px;padding:56px 48px;overflow:hidden;background:rgba(255,255,255,.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap}
@@ -224,6 +274,33 @@ a{color:inherit;text-decoration:none}
   </a>
 </main>
 
+<!-- 课程介绍入口 -->
+<section class="course-entry reveal">
+  <a class="ce-card" href="course.html" aria-label="查看课程介绍">
+    <div class="ce-copy">
+      <div class="ce-kicker"><b>04</b>课程介绍 / COURSE</div>
+      <h2 class="ce-title">按能力分层的<em>篮球技术课</em></h2>
+      <p class="ce-desc">先练动作模式，再加对抗强度，用数据决定是否进下一阶段。热身、冷身固定，单次时长受限，技术优先于强度。</p>
+      <div class="ce-stats">
+        <span>每班<b>6</b>人</span>
+        <span>教练<b>2</b>名</span>
+        <span>设备<b>3</b>台</span>
+        <span>单节<b>90</b>分钟</span>
+      </div>
+      <span class="ce-view">查看课程介绍<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </div>
+    <div class="ce-panel">
+      <div class="ce-panel-h"><span>单节课结构</span><b>90 MIN</b></div>
+      <div class="ce-row"><span class="t">0–12′</span><span class="n">RAMP 热身</span><span class="f">集体</span></div>
+      <div class="ce-row"><span class="t">12–30′</span><span class="n">技术分解</span><span class="f">分组</span></div>
+      <div class="ce-row"><span class="t">30–55′</span><span class="n">人机对抗</span><span class="f">轮转</span></div>
+      <div class="ce-row"><span class="t">55–70′</span><span class="n">数据复盘</span><span class="f">集体</span></div>
+      <div class="ce-row"><span class="t">70–82′</span><span class="n">体能与冷身</span><span class="f">集体</span></div>
+      <div class="ce-row"><span class="t">82–90′</span><span class="n">收尾</span><span class="f">集体</span></div>
+    </div>
+  </a>
+</section>
+
 <!-- CTA -->
 <div class="cta reveal">
   <div class="cta-box">
@@ -255,6 +332,32 @@ document.querySelectorAll('[data-tilt]').forEach(card=>{
   });
   card.addEventListener('mouseleave',()=>card.style.transform='perspective(900px) rotateY(0) rotateX(0) translateY(0)');
 });
+/* 课程介绍卡:光标光斑 + 轻量 3D 倾斜 */
+const ceCard=document.querySelector('.ce-card');
+if(ceCard&&matchMedia('(hover:hover) and (pointer:fine) and (min-width:1001px)').matches){
+  let raf=0,tx=0,ty=0;
+  ceCard.addEventListener('pointermove',e=>{
+    const r=ceCard.getBoundingClientRect();
+    const px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;
+    ceCard.style.setProperty('--mx',(px*100).toFixed(2)+'%');
+    ceCard.style.setProperty('--my',(py*100).toFixed(2)+'%');
+    tx=px-.5;ty=py-.5;
+    if(!raf)raf=requestAnimationFrame(()=>{
+      ceCard.style.setProperty('--ry',(tx*6).toFixed(2)+'deg');
+      ceCard.style.setProperty('--rx',(-ty*6).toFixed(2)+'deg');
+      raf=0;
+    });
+    ceCard.classList.add('tilting');
+  });
+  ceCard.addEventListener('pointerleave',()=>{
+    if(raf){cancelAnimationFrame(raf);raf=0;}
+    ceCard.classList.remove('tilting');
+    ceCard.style.setProperty('--rx','0deg');
+    ceCard.style.setProperty('--ry','0deg');
+    ceCard.style.setProperty('--mx','50%');
+    ceCard.style.setProperty('--my','42%');
+  });
+}
 /* 磁吸 */
 document.querySelectorAll('.magnetic').forEach(btn=>{
   btn.addEventListener('mousemove',e=>{const r=btn.getBoundingClientRect();btn.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.28}px,${(e.clientY-r.top-r.height/2)*.28}px)`;});
