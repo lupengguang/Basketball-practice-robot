@@ -75,6 +75,17 @@
 .c-note{position:relative;margin-top:12px;padding-left:16px;font-size:11px;line-height:1.9;letter-spacing:.8px;color:#8b8b8e}
 .c-note::before{content:"";position:absolute;left:0;top:.75em;width:7px;height:1px;background:var(--accent)}
 
+/* 训练报告样例 */
+.c-report{position:relative;margin-top:18px}
+.c-report-bar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:12px 18px;border:1px solid rgba(255,255,255,.12);border-radius:14px 14px 0 0;background:rgba(255,255,255,.04)}
+.c-report-bar span{font-size:10px;letter-spacing:3px;color:var(--grey)}
+.c-report-bar b{font-size:12.5px;font-weight:500;letter-spacing:.8px;color:#fff}
+.c-report .c-table-wrap{margin-top:0;border-radius:0 0 14px 14px;border-top:0}
+.c-shot{position:relative;margin-top:18px;height:clamp(200px,22vw,290px);border:1px dashed rgba(255,255,255,.24);border-radius:14px;overflow:hidden;background:repeating-linear-gradient(135deg,rgba(255,255,255,.032) 0 12px,transparent 12px 24px);transition:border-color .4s,background .4s}
+.c-shot:hover{border-color:rgba(217,31,38,.55);background:repeating-linear-gradient(135deg,rgba(217,31,38,.07) 0 12px,transparent 12px 24px)}
+.c-shot img{position:absolute;inset:0;width:100%;height:100%;opacity:0}
+.c-shot-tip{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:11px;letter-spacing:3px;color:#8b8b8e;white-space:nowrap}
+
 @media(max-width:900px){
   .c-card{padding:24px 22px;border-radius:18px}
   .c-stats{grid-template-columns:repeat(2,1fr)}
@@ -326,6 +337,169 @@
       <li><i>06</i><span>未满 18 周岁须<b>监护人知情同意</b>。</span></li>
     </ul>
     <p class="c-note">本段数值与《设备安全说明》一致：训练净距 1.5 m／对抗 2.5 m；设备单次连续运行 ≤45 分钟。</p>
+  </div>
+</section>
+
+<!-- 09 设备轮转规则 -->
+<section class="dt-sec c-sec">
+  <div class="dt-sec-head reveal">
+    <h2><i class="c-no">09</i>设备<em>轮转规则</em></h2>
+    <div class="en">ROTATION</div>
+  </div>
+  <div class="c-card reveal">
+    <p class="c-p">每班 <b>6 人</b>、<b>3</b> 台设备、<b>2 人 1 机</b>；人机对抗 <b>25 分钟</b>拆为 <b>3 组</b>，每组 <b>8 分钟</b>，组间换位合计 1 分钟。</p>
+    <div class="c-table-wrap">
+      <table class="c-table">
+        <colgroup>
+          <col style="width:12%">
+          <col style="width:30%">
+          <col style="width:24%">
+          <col>
+        </colgroup>
+        <thead>
+          <tr><th>组别</th><th>时段</th><th>在机人数</th><th>等待区任务</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>A 组</td><td>30–38 分钟</td><td>4 人（2 台机）</td><td>动作分解空杆练习</td></tr>
+          <tr><td>B 组</td><td>38 分 30 秒–46 分 30 秒</td><td>4 人（2 台机）</td><td>投篮脚步与接球准备</td></tr>
+          <tr><td>C 组</td><td>47–55 分钟</td><td>4 人（2 台机）</td><td>核心稳定与呼吸调整</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="c-note">每人当堂上机不少于 16 分钟；设备单次连续运行不超过 45 分钟，人机同步轮换。</p>
+    <p class="c-note">时段以第 2 块的 30–55 分钟对抗窗口为准：两次换位各 30 秒、合计 1 分钟，即 3 组 × 8 分钟 + 1 分钟 = 25 分钟；3 组 × 4 人 = 12 人次，6 人各上机 2 组，每人合计 16 分钟。</p>
+  </div>
+</section>
+
+<!-- 10 训练报告样例 -->
+<section class="dt-sec c-sec">
+  <div class="dt-sec-head reveal">
+    <h2><i class="c-no">10</i>训练报告<em>样例</em></h2>
+    <div class="en">REPORT SAMPLE</div>
+  </div>
+  <div class="c-card reveal">
+    <p class="c-p">每次课生成个人数据卡，每周汇总一份周报，仅向本人监护人开放。</p>
+    <div class="c-report">
+      <div class="c-report-bar"><span>日期与模块</span><b>2027.05.12 · 基本功 第 3 周</b></div>
+      <div class="c-table-wrap">
+        <table class="c-table">
+          <colgroup>
+            <col style="width:24%">
+            <col>
+          </colgroup>
+          <thead>
+            <tr><th>字段</th><th>内容示例</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>出手角度</td><td>均值 49.6°，达标区间 48°–52°</td></tr>
+            <tr><td>释放时间</td><td>均值 0.42 s，达标线 ≤0.4 s</td></tr>
+            <tr><td>重心偏移</td><td>均值 4.1 cm，达标线 ≤5 cm</td></tr>
+            <tr><td>变向完成时间</td><td>均值 1.14 s，达标线 ≤1.2 s</td></tr>
+            <tr><td>与上周对比</td><td>四项中 3 项改善、1 项持平（只写方向，不写百分比）</td></tr>
+            <tr><td>教练点评</td><td>一句话，指出 1 个待改进动作</td></tr>
+            <tr><td>下阶段重点</td><td>1 项技术目标，不超过 15 字</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <figure class="c-shot">
+      <img alt="训练数据报告示例" width="1200" height="675" loading="lazy" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='675'%3E%3C/svg%3E">
+      <span class="c-shot-tip">报告卡截图位 · 预留</span>
+    </figure>
+    <p class="c-note">示例数据仅用于说明字段结构，不代表真实学员成绩。</p>
+  </div>
+</section>
+
+<!-- 11 教练分工 -->
+<section class="dt-sec c-sec">
+  <div class="dt-sec-head reveal">
+    <h2><i class="c-no">11</i>教练<em>分工</em></h2>
+    <div class="en">STAFFING</div>
+  </div>
+  <div class="c-card reveal">
+    <div class="c-table-wrap">
+      <table class="c-table">
+        <colgroup>
+          <col style="width:15%">
+          <col style="width:23%">
+          <col>
+          <col style="width:13%">
+        </colgroup>
+        <thead>
+          <tr><th>角色</th><th>姓名</th><th>职责</th><th>在场要求</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>总教练</td><td>王宇欣</td><td>课程设计与晋级判定</td><td>全程在场</td></tr>
+          <tr><td>技术教练</td><td>【待补：姓名】</td><td>动作纠正、分组带练</td><td>全程在场</td></tr>
+          <tr><td>体能教练</td><td>【待补：姓名】</td><td>热身、体能、负荷监控</td><td>全程在场</td></tr>
+          <tr><td>设备运维</td><td>陆鹏光（机器人研发总工程师）</td><td>点检、轮转调度、急停处置</td><td>全程在场</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="c-note">每班至少 2 名教练在场；教练须持急救证，证书类型【待补】。</p>
+  </div>
+</section>
+
+<!-- 12 安全与防护 -->
+<section class="dt-sec c-sec">
+  <div class="dt-sec-head reveal">
+    <h2><i class="c-no">12</i>安全与<em>防护</em></h2>
+    <div class="en">PROTECTION</div>
+  </div>
+  <div class="c-card reveal">
+    <div class="c-two" style="margin-top:4px">
+      <div>
+        <h5>训练<em>前</em></h5>
+        <ul class="c-list">
+          <li><i>01</i><span>完成 <b>12 分钟</b> RAMP 热身方可进入对抗。</span></li>
+          <li><i>02</i><span>检查鞋带、护具，口袋无硬物。</span></li>
+          <li><i>03</i><span>确认当日身体无不适。</span></li>
+          <li><i>04</i><span>监护人已完成知情同意。</span></li>
+        </ul>
+      </div>
+      <div>
+        <h5>训练<em>中</em></h5>
+        <ul class="c-list">
+          <li><i>01</i><span>学员距设备不小于 <b>1.5 m</b>，对抗不小于 <b>2.5 m</b>。</span></li>
+          <li><i>02</i><span>投篮模块正下方 <b>1 m</b> 内禁止站立。</span></li>
+          <li><i>03</i><span>设备连续运行达 <b>45 分钟</b>必须轮换。</span></li>
+          <li><i>04</i><span>出现头晕、胸闷、关节疼痛立即停止并记录。</span></li>
+        </ul>
+      </div>
+    </div>
+    <p class="c-note">数值与《设备安全说明》同源，禁止在此另写一套。</p>
+  </div>
+</section>
+
+<!-- 13 装备要求 -->
+<section class="dt-sec c-sec">
+  <div class="dt-sec-head reveal">
+    <h2><i class="c-no">13</i>装备<em>要求</em></h2>
+    <div class="en">EQUIPMENT</div>
+  </div>
+  <div class="c-card reveal">
+    <div class="c-two" style="margin-top:4px">
+      <div>
+        <h5>必带</h5>
+        <ul class="c-list">
+          <li><i>01</i><span>室内防滑篮球鞋</span></li>
+          <li><i>02</i><span>运动服</span></li>
+          <li><i>03</i><span>护踝或护膝</span></li>
+          <li><i>04</i><span>水壶（≥500 ml）</span></li>
+          <li><i>05</i><span>毛巾</span></li>
+        </ul>
+      </div>
+      <div>
+        <h5>禁止</h5>
+        <ul class="c-list">
+          <li><i>01</i><span>硬底鞋</span></li>
+          <li><i>02</i><span>拖鞋</span></li>
+          <li><i>03</i><span>佩戴饰品</span></li>
+          <li><i>04</i><span>携带手机进入训练区</span></li>
+        </ul>
+      </div>
+    </div>
+    <p class="c-p" style="margin-top:18px">提供情况：护具由学员自备；备用护具与饮用水补给【待补：是否提供】。</p>
   </div>
 </section>
 
