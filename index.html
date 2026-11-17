@@ -338,7 +338,7 @@ a{color:inherit;text-decoration:none}
 .footer{background:var(--ink);border-radius:26px 0 0 0;position:relative;z-index:8;padding:90px 4vw 0;overflow:hidden}
 .footer-inner{max-width:1240px;margin:0 auto}
 .footer-top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.4fr;gap:40px;padding-bottom:60px;border-bottom:1px solid rgba(255,255,255,.1)}
-.footer-logo{font-family:var(--font-d);font-size:34px;letter-spacing:2px}
+.footer-logo{font-family:var(--font-d);font-size:clamp(18px,1.7vw,24px);letter-spacing:2px;white-space:nowrap}
 .footer-logo .plus{color:var(--red)}
 .footer-desc{font-size:12px;line-height:2;color:#8b8b8e;letter-spacing:1px;margin-top:16px;max-width:280px}
 .footer h6{font-size:11px;letter-spacing:4px;color:#fff;margin-bottom:22px}
@@ -354,6 +354,8 @@ a{color:inherit;text-decoration:none}
 .footer-col a.hover-link:hover::after{opacity:1;transform:translate(0,0)}
 .footer-col a.hover-link:hover .s-dot{width:5px;opacity:1;margin-right:7px}
 .f-tbd{display:block;margin:-8px 0 14px;font-size:9.5px;letter-spacing:1px;color:#6a6763}
+.f-tbd-soc{margin:10px 0 0;font-size:9px}
+.f-tbd-bar{margin:0;font-size:9px}
 .socials{display:flex;gap:12px;margin-top:24px}
 .socials a{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.2);display:grid;place-items:center;transition:.3s}
 .socials a svg{width:15px;height:15px;fill:#fff}
@@ -362,7 +364,7 @@ a{color:inherit;text-decoration:none}
 .newsletter input{flex:1;background:transparent;border:none;color:#fff;padding:13px 20px;font-family:var(--font-c);font-size:12px;letter-spacing:2px}
 .newsletter button{background:var(--red);border:none;color:#fff;padding:0 24px;font-family:var(--font-c);font-size:12px;letter-spacing:2px;cursor:pointer;transition:.3s}
 .newsletter button:hover{background:var(--red-deep)}
-.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding:26px 0;font-size:10px;letter-spacing:2px;color:#666}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px 18px;padding:26px 0;font-size:10px;letter-spacing:2px;color:#666}
 .footer-bottom .links{display:flex;gap:26px}
 .footer-bottom a:hover{color:var(--red)}
 .footer-watermark{font-family:var(--font-d);font-size:clamp(80px,15vw,280px);line-height:.8;text-align:center;color:rgba(255,255,255,.04);letter-spacing:.05em;white-space:nowrap;pointer-events:none;user-select:none;transform:translateY(18%)}
@@ -392,7 +394,7 @@ a{color:inherit;text-decoration:none}
 
 <!-- ================= 顶部导航 ================= -->
 <nav class="nav" id="nav">
-  <a class="nav-logo" href="#top">INS 篮球机器人训练营<small>INS BASKETBOT</small></a>
+  <a class="nav-logo" href="#top"><img class="logo-mark" src="assets/logo-mark.png" alt="" style="height:clamp(26px,2.4vw,34px);width:auto;display:block;margin-right:9px"><span style="white-space:nowrap;font-size:clamp(15px,1.6vw,23px);letter-spacing:clamp(.5px,.12vw,1.6px)">INS 篮球机器人训练营<small style="font-size:9.5px;letter-spacing:3px">INS BASKETBOT</small></span></a>
   <div class="nav-links">
     <a href="#top">健康体态</a>
     <a href="coaches.html">明星教练</a>
@@ -609,7 +611,7 @@ a{color:inherit;text-decoration:none}
   <div class="footer-inner">
     <div class="footer-top">
       <div>
-        <div class="footer-logo">INS BASKETBOT</div>
+        <div class="footer-logo"><img src="assets/logo-mark.png" alt="" style="height:clamp(26px,2.7vw,38px);width:auto;display:inline-block;vertical-align:middle;margin-right:12px">INS BASKETBOT</div>
         <p class="footer-desc">INS风篮球机器人训练营官网。AI 执教、人机对抗、数据驱动——让每一次投篮都被精确计算。</p>
         <div class="socials">
           <a href="#" aria-label="微信"><svg viewBox="0 0 24 24"><path d="M8.7 4C4.9 4 2 6.6 2 9.8c0 1.8 1 3.4 2.5 4.5l-.6 2.2 2.5-1.3c.7.2 1.4.3 2.2.3h.4A5.9 5.9 0 0 1 13 8.6C12.6 6 10.9 4 8.7 4zm6 4.6c-3.3 0-6 2.3-6 5.1s2.7 5.1 6 5.1c.6 0 1.2-.1 1.8-.3l2.2 1.2-.5-1.9c1.5-.9 2.5-2.4 2.5-4 0-2.9-2.7-5.2-6-5.2z"/></svg></a>
@@ -617,6 +619,7 @@ a{color:inherit;text-decoration:none}
           <a href="#" aria-label="抖音"><svg viewBox="0 0 24 24"><path d="M16.5 3c.4 2.3 1.8 3.8 4 4v3c-1.6 0-3-.5-4-1.4v6.6c0 3.4-2.6 5.8-5.9 5.8A5.6 5.6 0 0 1 5 15.3c0-3.2 2.8-5.6 6.2-5.4v3.1c-1.7-.3-3.1.7-3.1 2.3 0 1.5 1.1 2.6 2.6 2.6 1.6 0 2.8-1.2 2.8-3V3h3z"/></svg></a>
           <a href="#" aria-label="B站"><svg viewBox="0 0 24 24"><path d="M17 4l2-2 1 1.5L18 5h2a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h2L4 3.5 5 2l2 2h10zM8 11v3M16 11v3" stroke="#fff" stroke-width="2" fill="none"/></svg></a>
         </div>
+        <small class="f-tbd f-tbd-soc">【待补：社交平台链接】</small>
       </div>
       <div class="footer-col">
         <h6>训练营</h6>
@@ -649,6 +652,7 @@ a{color:inherit;text-decoration:none}
         <a href="#top">服务条款</a>
         <a href="#top">沪ICP备2027号</a>
       </div>
+      <small class="f-tbd f-tbd-bar">【待补：隐私政策 / 服务条款 / ICP 备案】</small>
     </div>
   </div>
   <div class="footer-watermark">INS 篮球机器人训练营</div>
