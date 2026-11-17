@@ -54,8 +54,8 @@ img{display:block;max-width:100%}
 .hero-copy{position:relative;z-index:3;width:min(590px,52vw)}
 .kicker{display:flex;align-items:center;gap:12px;font-size:11px;letter-spacing:5px;color:var(--grey);margin-bottom:24px}
 .kicker::before{content:"";width:40px;height:1px;background:var(--red)}
-.hero h1{font-family:var(--font-d);font-size:clamp(74px,10vw,154px);line-height:.82;letter-spacing:.015em}
-.hero h1 span{display:block;color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.88);white-space:nowrap;font-size:clamp(54px,7.3vw,112px)}
+.hero h1{font-family:var(--font-d);font-size:clamp(52px,8.2vw,116px);line-height:.82;letter-spacing:.015em;white-space:nowrap}
+.hero h1 span{color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.88)}
 .hero h1 em{font-style:normal;color:var(--red)}
 .model{margin-top:24px;font-family:var(--font-m);font-size:12px;letter-spacing:5px;color:var(--red)}
 .hero-desc{max-width:550px;margin-top:24px;font-size:14px;line-height:2.1;letter-spacing:1px;color:#c9c6c0}
@@ -168,8 +168,7 @@ img{display:block;max-width:100%}
 }
 @media(max-width:700px){
   .hero{min-height:940px;align-items:flex-start;padding-top:132px;padding-bottom:40px}
-  .hero-copy{width:100%}.hero h1{font-size:clamp(70px,22vw,108px)}
-  .hero h1 span{font-size:clamp(54px,16vw,86px)}
+  .hero-copy{width:100%}.hero h1{font-size:clamp(46px,17.5vw,104px)}
   .hero-desc{font-size:13px}.hero-visual{width:86vw;height:52%;right:-12vw;opacity:.58}
   .visual-tag{display:none}.hero::after{font-size:60vw}
   .section{padding-top:72px}.specs{grid-template-columns:repeat(2,1fr)}.spec{min-height:160px;padding:24px 18px}
@@ -178,6 +177,47 @@ img{display:block;max-width:100%}
   .duality{grid-template-columns:1fr;padding-bottom:72px}.panel{padding:28px 24px}
 }
 @media(max-width:420px){.specs{grid-template-columns:1fr}.badges{gap:8px}.badge{font-size:10px}}
+
+/* INS-03 竞赛机型：一屏排版 */
+.ins-hero{position:relative;width:100%;min-height:100svh;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);align-items:center;gap:2vw;margin-top:30px;padding:92px max(4vw,calc((100vw - 1240px)/2)) 30px;scroll-margin-top:96px}
+.ins-hero .sec-head{margin-bottom:18px}
+.ins-hero::before{content:"";position:absolute;right:-4vw;top:50%;width:min(56vw,720px);aspect-ratio:1;border-radius:50%;transform:translateY(-50%);background:radial-gradient(circle,rgba(217,31,38,.22),rgba(217,31,38,.05) 46%,transparent 66%);pointer-events:none}
+.ih-copy{position:relative;z-index:2;min-width:0}
+.ih-name{margin-top:10px;font-family:var(--font-d);font-size:clamp(32px,4.2vw,62px);line-height:1;letter-spacing:.02em;white-space:nowrap}
+.ih-name em{font-style:normal;color:var(--red)}
+.ih-desc{margin-top:12px;font-size:12.5px;line-height:1.9;letter-spacing:.8px;color:#c9c6c0;white-space:nowrap}
+.ih-params{margin-top:16px;border:1px solid rgba(255,255,255,.12);border-radius:12px;overflow:hidden}
+.ih-param{display:grid;grid-template-columns:34px 90px 1fr;align-items:baseline;gap:10px;padding:5px 14px;border-bottom:1px solid rgba(255,255,255,.08);transition:background .3s,padding-left .3s}
+.ih-param:last-child{border-bottom:0}
+.ih-param:hover{background:rgba(217,31,38,.09);padding-left:18px}
+.ih-param .c{font-family:var(--font-m);font-size:9px;letter-spacing:1px;color:var(--red)}
+.ih-param .n{font-size:11px;letter-spacing:.6px;color:#8b8b8e}
+.ih-param .v{font-size:11.5px;letter-spacing:.3px;color:#e7e3dc;white-space:nowrap}
+.cmp{margin-top:14px;border-radius:12px;border:1px solid rgba(255,255,255,.12);overflow:hidden}
+.cmp-head{padding:8px 14px;font-family:var(--font-m);font-size:9px;letter-spacing:2.6px;color:var(--red);background:rgba(217,31,38,.07);border-bottom:1px solid rgba(255,255,255,.12)}
+.cmp-row{display:grid;grid-template-columns:64px 1fr 1fr;border-bottom:1px solid rgba(255,255,255,.08)}
+.cmp-row:last-child{border-bottom:0}
+.cmp-label{padding:6px 14px;background:rgba(255,255,255,.025);font-family:var(--font-m);font-size:9px;letter-spacing:2px;color:#c9c6c0;display:grid;place-items:center;justify-items:start}
+.cmp-c{padding:6px 14px;font-size:11.5px;letter-spacing:.3px;border-right:1px dashed rgba(255,255,255,.12);color:#fff;white-space:nowrap}
+.cmp-t{padding:6px 14px;font-size:11.5px;letter-spacing:.3px;color:#9a978f;white-space:nowrap}
+.ih-note{margin-top:10px;font-size:11px;letter-spacing:.6px;color:#8b8b8e}
+.ih-visual{position:relative;z-index:2;margin:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:14px;min-width:0}
+.ih-visual::before{content:"";position:absolute;left:50%;top:46%;width:min(34vw,430px);aspect-ratio:1;border:1px solid rgba(255,255,255,.1);border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 0 40px rgba(255,255,255,.015);pointer-events:none}
+.ih-visual img{position:relative;height:min(68svh,600px);width:auto;max-width:100%;object-fit:contain;filter:drop-shadow(0 36px 54px rgba(0,0,0,.62))}
+.ih-visual figcaption{font-family:var(--font-m);font-size:9px;letter-spacing:4px;color:#8b8b8e}
+@media(max-width:960px){
+  .ins-hero{grid-template-columns:1fr;min-height:auto;padding:108px 4vw 54px;gap:30px}
+  .ih-name{font-size:clamp(28px,7vw,44px)}
+  .ih-desc{white-space:normal}
+  .ih-visual img{height:min(50svh,400px)}
+  .ih-visual::before{width:min(56vw,340px)}
+  .ih-param{grid-template-columns:30px 74px 1fr}
+  .ih-param .v{white-space:normal}
+  .cmp-row{grid-template-columns:58px 1fr}
+  .cmp-c{border-right:0;border-bottom:1px dashed rgba(255,255,255,.12);white-space:normal}
+  .cmp-t{grid-column:2;white-space:normal}
+}
+
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
@@ -285,6 +325,37 @@ img{display:block;max-width:100%}
       <figure class="shot"><img src="assets/robot-slide-2.jpg" alt="01 号机上篮动作概念视觉" loading="lazy"><span>上篮动作 · 概念视觉</span></figure>
       <figure class="shot"><img src="assets/robot-slide-3.jpg" alt="01 号机双手扣篮动作概念视觉" loading="lazy"><span>双手扣篮 · 概念视觉</span></figure>
     </div>
+  </section>
+
+  <section class="ins-hero" id="ins-03">
+    <div class="ih-copy">
+      <div class="sec-head reveal"><span class="sec-num">04</span><h2 class="sec-title">竞赛专用机型</h2><span class="sec-line"></span></div>
+      <div class="ih-name reveal">红衣教官<em>INS-03</em></div>
+      <p class="ih-desc reveal">为对抗赛设计的全尺寸双足机型，冲刺 12 km/h，竞赛区净距 3.5 m。</p>
+      <div class="ih-params reveal">
+        <div class="ih-param"><span class="c">C1</span><span class="n">机型</span><span class="v">INS-03（竞赛专用型）</span></div>
+        <div class="ih-param"><span class="c">C2</span><span class="n">形态</span><span class="v">全尺寸双足人形，身高 1.80 m</span></div>
+        <div class="ih-param"><span class="c">C3</span><span class="n">整机质量</span><span class="v">68 kg</span></div>
+        <div class="ih-param"><span class="c">C4</span><span class="n">负载</span><span class="v">15 kg</span></div>
+        <div class="ih-param"><span class="c">C5</span><span class="n">移动</span><span class="v">步行 5 km/h；竞赛模式冲刺 12 km/h</span></div>
+        <div class="ih-param"><span class="c">C6</span><span class="n">自由度／扭矩</span><span class="v">全身 33 自由度；关节峰值扭矩 120 N·m</span></div>
+        <div class="ih-param"><span class="c">C7</span><span class="n">电源</span><span class="v">3.0 kWh 可换电池；续航 4 h；换电 90 s</span></div>
+        <div class="ih-param"><span class="c">C8</span><span class="n">感知</span><span class="v">双目视觉＋深度 6 路；端侧算力 275 TOPS</span></div>
+        <div class="ih-param"><span class="c">C9</span><span class="n">场地</span><span class="v">竞赛区净距 3.5 m；缓冲区 4 m</span></div>
+        <div class="ih-param"><span class="c">C10</span><span class="n">急停</span><span class="v">机身 2 处＋裁判台 1 处＋教练无线 1 只</span></div>
+      </div>
+      <div class="cmp reveal">
+        <div class="cmp-head">竞赛机型 vs 训练机型 · INS-03 vs INS-01</div>
+        <div class="cmp-row"><div class="cmp-label">形 态</div><div class="cmp-c">双足 1.80 m</div><div class="cmp-t">轮式底盘</div></div>
+        <div class="cmp-row"><div class="cmp-label">用 途</div><div class="cmp-c">竞赛对抗</div><div class="cmp-t">日常训练</div></div>
+        <div class="cmp-row"><div class="cmp-label">场 地</div><div class="cmp-c">净距 3.5 m / 缓冲 4 m</div><div class="cmp-t">净距 1.5 m / 对抗 2.5 m</div></div>
+      </div>
+      <p class="ih-note reveal">竞赛机型安全告知另见《设备安全说明（竞赛版）》【待补】。</p>
+    </div>
+    <figure class="ih-visual reveal">
+      <img src="assets/ins-03-hero.png" alt="红衣教官INS-03 竞赛专用机型正面">
+      <figcaption>INS-03 · 竞赛专用型</figcaption>
+    </figure>
   </section>
 
   <section class="section duality">
