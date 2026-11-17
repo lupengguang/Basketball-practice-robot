@@ -34,7 +34,7 @@ button,a{font:inherit;color:inherit;text-decoration:none}button{cursor:pointer;b
 .orb{position:absolute;pointer-events:none;border-radius:50%;border:1px solid rgba(255,255,255,.07)}.orb-a{width:760px;height:760px;top:180px;right:-290px}.orb-b{width:510px;height:510px;top:305px;right:-165px;border-color:rgba(217,31,38,.22);border-style:dashed;animation:orbit 34s linear infinite}@keyframes orbit{to{transform:rotate(360deg)}}
 .shell{width:min(1240px,100%);margin:0 auto;position:relative}.topline{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent)}
 .profile-head{display:grid;grid-template-columns:1fr auto;gap:30px;align-items:end;padding:46px 0 30px}.eyebrow{display:flex;align-items:center;gap:9px;font-size:10px;letter-spacing:3px;color:#c7c2bc}.eyebrow::before{content:"";width:12px;height:12px;border-radius:50%;background:var(--red);box-shadow:0 0 17px var(--red)}
-.profile-title{margin-top:16px;font-family:var(--font-d);font-size:clamp(62px,10vw,128px);line-height:.76;letter-spacing:.02em}.profile-title .outline{color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.9)}
+.profile-title{margin-top:16px;font-family:var(--font-d);font-size:clamp(48px,8.5vw,128px);line-height:1;letter-spacing:.02em;white-space:nowrap}.profile-title .outline{color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.9)}
 .identity{display:flex;align-items:center;gap:14px;padding-bottom:6px}.avatar{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#fc8080 0 8%,#d82531 9% 25%,#751015 26% 100%);border:2px solid #f3eee8;box-shadow:0 0 0 5px rgba(217,31,38,.2);font-family:var(--font-d);font-size:26px}.identity b{display:block;letter-spacing:2px;font-size:15px}.identity span{display:block;margin-top:2px;color:var(--fog);font-size:10px;letter-spacing:2px}
 .ticker{position:relative;height:54px;overflow:hidden;background:var(--red);margin:0 calc(50% - 50vw);width:100vw;transform:rotate(-.8deg);box-shadow:0 10px 34px -18px var(--red)}.ticker::before,.ticker::after{content:"";position:absolute;left:0;right:0;height:12px;z-index:2;background-image:radial-gradient(circle at 7px 6px,#0c0c0d 3.5px,transparent 4px);background-size:23px 12px}.ticker::before{top:0}.ticker::after{bottom:0}.ticker-flow{height:100%;display:flex;align-items:center;width:max-content;animation:flow 24s linear infinite}.ticker-flow span{padding:0 30px;font-family:var(--font-d);font-size:19px;letter-spacing:5px;white-space:nowrap}.ticker-flow span::after{content:'✦';padding-left:30px;color:#5c0b0d;font-size:12px}@keyframes flow{to{transform:translateX(-50%)}}
 
@@ -106,7 +106,7 @@ button,a{font:inherit;color:inherit;text-decoration:none}button{cursor:pointer;b
     <header class="profile-head" id="player-data">
       <div>
         <div class="eyebrow">PLAYER FILE · 2027 SEASON</div>
-        <h1 class="profile-title">把今天<br><span class="outline">练成高光</span></h1>
+        <h1 class="profile-title">把今天<span class="outline">练成高光</span></h1>
       </div>
       <div class="identity">
         <div class="avatar">A</div>

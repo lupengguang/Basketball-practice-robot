@@ -154,16 +154,90 @@ a{color:inherit;text-decoration:none}
   .ce-row .f{display:none}
 }
 
-/* 底部 CTA */
+/* 底部 CTA:体验课信息块 */
 .cta{max-width:1240px;margin:0 auto 110px;padding:0 4vw}
-.cta-box{position:relative;border-radius:26px;padding:56px 48px;overflow:hidden;background:rgba(255,255,255,.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap}
+.cta-box{position:relative;border-radius:26px;padding:clamp(26px,3.2vw,48px);overflow:hidden;background:rgba(255,255,255,.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.12);transition:border-color .5s,box-shadow .6s}
 .cta-box::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--red),transparent)}
-.cta-box h4{font-family:var(--font-d);font-size:clamp(26px,3.4vw,44px);letter-spacing:2px}
+.cta-box::after{content:"";position:absolute;inset:0;z-index:0;background:radial-gradient(340px 340px at var(--mx,50%) var(--my,0%),rgba(217,31,38,.18),transparent 64%);opacity:0;transition:opacity .55s;pointer-events:none}
+.cta-box:hover{border-color:rgba(217,31,38,.42);box-shadow:0 44px 96px -54px rgba(217,31,38,.75)}
+.cta-box:hover::after{opacity:1}
+.eth-top{position:relative;z-index:1}
+.cta-box h4{position:relative;font-family:var(--font-d);font-size:clamp(26px,3.4vw,44px);letter-spacing:2px;line-height:1.04}
 .cta-box h4 span{color:var(--red)}
-.cta-box p{font-size:12px;color:#9a978f;letter-spacing:1.5px;margin-top:10px}
-.btn-book{display:inline-flex;align-items:center;gap:12px;border:1px solid rgba(255,255,255,.5);border-radius:999px;padding:15px 32px;font-size:13px;letter-spacing:4px;font-weight:600;background:rgba(0,0,0,.35);transition:background .3s,border-color .3s}
+.eth-sub{position:relative;font-size:12px;color:#9a978f;letter-spacing:1.5px;margin-top:12px}
+.eth-specs{position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:30px}
+.eth-spec{position:relative;padding:16px 17px;border:1px solid rgba(255,255,255,.14);border-radius:14px;background:rgba(0,0,0,.26);transition:transform .45s cubic-bezier(.2,.8,.2,1),border-color .4s,background .4s,box-shadow .45s}
+.eth-spec:hover{transform:translateY(-6px);border-color:rgba(217,31,38,.6);background:rgba(217,31,38,.1);box-shadow:0 26px 50px -28px rgba(217,31,38,.8)}
+.eth-spec>span{display:block;font-size:9.5px;letter-spacing:2.6px;color:var(--grey)}
+.eth-spec b{display:block;margin-top:9px;font-family:var(--font-d);font-weight:400;font-size:clamp(24px,2.6vw,32px);line-height:1;letter-spacing:1px;transition:color .4s}
+.eth-spec b i{font-style:normal;margin-left:3px;font-family:var(--font-c);font-size:11px;letter-spacing:2px;vertical-align:middle;color:#c9c6c0}
+.eth-spec:hover b{color:var(--red)}
+.eth-spec em{display:block;margin-top:8px;font-style:normal;font-size:10.5px;letter-spacing:.8px;color:#8b8b8e;transition:color .35s}
+.eth-spec:hover em{color:#c9c6c0}
+
+/* 当堂流程:折叠表 */
+.eth-flow{position:relative;z-index:1;margin-top:16px;border:1px solid rgba(255,255,255,.12);border-radius:14px;background:rgba(0,0,0,.22);overflow:hidden;transition:border-color .45s,background .45s}
+.eth-flow.open{border-color:rgba(217,31,38,.45);background:rgba(0,0,0,.3)}
+.eth-toggle{display:flex;align-items:center;gap:12px;width:100%;padding:15px 18px;border:0;background:transparent;color:#fff;text-align:left;cursor:pointer;transition:background .35s}
+.eth-toggle .tt{font-size:11.5px;letter-spacing:3px}
+.eth-toggle .tm{font-size:10px;letter-spacing:1.5px;color:var(--grey)}
+.eth-toggle .tc{margin-left:auto;display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:2px;color:#c9c6c0;transition:color .3s,letter-spacing .3s}
+.eth-toggle .tc b{font-weight:500}
+.eth-toggle .tc svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;transition:transform .45s}
+.eth-toggle:hover{background:rgba(217,31,38,.12)}
+.eth-toggle:hover .tc{color:#fff;letter-spacing:3px}
+.eth-flow.open .tc svg{transform:rotate(180deg)}
+.eth-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .55s cubic-bezier(.2,.8,.2,1)}
+.eth-flow.open .eth-body{grid-template-rows:1fr}
+.eth-body>div{overflow:hidden}
+.eth-table{width:100%;border-collapse:collapse;font-size:12.5px;letter-spacing:.6px}
+.eth-table th{padding:11px 18px;text-align:left;font-size:9.5px;font-weight:500;letter-spacing:3px;color:var(--grey);background:rgba(255,255,255,.035);border-bottom:1px solid rgba(255,255,255,.12);white-space:nowrap}
+.eth-table td{padding:13px 18px;color:#c8c5bf;border-bottom:1px solid rgba(255,255,255,.07);line-height:1.8;transition:background .3s,color .3s}
+.eth-table tbody tr{transition:background .35s,box-shadow .35s}
+.eth-table tbody tr:hover{background:rgba(217,31,38,.1);box-shadow:inset 3px 0 0 var(--red)}
+.eth-table tbody tr:hover td{color:#fff}
+.eth-table tbody tr:last-child td{border-bottom:0}
+.eth-table .slot,.eth-table .dur{font-family:var(--font-d);font-size:15px;letter-spacing:1px;white-space:nowrap}
+.eth-table .slot{color:#fff}
+.eth-table .dur{color:var(--red)}
+
+/* 你能拿到 / 参与准备 */
+.eth-cols{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.eth-block{padding:18px 20px 8px;border:1px solid rgba(255,255,255,.12);border-radius:14px;background:rgba(0,0,0,.2);transition:transform .45s cubic-bezier(.2,.8,.2,1),border-color .4s,background .4s}
+.eth-block:hover{transform:translateY(-4px);border-color:rgba(217,31,38,.5);background:rgba(217,31,38,.06)}
+.eth-block h5{display:flex;align-items:center;gap:9px;font-size:10px;font-weight:500;letter-spacing:3px;color:#c9c6c0}
+.eth-block h5::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--red);box-shadow:0 0 12px var(--red)}
+.eth-block ul{list-style:none;margin-top:10px}
+.eth-block li{position:relative;padding:10px 0 10px 15px;border-top:1px solid rgba(255,255,255,.07);font-size:12px;line-height:1.75;letter-spacing:.6px;color:#c8c5bf;transition:padding-left .35s,color .35s}
+.eth-block li::before{content:"";position:absolute;left:0;top:1.35em;width:6px;height:1px;background:var(--red);transition:width .35s}
+.eth-block li:hover{padding-left:22px;color:#fff}
+.eth-block li:hover::before{width:14px}
+.eth-block li small{display:block;margin-top:5px;font-size:10px;letter-spacing:1.2px;color:#8b8b8e}
+
+/* 预约按钮与场次 */
+.eth-actions{position:relative;z-index:1;display:flex;justify-content:flex-end;margin-top:24px}
+.btn-book{display:inline-flex;align-items:center;gap:12px;border:1px solid rgba(255,255,255,.5);border-radius:999px;padding:15px 32px;font-size:13px;letter-spacing:4px;font-weight:600;background:rgba(0,0,0,.35);transition:background .3s,border-color .3s,box-shadow .3s}
 .btn-book:hover{background:var(--red);border-color:var(--red);box-shadow:0 16px 40px -10px var(--red)}
-.btn-book svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2}
+.btn-book svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2;transition:transform .3s}
+.btn-book:hover svg{transform:translateX(4px)}
+.eth-foot{position:relative;z-index:1;display:flex;align-items:center;gap:10px;margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);font-size:10.5px;letter-spacing:1.4px;color:#8b8b8e}
+.eth-foot i{flex:0 0 auto;width:6px;height:6px;border-radius:50%;background:var(--red)}
+
+/* 点击预约:红色圆形扩散转场 */
+.page-wipe{position:fixed;inset:0;z-index:9999;background:var(--red);pointer-events:none;clip-path:circle(0% at 50% 50%);transition:clip-path .6s cubic-bezier(.7,0,.2,1)}
+.page-wipe.go{clip-path:circle(150% at var(--wx,50%) var(--wy,50%))}
+
+@media(max-width:900px){
+  .eth-specs{grid-template-columns:repeat(2,1fr)}
+  .eth-cols{grid-template-columns:1fr}
+}
+@media(max-width:630px){
+  .cta{padding:0 5vw;margin-bottom:80px}
+  .cta-box{padding:24px 20px}
+  .eth-toggle .tm{display:none}
+  .eth-table th,.eth-table td{padding:10px 12px}
+  .eth-actions .btn-book{width:100%;justify-content:center}
+}
 
 /* 返回悬浮 */
 .back-bar{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:800}
@@ -301,20 +375,74 @@ a{color:inherit;text-decoration:none}
   </a>
 </section>
 
-<!-- CTA -->
-<div class="cta reveal">
-  <div class="cta-box">
-    <div>
+<!-- CTA / 体验课信息块 -->
+<div class="cta reveal" id="trial">
+  <div class="cta-box" id="trialBox">
+    <div class="eth-top">
       <h4>先上一节 <span>90 分钟免费体验课</span></h4>
-      <p>01 号机陪练 · AI 逐帧纠错 · 课后生成个人数据报告</p>
+      <p class="eth-sub">01 号机陪练 · 逐帧动作讲评 · 课后生成当堂数据卡</p>
     </div>
-    <a class="btn-book magnetic" href="index.html#booking">立即预约<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+
+    <div class="eth-specs">
+      <div class="eth-spec"><span>时长</span><b>90<i>分钟</i></b><em>一次完整课</em></div>
+      <div class="eth-spec"><span>人数</span><b>6<i>人</i></b><em>小班</em></div>
+      <div class="eth-spec"><span>设备</span><b>3<i>台设备</i></b><em>2 人 1 机</em></div>
+      <div class="eth-spec"><span>产出</span><b>1<i>份</i></b><em>当堂数据卡</em></div>
+    </div>
+
+    <div class="eth-flow" id="ethFlow">
+      <button class="eth-toggle" type="button" aria-expanded="false" aria-controls="ethBody">
+        <span class="tt">当堂流程</span><span class="tm">5 段 · 合计 90 分钟</span>
+        <span class="tc"><b>展开</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span>
+      </button>
+      <div class="eth-body" id="ethBody"><div>
+        <table class="eth-table">
+          <colgroup><col style="width:26%"><col style="width:12%"><col></colgroup>
+          <thead><tr><th>时段</th><th>时长</th><th>内容</th></tr></thead>
+          <tbody>
+            <tr><td class="slot">0–15 分钟</td><td class="dur">15′</td><td>场地与设备讲解、护具佩戴、安全须知</td></tr>
+            <tr><td class="slot">15–30 分钟</td><td class="dur">15′</td><td>RAMP 热身与基础动作摸底</td></tr>
+            <tr><td class="slot">30–60 分钟</td><td class="dur">30′</td><td>人机对抗，2 人 1 机，3 组轮换</td></tr>
+            <tr><td class="slot">60–80 分钟</td><td class="dur">20′</td><td>数据讲评，四项指标逐项对照</td></tr>
+            <tr><td class="slot">80–90 分钟</td><td class="dur">10′</td><td>装备清点、课程答疑、报名说明</td></tr>
+          </tbody>
+        </table>
+      </div></div>
+    </div>
+
+    <div class="eth-cols">
+      <div class="eth-block">
+        <h5>你能拿到</h5>
+        <ul>
+          <li>四项指标当堂数据卡<small>出手角度 · 出手释放时间 · 重心偏移 · 变向完成时间</small></li>
+          <li>教练一句点评</li>
+          <li>下阶段训练建议</li>
+          <li>装备清单</li>
+        </ul>
+      </div>
+      <div class="eth-block">
+        <h5>参与准备</h5>
+        <ul>
+          <li>提前 15 分钟到场并佩戴护具</li>
+          <li>自备室内防滑篮球鞋与护膝</li>
+          <li>未满 18 周岁需监护人知情同意</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="eth-actions">
+      <a class="btn-book magnetic" href="register.html" data-wipe>立即预约<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+
+    <div class="eth-foot"><i></i>每场 6 人，每周 2 场（周六 10:00 / 14:00），需提前 3 天预约。</div>
   </div>
 </div>
 
 <div class="back-bar">
   <a class="back-home magnetic" href="index.html"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>返回官网首页</a>
 </div>
+
+<div class="page-wipe" id="pageWipe" aria-hidden="true"></div>
 
 <script>
 const REDUCE = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -364,6 +492,38 @@ document.querySelectorAll('.magnetic').forEach(btn=>{
   btn.addEventListener('mouseleave',()=>btn.style.transform='translate(0,0)');
 });
 }
+/* 体验课信息块:当堂流程折叠 */
+const ethFlow=document.getElementById('ethFlow');
+if(ethFlow){
+  const ethBtn=ethFlow.querySelector('.eth-toggle'),ethLab=ethBtn.querySelector('.tc b');
+  ethBtn.addEventListener('click',()=>{
+    const open=ethFlow.classList.toggle('open');
+    ethBtn.setAttribute('aria-expanded',open?'true':'false');
+    ethLab.textContent=open?'收起':'展开';
+  });
+}
+/* 体验课信息块:光标光斑 */
+const trialBox=document.getElementById('trialBox');
+if(trialBox&&!REDUCE&&matchMedia('(hover:hover) and (pointer:fine)').matches){
+  trialBox.addEventListener('pointermove',e=>{
+    const r=trialBox.getBoundingClientRect();
+    trialBox.style.setProperty('--mx',((e.clientX-r.left)/r.width*100).toFixed(1)+'%');
+    trialBox.style.setProperty('--my',((e.clientY-r.top)/r.height*100).toFixed(1)+'%');
+  });
+}
+/* 预约按钮:红色圆形扩散后跳转 */
+document.querySelectorAll('a.btn-book[data-wipe]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    if(e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||e.button!==0)return;
+    const href=a.getAttribute('href'),wipe=document.getElementById('pageWipe');
+    if(!href||href.charAt(0)==='#'||REDUCE||!wipe)return;
+    e.preventDefault();
+    wipe.style.setProperty('--wx',(e.clientX/innerWidth*100).toFixed(1)+'%');
+    wipe.style.setProperty('--wy',(e.clientY/innerHeight*100).toFixed(1)+'%');
+    wipe.classList.add('go');
+    setTimeout(()=>{location.href=href;},560);
+  });
+});
 </script>
   <script src="assets/fx.js" defer></script>
 </body>
